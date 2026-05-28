@@ -122,11 +122,11 @@ function Hero({ onStartFree }) {
         </div>
 
         {/* Image */}
-        <div style={{ width: "45%", flexShrink: 0, borderRadius: 20, overflow: "hidden", boxShadow: "0 20px 60px rgba(0,0,0,0.25)" }} className="hero-image">
+        <div style={{ width: "45%", flexShrink: 0, borderRadius: 20, overflow: "hidden", aspectRatio: "4/3", boxShadow: "0 20px 60px rgba(0,0,0,0.25)" }} className="hero-image">
           <img
             src="/img_tacos.png"
             alt="Backpackers enjoying tacos at authentic Mexican taqueria"
-            style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "bottom", display: "block" }}
+            style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }}
           />
         </div>
       </div>
