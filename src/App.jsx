@@ -153,7 +153,7 @@ function ElProblema() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 24, marginBottom: 40 }}>
           {problems.map((p, i) => (
             <div key={i} style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 16, overflow: "hidden" }}>
-              <img src={p.img} alt={p.alt} style={{ width: "100%", height: 220, objectFit: "cover", display: "block" }} />
+              <img src={p.img} alt={p.alt} style={{ width: "100%", height: 220, , display: "block" }} />
               <div style={{ padding: "20px 24px" }}>
                 <p style={{ fontSize: 15, fontWeight: 700, color: C.negro, lineHeight: 1.6, margin: 0 }}>{p.text}</p>
               </div>
