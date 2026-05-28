@@ -202,7 +202,7 @@ function SolucionMetodo({ onStartFree }) {
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 20, marginBottom: 48 }}>
           {steps.map((s, i) => (
-            <div key={i} style={{ background: C.blanco, borderRadius: 16, padding: "28px 20px", position: "relative", overflow: "hidden" }}>
+            <div key={i} style={{ background: C.blanco, borderRadius: 16, padding: "28px 20px", position: "relative", overflow: "hidden", textAlign: "center" }}>
               <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 5, background: s.color, borderRadius: "16px 16px 0 0" }} />
               <div style={{ fontSize: 32, marginBottom: 12 }}>{s.icon}</div>
               <div style={{ fontSize: 15, fontWeight: 900, color: s.color, marginBottom: 8 }}>{s.num}. {s.title}</div>
@@ -223,7 +223,6 @@ function SolucionMetodo({ onStartFree }) {
     </section>
   );
 }
-
 // ═══════════════════════════════════════════════════════════════
 // SECTION 6+7 — PRICING
 // ═══════════════════════════════════════════════════════════════
