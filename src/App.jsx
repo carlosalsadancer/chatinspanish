@@ -155,7 +155,7 @@ function ElProblema() {
             <div key={i} style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 16, overflow: "hidden" }}>
               <img src={p.img} alt={p.alt} style={{ width: "100%", aspectRatio: "1/1", objectFit: "cover", display: "block" }} />
               <div style={{ padding: "20px 24px" }}>
-                <p style={{ fontSize: 15, fontWeight: 700, color: C.negro, lineHeight: 1.6, margin: 0 }}>{p.text}</p>
+                <p style={{ fontSize: 15, fontWeight: 700, color: C.negro, lineHeight: 1.6, margin: 0, textAlign: "center" }}>{p.text}</p>
               </div>
             </div>
           ))}
