@@ -139,7 +139,7 @@ function Hero({ onStartFree }) {
 // ═══════════════════════════════════════════════════════════════
 function ElProblema() {
   const problems = [
-    { img: "/img_frustrated.png", alt: "Frustrated woman with phone", text: '"{ img: "/img_frustrated.png", alt: "Frustrated woman with phone", text: '"Tried other apps for months but still can\'t hold a real conversation."' },
+    { img: "/img_frustrated.png", alt: "Frustrated woman with phone", text: '"Tried other apps for months but still can\'t hold a real conversation."' },
     { img: "/img_airport.png",    alt: "Confused backpacker at airport", text: '"Going to Mexico but scared I won\'t understand anything people say."' },
     { img: "/img_bored.png",      alt: "Bored student at laptop", text: '"Every course feels like studying for a test — boring and forgettable."' },
   ];
