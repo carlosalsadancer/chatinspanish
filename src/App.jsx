@@ -248,7 +248,7 @@ function Pricing({ onStartFree }) {
           <div style={{ textAlign: "center", marginBottom: 28 }}>
             <div style={{ fontSize: 16, color: C.textM, textDecoration: "line-through", marginBottom: 4 }}>$54 USD</div>
             <div style={{ fontSize: 56, fontWeight: 900, color: C.magenta, letterSpacing: -2, lineHeight: 1 }}>$27 USD</div>
-            <div style={{ fontSize: 13, color: C.textS, marginTop: 8, fontWeight: 500 }}>Less than a coffee/week</div>
+            <div style={{ fontSize: 13, color: C.textS, marginTop: 8, fontWeight: 500 }}>Less than $0.50 per lesson</div>
           </div>
 
           <div style={{ height: 1, background: C.grisB, marginBottom: 24 }} />
