@@ -545,10 +545,7 @@ export default function Lesson1({ onBack }) {
                 It's 2:47 PM. Your plane just touched down at <strong style={{ color: C.textH }}>Cancún International Airport — CUN</strong>. Through the window: palm trees, turquoise sky, a sign reading <strong style={{ color: C.turquesa }}>"BIENVENIDOS A MÉXICO."</strong> Your heart races. First challenge: immigration, baggage, money exchange, taxi — all in Spanish.
               </p>
             </div>
-            <div style={{ background: C.azulL, border: `1.5px solid ${C.azul}30`, borderLeft: `5px solid ${C.azul}`, borderRadius: 14, padding: "16px 18px", marginBottom: 14 }}>
-              <div style={{ fontSize: 11, letterSpacing: 2, color: C.azulD, fontWeight: 800, textTransform: "uppercase", marginBottom: 8 }}>Cultural Note</div>
-              <p style={{ margin: 0, fontSize: 14, color: C.textB, lineHeight: 1.75, fontWeight: 500 }}>Mexicans are incredibly warm with foreigners trying Spanish. Even a simple <strong style={{ color: C.textH }}>"Hola"</strong> with a smile opens doors. Don't fear mistakes — they'll appreciate the effort.</p>
-            </div>
+            
     
           </div>
         )}
