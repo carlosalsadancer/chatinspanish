@@ -549,10 +549,7 @@ export default function Lesson1({ onBack }) {
               <div style={{ fontSize: 11, letterSpacing: 2, color: C.azulD, fontWeight: 800, textTransform: "uppercase", marginBottom: 8 }}>Cultural Note</div>
               <p style={{ margin: 0, fontSize: 14, color: C.textB, lineHeight: 1.75, fontWeight: 500 }}>Mexicans are incredibly warm with foreigners trying Spanish. Even a simple <strong style={{ color: C.textH }}>"Hola"</strong> with a smile opens doors. Don't fear mistakes — they'll appreciate the effort.</p>
             </div>
-            <div style={{ background: C.rojoL, border: `1.5px solid ${C.rojo}25`, borderLeft: `5px solid ${C.rojo}`, borderRadius: 14, padding: "16px 18px" }}>
-              <div style={{ fontSize: 11, letterSpacing: 2, color: C.rojo, fontWeight: 800, textTransform: "uppercase", marginBottom: 8 }}>Common Mistake</div>
-              <p style={{ margin: 0, fontSize: 14, color: C.textB, lineHeight: 1.75, fontWeight: 500 }}>Don't say <strong style={{ color: C.rojo }}>"Yo soy bien"</strong>. Say <strong style={{ color: C.limonD }}>"Estoy bien"</strong>. SER = who you ARE. ESTAR = how you FEEL right now.</p>
-            </div>
+    
           </div>
         )}
 
