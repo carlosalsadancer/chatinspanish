@@ -706,7 +706,7 @@ export default function Lesson1({ onBack }) {
               <span style={{ fontSize: 20, flexShrink: 0 }}>◉</span>Allow microphone access when prompted. Works best in Chrome.
             </div>
             <button type="button" onClick={() => { unlock(1); goTo(1); }} style={btn(C.magenta, { fontSize: 17, padding: "16px 44px", borderRadius: 50, boxShadow: `0 6px 24px ${C.magenta}40` })}>
-              Vamos! Start Lesson →
+              Let's Start! →
             </button>
           </div>
         )}
