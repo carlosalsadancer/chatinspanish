@@ -510,7 +510,7 @@ export default function Lesson1({ onBack }) {
               </div>
             </a>
             
-            <div style={{ display: "flex", gap: 12 }}>
+            <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
               <a href="https://www.youtube.com/watch?v=FWEXKQ0BXIU" target="_blank" rel="noreferrer" style={{ ...btn("#FF0000", { fontSize: 15, padding: "15px 24px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }) }}>▶ Watch on YouTube</a>
               
             </div>
