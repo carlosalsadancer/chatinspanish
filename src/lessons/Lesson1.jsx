@@ -415,15 +415,15 @@ export default function Lesson1({ onBack }) {
   const [memoDone, setMemoDone] = useState({});
   const [pracDone, setPracDone] = useState({});
 
-  function isVocabSlide() { return [4,6,8,10].includes(slide); }
-  function isMemoSlide()  { return [5,7,9,11].includes(slide); }
-  function isPracSlide()  { return slide >= 12 && slide <= 15; }
-  function vocabSecIdx()  { return (slide - 4) / 2; }
+  function isVocabSlide() { return  [3,5,7,9].includes(slide); }
+  function isMemoSlide()  { return [4,6,8,10].includes(slide); }
+  function isPracSlide()  { return slide >= 11 && slide <= 14; }
+  function vocabSecIdx()  { return (slide - 3) / 2; }
 
   const currentVocabSec = isVocabSlide() ? SECTIONS[vocabSecIdx()] : null;
   const revCount = currentVocabSec ? currentVocabSec.vocab.filter((_, vi) => revealed[`${currentVocabSec.id}-${vi}`]).length : 0;
   const vocabComplete = currentVocabSec ? revCount === currentVocabSec.vocab.length : false;
-  const accentColor = isVocabSlide() ? SECTIONS[vocabSecIdx()].color : isMemoSlide() ? SECTIONS[(slide - 5) / 2].color : isPracSlide() ? SECTIONS[slide - 12].color : C.turquesa;
+  const accentColor = isVocabSlide() ? SECTIONS[vocabSecIdx()].color : isMemoSlide() ? SECTIONS[(slide - 4) / 2].color : isPracSlide() ? SECTIONS[slide - 11].color : C.turquesa;
 
   function goTo(n) { if (n < 0 || n >= TOTAL || n > maxUnlocked) return; setSlide(n); window.scrollTo({ top: 0, behavior: "smooth" }); }
   function unlock(n) { setMaxUnlocked(prev => Math.max(prev, n)); }
@@ -582,16 +582,16 @@ export default function Lesson1({ onBack }) {
         })()}
 
         {isMemoSlide() && (() => {
-          const sIdx = (slide - 5) / 2;
+          const sIdx = (slide - 4) / 2;
           const sec = SECTIONS[sIdx];
           return <Memorama key={slide} section={sec} speak={speak} onComplete={() => { setMemoDone(p => ({ ...p, [sIdx]: true })); advance(); }} />;
         })()}
 
         {isPracSlide() && (
-          <ExerciseSlide key={slide} sectionIndex={slide - 12} speak={speak} onComplete={() => { setPracDone(p => ({ ...p, [slide - 12]: true })); advance(); }} />
+          <ExerciseSlide key={slide} sectionIndex={slide - 11} speak={speak} onComplete={() => { setPracDone(p => ({ ...p, [slide - 11]: true })); advance(); }} />
         )}
 
-        {slide === 16 && (
+        {slide === 15 && (
           <div>
             <div style={{ background: C.magenta, borderRadius: 20, padding: "28px 24px", marginBottom: 28, textAlign: "center" }}>
               <div style={{ fontSize: "clamp(22px,5vw,28px)", fontWeight: 900, color: "#fff", letterSpacing: -0.5 }}>Final Quiz — Cancún</div>
