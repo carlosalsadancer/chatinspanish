@@ -497,7 +497,7 @@ export default function Lesson1({ onBack }) {
                 <div style={{ fontSize: "clamp(18px,4vw,24px)", fontWeight: 900, color: C.textH, letterSpacing: -0.5, lineHeight: 1.1 }}>Welcome to Cancún</div>
               </div>
             </div>
-            <p style={{ fontSize: 15, color: C.textS, lineHeight: 1.75, fontWeight: 500, marginBottom: 20 }}>Before your first Spanish lesson, take 5 minutes to explore the city where your journey begins.</p>
+            <p style={{ fontSize: 15, color: C.textS, lineHeight: 1.75, fontWeight: 500, marginBottom: 20 }}>Before we start, get inspired. Watch this travel guide to Cancún and imagine yourself there.</p>
             <a href="https://www.youtube.com/watch?v=FWEXKQ0BXIU" target="_blank" rel="noreferrer" style={{ display: "block", textDecoration: "none", marginBottom: 20 }}>
               <div style={{ position: "relative", borderRadius: 20, overflow: "hidden", border: `1.5px solid ${C.turquesa}40`, boxShadow: `0 8px 32px ${C.turquesa}25`, background: "#000" }}>
                 <img src="https://img.youtube.com/vi/FWEXKQ0BXIU/maxresdefault.jpg" alt="Cancún travel guide" style={{ width: "100%", display: "block", opacity: 0.88 }} onError={e => { e.target.src = "https://img.youtube.com/vi/FWEXKQ0BXIU/hqdefault.jpg"; }} />
@@ -509,15 +509,7 @@ export default function Lesson1({ onBack }) {
                 <div style={{ position: "absolute", bottom: 10, right: 10, background: "rgba(0,0,0,0.85)", color: "#fff", fontSize: 12, fontWeight: 700, padding: "3px 8px", borderRadius: 4 }}>~12 min</div>
               </div>
             </a>
-            <div style={{ background: C.turquesaL, border: `1.5px solid ${C.turquesa}30`, borderLeft: `5px solid ${C.turquesa}`, borderRadius: 14, padding: "14px 18px", marginBottom: 28 }}>
-              <div style={{ fontSize: 11, letterSpacing: 2, color: C.turquesaD, fontWeight: 800, textTransform: "uppercase", marginBottom: 10 }}>What to look for while watching</div>
-              {["The airport — where your lesson begins","How locals greet each other","Taxis, buses, and the hotel zone","Street food and market scenes"].map((tip, i) => (
-                <div key={i} style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 6 }}>
-                  <span style={{ color: C.turquesa, fontWeight: 900, fontSize: 14 }}>→</span>
-                  <span style={{ fontSize: 13, color: C.textB, fontWeight: 500 }}>{tip}</span>
-                </div>
-              ))}
-            </div>
+            
             <div style={{ display: "flex", gap: 12 }}>
               <a href="https://www.youtube.com/watch?v=FWEXKQ0BXIU" target="_blank" rel="noreferrer" style={{ ...btn("#FF0000", { fontSize: 15, padding: "15px 24px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }) }}>▶ Watch on YouTube</a>
               <button onClick={advance} style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, color: C.textS, padding: "15px 20px", borderRadius: 14, cursor: "pointer", fontSize: 14, fontWeight: 700 }}>Skip →</button>
