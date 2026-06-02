@@ -550,34 +550,7 @@ export default function Lesson1({ onBack }) {
           </div>
         )}
 
-        {slide === 3 && (
-          <div>
-            <div style={{ fontSize: 11, letterSpacing: 2, color: C.turquesaD, fontWeight: 800, textTransform: "uppercase", marginBottom: 20 }}>Survival Phrase — Your Very First Spanish Sentence</div>
-            <div style={{ background: C.turquesaL, border: `1.5px solid ${C.turquesa}40`, borderRadius: 20, padding: "32px 24px", marginBottom: 28, textAlign: "center" }}>
-              <button onClick={() => speak("¿Dónde está la salida?")} style={{ background: C.turquesa, border: "none", width: 68, height: 68, borderRadius: "50%", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px", fontSize: 30, boxShadow: `0 4px 20px ${C.turquesa}50`, color: "#fff", fontWeight: 900 }}>♪</button>
-              <div style={{ fontSize: "clamp(26px,6vw,38px)", fontWeight: 900, color: C.textH, letterSpacing: -1, lineHeight: 1.1, marginBottom: 14 }}>¿Dónde está la salida?</div>
-              <div style={{ fontSize: 14, color: C.azulD, fontFamily: "'Space Mono',monospace", fontWeight: 700, marginBottom: 10, letterSpacing: 0.5 }}>DOHN-deh es-TAH lah sah-LEE-dah</div>
-              <div style={{ fontSize: 18, color: C.textS, fontWeight: 700, textAlign: "left" }}>Where is the exit?</div>
-              <div style={{ fontSize: 13, color: C.textM, fontWeight: 500, marginTop: 8, fontStyle: "italic", textAlign: "left" }}>Works everywhere — airport, mall, restaurant, street</div>
-            </div>
-            <div style={{ fontSize: 13, letterSpacing: 1, color: C.textM, fontWeight: 700, textTransform: "uppercase", marginBottom: 14 }}>Word by word breakdown</div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 32 }}>
-              {[
-                { word: "¿Dónde", pron: "DOHN-deh", en: "Where" },
-                { word: "está", pron: "es-TAH", en: "is" },
-                { word: "la", pron: "lah", en: "the (feminine)" },
-                { word: "salida?", pron: "sah-LEE-dah", en: "exit" },
-              ].map((w, i) => (
-                <div key={i} onClick={() => speak(w.word)} style={{ display: "flex", alignItems: "center", gap: 14, background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 12, padding: "12px 16px", cursor: "pointer" }}>
-                  <div style={{ fontSize: 17, fontWeight: 900, color: C.textH, minWidth: 80 }}>{w.word}</div>
-                  <div style={{ fontSize: 12, color: C.azulD, fontFamily: "'Space Mono',monospace", fontWeight: 700, flex: 1 }}>◉ {w.pron}</div>
-                  <div style={{ fontSize: 13, color: C.textS, fontWeight: 600 }}>{w.en}</div>
-                </div>
-              ))}
-            </div>
-            <div style={{ fontSize: 13, color: C.textS, fontWeight: 600 }}>Tap each word to hear it, then press Continue!</div>
-          </div>
-        )}
+        
 
         {isVocabSlide() && (() => {
           const sec = SECTIONS[vocabSecIdx()];
