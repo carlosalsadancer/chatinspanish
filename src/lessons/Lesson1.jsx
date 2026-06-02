@@ -90,7 +90,7 @@ const QUIZ_QS = [
   { scene: "Anywhere in Cancún", q: "A Mexican speaks very fast. What do you say?", options: ["No hablo español","Más despacio, por favor","¿Habla inglés?","No entiendo nada"], correct: 1, exp: "Más despacio, por favor = Slower please. Your #1 power phrase!" },
 ];
 
-const TOTAL = 17;
+const TOTAL = 16;
 
 function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
 
