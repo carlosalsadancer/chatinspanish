@@ -609,7 +609,7 @@ export default function Lesson1({ onBack }) {
             <button onClick={() => goTo(slide - 1)} style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, color: C.textS, padding: "14px 20px", borderRadius: 50, cursor: "pointer", fontSize: 15, fontWeight: 700, flexShrink: 0 }}>←</button>
             {[2, 3].includes(slide) && (
               <button onClick={advance} style={btn(accentColor, { flex: 1, fontSize: 16, padding: "14px", borderRadius: 50 })}>
-                {slide === 2 ? "Learn Survival Phrase →" : "Start Vocabulary →"}
+                Start Vocabulary →
               </button>
             )}
             {isVocabSlide() && (
