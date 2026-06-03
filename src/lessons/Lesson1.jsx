@@ -15,14 +15,14 @@ const SECTIONS = [
     id: "airport", icon: "✈", title: "At the Airport", subtitle: "En el Aeropuerto",
     color: C.turquesa, colorL: C.turquesaL, colorD: C.turquesaD,
     words: [
-      { es: "el internet",          pron: "el een-ter-NET",                    en: "the internet",          phrase: { es: "¿Hay internet gratis en el aeropuerto?",              pron: "hay een-ter-NET GRAH-tees en el ah-eh-roh-PWER-toh",        en: "Is there free internet at the airport?" } },
-      { es: "la migración",         pron: "lah mee-grah-SYON",                en: "immigration",           phrase: { es: "¿Dónde está la zona de migración?",                  pron: "DON-deh es-TAH lah SO-nah deh mee-grah-SYON",              en: "Where is the immigration area?" } },
-      { es: "la fila",              pron: "lah FEE-lah",                      en: "the line / queue",      phrase: { es: "Perdón, ¿esta es la fila para extranjeros?",          pron: "pehr-DON ES-tah ehs lah FEE-lah PAH-rah eks-tran-HEH-ros", en: "Excuse me, is this the line for foreigners?" } },
-      { es: "el pasaporte",         pron: "el pah-sah-POR-teh",               en: "the passport",          phrase: { es: "Hola, aquí está mi pasaporte.",                       pron: "OH-lah ah-KEE es-TAH mee pah-sah-POR-teh",                 en: "Hello, here is my passport." } },
-      { es: "la reservación",       pron: "lah reh-ser-bah-SYON",             en: "the reservation",       phrase: { es: "Aquí está la reservación de mi hotel.",              pron: "ah-KEE es-TAH lah reh-ser-bah-SYON deh mee oh-TEL",        en: "Here is my hotel reservation." } },
-      { es: "el boleto de regreso", pron: "el boh-LEH-toh deh reh-GREH-soh", en: "the return ticket",     phrase: { es: "Tengo mi boleto de regreso aquí.",                    pron: "TEN-goh mee boh-LEH-toh deh reh-GREH-soh ah-KEE",          en: "I have my return ticket here." } },
-      { es: "la maleta",            pron: "lah mah-LEH-tah",                  en: "the suitcase",          phrase: { es: "¿Dónde recojo mi maleta?",                           pron: "DON-deh reh-KOH-hoh mee mah-LEH-tah",                      en: "Where do I pick up my suitcase?" } },
-      { es: "el autobús ADO",       pron: "el ow-toh-BOOS ah-deh-OH",         en: "the ADO bus",           phrase: { es: "¿Dónde compro el boleto de autobús ADO?",            pron: "DON-deh KOM-proh el boh-LEH-toh deh ow-toh-BOOS ah-deh-OH", en: "Where do I buy the ADO bus ticket?" } },
+      { es: "el internet",    display: "el internet",    pron: "el een-ter-NET",                    en: "the internet",      phrase: { es: "¿Hay internet gratis en el aeropuerto?",               pron: "hay een-ter-NET GRAH-tees en el ah-eh-roh-PWER-toh",         en: "Is there free internet at the airport?" } },
+      { es: "la migración",   display: "la migración",   pron: "lah mee-grah-SYON",                en: "immigration",       phrase: { es: "¿Dónde está la zona de migración?",                   pron: "DON-deh es-TAH lah SO-nah deh mee-grah-SYON",               en: "Where is the immigration area?" } },
+      { es: "la fila",        display: "la fila",        pron: "lah FEE-lah",                      en: "the line / queue",  phrase: { es: "Perdón, ¿esta es la fila para extranjeros?",           pron: "pehr-DON ES-tah ehs lah FEE-lah PAH-rah eks-tran-HEH-ros", en: "Excuse me, is this the line for foreigners?" } },
+      { es: "el pasaporte",   display: "el pasaporte",   pron: "el pah-sah-POR-teh",               en: "the passport",      phrase: { es: "Hola, aquí está mi pasaporte.",                        pron: "OH-lah ah-KEE es-TAH mee pah-sah-POR-teh",                  en: "Hello, here is my passport." } },
+      { es: "la reservación", display: "la reservación", pron: "lah reh-ser-bah-SYON",             en: "the reservation",   phrase: { es: "Aquí está la reservación de mi hotel.",               pron: "ah-KEE es-TAH lah reh-ser-bah-SYON deh mee oh-TEL",         en: "Here is my hotel reservation." } },
+      { es: "el boleto de regreso", display: "el boleto", pron: "el boh-LEH-toh deh reh-GREH-soh", en: "the return ticket", phrase: { es: "Tengo mi boleto de regreso aquí.",                    pron: "TEN-goh mee boh-LEH-toh deh reh-GREH-soh ah-KEE",           en: "I have my return ticket here." } },
+      { es: "la maleta",      display: "la maleta",      pron: "lah mah-LEH-tah",                  en: "the suitcase",      phrase: { es: "¿Dónde recojo mi maleta?",                            pron: "DON-deh reh-KOH-hoh mee mah-LEH-tah",                       en: "Where do I pick up my suitcase?" } },
+      { es: "el autobús ADO", display: "el autobús",     pron: "el ow-toh-BOOS ah-deh-OH",         en: "the ADO bus",       phrase: { es: "¿Dónde compro el boleto de autobús ADO?",             pron: "DON-deh KOM-proh el boh-LEH-toh deh ow-toh-BOOS ah-deh-OH", en: "Where do I buy the ADO bus ticket?" } },
     ],
     quizQs: [
       { scene: "Cancún Airport — WiFi", q: "You need to connect to WiFi. What do you ask?", options: ["¿Hay internet gratis?","¿Dónde está la fila?","¿Dónde está mi maleta?","¿Hay cajero?"], correct: 0, exp: "¿Hay internet gratis en el aeropuerto? = Is there free internet at the airport?" },
@@ -34,14 +34,14 @@ const SECTIONS = [
     id: "money", icon: "💵", title: "Money & Exchange", subtitle: "Dinero y Cambio",
     color: C.azul, colorL: C.azulL, colorD: C.azulD,
     words: [
-      { es: "los pesos",         pron: "los PEH-sos",              en: "the pesos",          phrase: { es: "¿Dónde puedo conseguir pesos?",              pron: "DON-deh PWEH-doh kon-seh-GHEER PEH-sos",           en: "Where can I get pesos?" } },
-      { es: "la casa de cambio", pron: "lah KAH-sah deh KAM-byoh", en: "the exchange office", phrase: { es: "¿Dónde está la casa de cambio más cercana?",  pron: "DON-deh es-TAH lah KAH-sah deh KAM-byoh mas ser-KAH-nah", en: "Where is the nearest exchange office?" } },
-      { es: "el cajero",         pron: "el kah-HEH-roh",           en: "the ATM",            phrase: { es: "¿Hay un cajero cerca?",                      pron: "hay oon kah-HEH-roh SER-kah",                      en: "Is there an ATM nearby?" } },
-      { es: "¿Cuánto cuesta?",   pron: "KWAHN-toh KWES-tah",       en: "How much is it?",    phrase: { es: "¿Cuánto cuesta esto?",                       pron: "KWAHN-toh KWES-tah ES-toh",                        en: "How much is this?" } },
-      { es: "la cuenta",         pron: "lah KWEN-tah",             en: "the bill / check",   phrase: { es: "¿Me puede traer la cuenta, por favor?",      pron: "meh PWEH-deh trah-EHR lah KWEN-tah por fah-VOR",  en: "Can you bring me the bill, please?" } },
-      { es: "el efectivo",       pron: "el eh-fek-TEE-boh",        en: "cash",               phrase: { es: "¿Puedo pagar en efectivo?",                  pron: "PWEH-doh pah-GHAR en eh-fek-TEE-boh",              en: "Can I pay in cash?" } },
-      { es: "la tarjeta",        pron: "lah tar-HEH-tah",          en: "the card",           phrase: { es: "¿Aceptan tarjeta?",                          pron: "ah-SEP-tan tar-HEH-tah",                           en: "Do you accept card?" } },
-      { es: "el cambio",         pron: "el KAM-byoh",              en: "the change",         phrase: { es: "¿Me puede dar mi cambio, por favor?",        pron: "meh PWEH-deh dar mee KAM-byoh por fah-VOR",       en: "Can you give me my change, please?" } },
+      { es: "los pesos",         display: "los pesos",         pron: "los PEH-sos",               en: "the pesos",           phrase: { es: "¿Dónde puedo conseguir pesos?",               pron: "DON-deh PWEH-doh kon-seh-GHEER PEH-sos",            en: "Where can I get pesos?" } },
+      { es: "la casa de cambio", display: "la casa de cambio", pron: "lah KAH-sah deh KAM-byoh",  en: "the exchange office",  phrase: { es: "¿Dónde está la casa de cambio más cercana?",  pron: "DON-deh es-TAH lah KAH-sah deh KAM-byoh mas ser-KAH-nah", en: "Where is the nearest exchange office?" } },
+      { es: "el cajero",         display: "el cajero",         pron: "el kah-HEH-roh",            en: "the ATM",             phrase: { es: "¿Hay un cajero cerca?",                       pron: "hay oon kah-HEH-roh SER-kah",                       en: "Is there an ATM nearby?" } },
+      { es: "¿Cuánto cuesta?",   display: "¿Cuánto cuesta?",   pron: "KWAHN-toh KWES-tah",        en: "How much is it?",     phrase: { es: "¿Cuánto cuesta esto?",                        pron: "KWAHN-toh KWES-tah ES-toh",                         en: "How much is this?" } },
+      { es: "la cuenta",         display: "la cuenta",         pron: "lah KWEN-tah",              en: "the bill / check",    phrase: { es: "¿Me puede traer la cuenta, por favor?",       pron: "meh PWEH-deh trah-EHR lah KWEN-tah por fah-VOR",   en: "Can you bring me the bill, please?" } },
+      { es: "el efectivo",       display: "el efectivo",       pron: "el eh-fek-TEE-boh",         en: "cash",                phrase: { es: "¿Puedo pagar en efectivo?",                   pron: "PWEH-doh pah-GHAR en eh-fek-TEE-boh",               en: "Can I pay in cash?" } },
+      { es: "la tarjeta",        display: "la tarjeta",        pron: "lah tar-HEH-tah",           en: "the card",            phrase: { es: "¿Aceptan tarjeta?",                           pron: "ah-SEP-tan tar-HEH-tah",                            en: "Do you accept card?" } },
+      { es: "el cambio",         display: "el cambio",         pron: "el KAM-byoh",               en: "the change",          phrase: { es: "¿Me puede dar mi cambio, por favor?",         pron: "meh PWEH-deh dar mee KAM-byoh por fah-VOR",         en: "Can you give me my change, please?" } },
     ],
     quizQs: [
       { scene: "Casa de cambio", q: "You want to exchange money. Where do you go?", options: ["Al cajero","A la casa de cambio","Al hotel","A la tienda"], correct: 1, exp: "La casa de cambio = the exchange office. Best rates in Mexico." },
@@ -53,14 +53,14 @@ const SECTIONS = [
     id: "transport", icon: "🚌", title: "Getting Around", subtitle: "Transporte",
     color: C.limon, colorL: C.limonL, colorD: C.limonD,
     words: [
-      { es: "la parada",        pron: "lah pah-RAH-dah",          en: "the bus stop",          phrase: { es: "¿Dónde está la parada del autobús ADO?",        pron: "DON-deh es-TAH lah pah-RAH-dah del ow-toh-BOOS ah-deh-OH", en: "Where is the ADO bus stop?" } },
-      { es: "el autobús",       pron: "el ow-toh-BOOS",           en: "the bus",               phrase: { es: "¿Cuál autobús va a Cancún?",                    pron: "kwal ow-toh-BOOS bah ah kan-KOON",                          en: "Which bus goes to Cancún?" } },
-      { es: "el boleto",        pron: "el boh-LEH-toh",           en: "the ticket",            phrase: { es: "Aquí está mi boleto.",                          pron: "ah-KEE es-TAH mee boh-LEH-toh",                             en: "Here is my ticket." } },
-      { es: "el asiento",       pron: "el ah-SYEN-toh",           en: "the seat",              phrase: { es: "Disculpe, ese es mi asiento. Tengo el ocho.",   pron: "dees-KUL-peh EH-seh ehs mee ah-SYEN-toh TEN-goh el OH-choh", en: "Excuse me, that is my seat. I have number eight." } },
-      { es: "el taxi",          pron: "el TAK-see",               en: "the taxi",              phrase: { es: "¿Dónde puedo tomar un taxi?",                   pron: "DON-deh PWEH-doh toh-MAR oon TAK-see",                      en: "Where can I get a taxi?" } },
-      { es: "la dirección",     pron: "lah dee-rek-SYON",         en: "the address",           phrase: { es: "Esta es la dirección de mi alojamiento.",       pron: "ES-tah ehs lah dee-rek-SYON deh mee ah-loh-hah-MYEN-toh",   en: "This is the address of my accommodation." } },
-      { es: "el precio",        pron: "el PREH-syoh",             en: "the price",             phrase: { es: "¿Cuál es el precio por llevarme a este alojamiento?", pron: "kwal ehs el PREH-syoh por yeh-BAR-meh ah ES-teh ah-loh-hah-MYEN-toh", en: "What is the price to take me to this accommodation?" } },
-      { es: "la reservación",   pron: "lah reh-ser-bah-SYON",     en: "the reservation",       phrase: { es: "Buen día, tengo una reservación a partir de hoy.", pron: "bwen DEE-ah TEN-goh OO-nah reh-ser-bah-SYON ah pahr-TEER deh OY", en: "Good day, I have a reservation starting today." } },
+      { es: "la parada",      display: "la parada",      pron: "lah pah-RAH-dah",         en: "the bus stop",     phrase: { es: "¿Dónde está la parada del autobús ADO?",          pron: "DON-deh es-TAH lah pah-RAH-dah del ow-toh-BOOS ah-deh-OH",   en: "Where is the ADO bus stop?" } },
+      { es: "el autobús",     display: "el autobús",     pron: "el ow-toh-BOOS",          en: "the bus",          phrase: { es: "¿Cuál autobús va a Cancún?",                      pron: "kwal ow-toh-BOOS bah ah kan-KOON",                            en: "Which bus goes to Cancún?" } },
+      { es: "el boleto",      display: "el boleto",      pron: "el boh-LEH-toh",          en: "the ticket",       phrase: { es: "Aquí está mi boleto.",                            pron: "ah-KEE es-TAH mee boh-LEH-toh",                               en: "Here is my ticket." } },
+      { es: "el asiento",     display: "el asiento",     pron: "el ah-SYEN-toh",          en: "the seat",         phrase: { es: "Disculpe, ese es mi asiento. Tengo el ocho.",     pron: "dees-KUL-peh EH-seh ehs mee ah-SYEN-toh TEN-goh el OH-choh", en: "Excuse me, that is my seat. I have number eight." } },
+      { es: "el taxi",        display: "el taxi",        pron: "el TAK-see",              en: "the taxi",         phrase: { es: "¿Dónde puedo tomar un taxi?",                     pron: "DON-deh PWEH-doh toh-MAR oon TAK-see",                        en: "Where can I get a taxi?" } },
+      { es: "la dirección",   display: "la dirección",   pron: "lah dee-rek-SYON",        en: "the address",      phrase: { es: "Esta es la dirección de mi alojamiento.",         pron: "ES-tah ehs lah dee-rek-SYON deh mee ah-loh-hah-MYEN-toh",    en: "This is the address of my accommodation." } },
+      { es: "el precio",      display: "el precio",      pron: "el PREH-syoh",            en: "the price",        phrase: { es: "¿Cuál es el precio por llevarme a este alojamiento?", pron: "kwal ehs el PREH-syoh por yeh-BAR-meh ah ES-teh ah-loh-hah-MYEN-toh", en: "What is the price to take me to this accommodation?" } },
+      { es: "la reservación", display: "la reservación", pron: "lah reh-ser-bah-SYON",    en: "the reservation",  phrase: { es: "Buen día, tengo una reservación a partir de hoy.", pron: "bwen DEE-ah TEN-goh OO-nah reh-ser-bah-SYON ah pahr-TEER deh OY", en: "Good day, I have a reservation starting today." } },
     ],
     quizQs: [
       { scene: "ADO bus station", q: "You need to find where the ADO bus stops. What do you ask?", options: ["¿Dónde está el boleto?","¿Dónde está la parada del autobús ADO?","¿Cuál es el precio?","¿Dónde está mi asiento?"], correct: 1, exp: "¿Dónde está la parada del autobús ADO? ADO is the main bus line from Cancún airport." },
@@ -72,14 +72,14 @@ const SECTIONS = [
     id: "people", icon: "👋", title: "Meeting People", subtitle: "Conociendo Gente",
     color: C.magenta, colorL: C.magentaL, colorD: C.magentaD,
     words: [
-      { es: "Hola",        pron: "OH-lah",              en: "Hello / Hi",          phrase: { es: "Hola, me llamo...",                      pron: "OH-lah meh YAH-moh",                         en: "Hello, my name is..." } },
-      { es: "Soy",         pron: "SOY",                 en: "I am",                phrase: { es: "Soy de...",                              pron: "SOY deh",                                    en: "I am from..." } },
-      { es: "¿Y tú?",      pron: "ee TOO",              en: "And you?",            phrase: { es: "¿Y tú, cómo te llamas?",                 pron: "ee TOO KOH-moh teh YAH-mas",                 en: "And you, what is your name?" } },
-      { es: "Mucho gusto", pron: "MOO-choh GOOS-toh",   en: "Nice to meet you",    phrase: { es: "Mucho gusto conocerte.",                  pron: "MOO-choh GOOS-toh koh-noh-SER-teh",          en: "Nice to meet you." } },
-      { es: "¿De dónde?",  pron: "deh DON-deh",         en: "From where?",         phrase: { es: "¿De dónde eres?",                        pron: "deh DON-deh EH-res",                         en: "Where are you from?" } },
-      { es: "Vamos",       pron: "BAH-mos",             en: "Let's go",            phrase: { es: "¿Vamos por unos tacos?",                  pron: "BAH-mos por OO-nos TAH-kos",                 en: "Shall we go get some tacos?" } },
-      { es: "Quiero",      pron: "KYEH-roh",            en: "I want",              phrase: { es: "Quiero probar unos tacos de pastor.",     pron: "KYEH-roh proh-BAR OO-nos TAH-kos deh pas-TOR", en: "I want to try some tacos al pastor." } },
-      { es: "la cerveza",  pron: "lah ser-BEH-sah",     en: "the beer",            phrase: { es: "Una cerveza bien fría, por favor.",       pron: "OO-nah ser-BEH-sah byen FREE-ah por fah-VOR", en: "One very cold beer, please." } },
+      { es: "Hola",        display: "Hola",        pron: "OH-lah",            en: "Hello / Hi",        phrase: { es: "Hola, me llamo...",                       pron: "OH-lah meh YAH-moh",                          en: "Hello, my name is..." } },
+      { es: "Soy",         display: "Soy",         pron: "SOY",               en: "I am",              phrase: { es: "Soy de...",                               pron: "SOY deh",                                     en: "I am from..." } },
+      { es: "¿Y tú?",      display: "¿Y tú?",      pron: "ee TOO",            en: "And you?",          phrase: { es: "¿Y tú, cómo te llamas?",                  pron: "ee TOO KOH-moh teh YAH-mas",                  en: "And you, what is your name?" } },
+      { es: "Mucho gusto", display: "Mucho gusto", pron: "MOO-choh GOOS-toh", en: "Nice to meet you",  phrase: { es: "Mucho gusto conocerte.",                   pron: "MOO-choh GOOS-toh koh-noh-SER-teh",           en: "Nice to meet you." } },
+      { es: "¿De dónde?",  display: "¿De dónde?",  pron: "deh DON-deh",       en: "From where?",       phrase: { es: "¿De dónde eres?",                         pron: "deh DON-deh EH-res",                          en: "Where are you from?" } },
+      { es: "Vamos",       display: "Vamos",       pron: "BAH-mos",           en: "Let's go",          phrase: { es: "¿Vamos por unos tacos?",                   pron: "BAH-mos por OO-nos TAH-kos",                  en: "Shall we go get some tacos?" } },
+      { es: "Quiero",      display: "Quiero",      pron: "KYEH-roh",          en: "I want",            phrase: { es: "Quiero probar unos tacos de pastor.",      pron: "KYEH-roh proh-BAR OO-nos TAH-kos deh pas-TOR", en: "I want to try some tacos al pastor." } },
+      { es: "la cerveza",  display: "la cerveza",  pron: "lah ser-BEH-sah",   en: "the beer",          phrase: { es: "Una cerveza bien fría, por favor.",        pron: "OO-nah ser-BEH-sah byen FREE-ah por fah-VOR",  en: "One very cold beer, please." } },
     ],
     quizQs: [
       { scene: "Meeting someone at the hostel", q: "You want to introduce yourself. What do you say first?", options: ["Mucho gusto","Hola, me llamo...","¿De dónde eres?","Soy de..."], correct: 1, exp: "Hola, me llamo... = Hello, my name is... Always start with a greeting." },
@@ -181,11 +181,13 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
   return (
     <div>
       <div style={{ display: "flex", gap: 12, marginBottom: 12 }}>
-        <button type="button" onClick={onListenPress} style={{ flex: 1, background: C.azulL, border: `1.5px solid ${C.azul}40`, borderRadius: 14, padding: "14px 12px", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+        <button type="button" onClick={onListenPress}
+          style={{ flex: 1, background: C.azulL, border: `1.5px solid ${C.azul}40`, borderRadius: 14, padding: "14px 12px", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, touchAction: "manipulation" }}>
           <span style={{ fontSize: 24 }}>♪</span>
           <span style={{ fontSize: 12, fontWeight: 800, color: C.azulD }}>Listen</span>
         </button>
-        <button type="button" onClick={handleMic} style={{ flex: 2, border: "none", borderRadius: 14, padding: "14px 12px", cursor: "pointer", color: "#fff", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, background: listening ? C.magenta : canAdvance && result !== "retry" ? C.limon : color, transition: "all 0.2s" }}>
+        <button type="button" onClick={handleMic}
+          style={{ flex: 2, border: "none", borderRadius: 14, padding: "14px 12px", cursor: "pointer", color: "#fff", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, background: listening ? C.magenta : canAdvance && result !== "retry" ? C.limon : color, transition: "all 0.2s", touchAction: "manipulation" }}>
           <span style={{ fontSize: 24 }}>{listening ? "⏹" : "◉"}</span>
           <span style={{ fontSize: 12, fontWeight: 900 }}>{listening ? "Listening…" : result ? "Try again" : "Speak now"}</span>
         </button>
@@ -219,7 +221,8 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
       {!supported && <div style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 10, padding: "10px 14px", marginBottom: 10, fontSize: 12, color: C.textS }}>Voice recognition works best in Chrome.</div>}
 
       {(canAdvance || !supported) && (
-        <button type="button" onClick={onPass} style={btn(result === "perfect" ? C.limon : color, { width: "100%", fontSize: 14, padding: "13px", borderRadius: 12 })}>
+        <button type="button" onClick={onPass}
+          style={{ ...btn(result === "perfect" ? C.limon : color, { width: "100%", fontSize: 14, padding: "13px", borderRadius: 12 }), touchAction: "manipulation" }}>
           {passLabel}
         </button>
       )}
@@ -228,20 +231,32 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
 }
 
 // ═══════════════════════════════════════════════════════════════
-// EXERCISE SLIDE — word + phrase together
+// EXERCISE SLIDE — word + phrase together, with back support
 // ═══════════════════════════════════════════════════════════════
-function ExerciseSlide({ sectionIndex, speak, onComplete }) {
+function ExerciseSlide({ sectionIndex, speak, onComplete, onBackRequest }) {
   const sec = SECTIONS[sectionIndex];
   const [wordIdx, setWordIdx] = useState(0);
   const [phase, setPhase] = useState("word");
   const [done, setDone] = useState(false);
+
   useEffect(() => { setWordIdx(0); setPhase("word"); setDone(false); }, [sectionIndex]);
+
+  // Expose back handler to parent
+  useEffect(() => {
+    if (onBackRequest) {
+      onBackRequest.current = () => {
+        if (phase === "phrase") { setPhase("word"); return true; }
+        if (phase === "word" && wordIdx > 0) { setWordIdx(wordIdx - 1); setPhase("phrase"); return true; }
+        return false; // let parent handle
+      };
+    }
+  }, [phase, wordIdx, onBackRequest]);
 
   if (done) return (
     <div style={{ textAlign: "center", padding: "48px 0" }}>
       <div style={{ fontSize: 26, fontWeight: 900, color: C.textH, letterSpacing: -0.5, marginBottom: 8 }}>Section complete!</div>
       <div style={{ fontSize: 15, color: C.textS, fontWeight: 500, marginBottom: 32 }}>Great work on <strong>{sec.title}</strong>!</div>
-      <button type="button" onClick={onComplete} style={btn(sec.color, { fontSize: 16, padding: "15px 40px", borderRadius: 14 })}>Continue →</button>
+      <button type="button" onClick={onComplete} style={{ ...btn(sec.color, { fontSize: 16, padding: "15px 40px", borderRadius: 14 }), touchAction: "manipulation" }}>Continue →</button>
     </div>
   );
 
@@ -253,8 +268,19 @@ function ExerciseSlide({ sectionIndex, speak, onComplete }) {
     else { setDone(true); onComplete(); }
   }
 
+  // Shared card style
+  const cardStyle = (bg, borderColor) => ({
+    background: bg,
+    border: `1.5px solid ${borderColor}`,
+    borderRadius: 16,
+    padding: "20px",
+    marginBottom: 16,
+    textAlign: "center",
+  });
+
   return (
     <div>
+      {/* Section header */}
       <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16, padding: "14px 16px", background: sec.colorL, borderRadius: 16, border: `1.5px solid ${sec.color}20` }}>
         <div style={{ width: 44, height: 44, borderRadius: 12, background: sec.color, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0, color: "#fff" }}>{sec.icon}</div>
         <div>
@@ -263,15 +289,16 @@ function ExerciseSlide({ sectionIndex, speak, onComplete }) {
         </div>
       </div>
 
+      {/* Progress */}
       <div style={{ height: 4, background: C.grisB, borderRadius: 2, overflow: "hidden", marginBottom: 20 }}>
         <div style={{ height: "100%", width: `${(wordIdx / sec.words.length) * 100}%`, background: sec.color, borderRadius: 2, transition: "width 0.4s" }} />
       </div>
 
-      {/* WORD */}
-      <div style={{ background: sec.colorL, border: `1.5px solid ${sec.color}30`, borderRadius: 16, padding: "20px", marginBottom: 16, textAlign: "center" }}>
+      {/* WORD BLOCK */}
+      <div style={cardStyle(sec.colorL, `${sec.color}30`)}>
         <div style={{ fontSize: 11, letterSpacing: 2, color: sec.colorD, fontWeight: 800, textTransform: "uppercase", marginBottom: 10 }}>Word</div>
-        <div style={{ fontSize: "clamp(22px,5vw,28px)", fontWeight: 900, color: C.textH, letterSpacing: -0.3, marginBottom: 8 }}>{word.es}</div>
-        <div style={{ display: "inline-block", background: C.azulL, border: `1.5px solid ${C.azul}40`, borderRadius: 8, padding: "3px 12px", fontSize: 11, color: C.azulD, fontFamily: "'Space Mono',monospace", fontWeight: 700, marginBottom: 6 }}>◉ {word.pron}</div>
+        <div style={{ fontSize: "clamp(22px,5vw,28px)", fontWeight: 900, color: C.textH, letterSpacing: -0.3, marginBottom: 8 }}>{word.display}</div>
+        <div style={{ display: "inline-block", background: C.azulL, border: `1.5px solid ${C.azul}40`, borderRadius: 8, padding: "3px 12px", fontSize: 12, color: C.azulD, fontFamily: "'Space Mono',monospace", fontWeight: 700, marginBottom: 6 }}>◉ {word.pron}</div>
         <div style={{ fontSize: 14, color: C.textS, fontWeight: 600 }}>{word.en}</div>
       </div>
 
@@ -286,14 +313,14 @@ function ExerciseSlide({ sectionIndex, speak, onComplete }) {
         />
       )}
 
-      {/* PHRASE */}
+      {/* PHRASE BLOCK — gray background to differentiate */}
       {phase === "phrase" && (
         <>
-          <div style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 16, padding: "20px", marginBottom: 16, textAlign: "center" }}>
+          <div style={cardStyle(C.grisS, C.grisB)}>
             <div style={{ fontSize: 11, letterSpacing: 2, color: C.textM, fontWeight: 800, textTransform: "uppercase", marginBottom: 10 }}>Used in a phrase</div>
-            <div style={{ fontSize: "clamp(15px,3.5vw,19px)", fontWeight: 900, color: C.textH, marginBottom: 8, lineHeight: 1.3 }}>{word.phrase.es}</div>
-            <div style={{ display: "inline-block", background: C.azulL, border: `1.5px solid ${C.azul}40`, borderRadius: 8, padding: "3px 12px", fontSize: 11, color: C.azulD, fontFamily: "'Space Mono',monospace", fontWeight: 700, marginBottom: 6 }}>◉ {word.phrase.pron}</div>
-            <div style={{ fontSize: 13, color: C.textS, fontWeight: 500 }}>{word.phrase.en}</div>
+            <div style={{ fontSize: "clamp(22px,5vw,28px)", fontWeight: 900, color: C.textH, letterSpacing: -0.3, marginBottom: 8, lineHeight: 1.2 }}>{word.phrase.es}</div>
+            <div style={{ display: "inline-block", background: C.azulL, border: `1.5px solid ${C.azul}40`, borderRadius: 8, padding: "3px 12px", fontSize: 12, color: C.azulD, fontFamily: "'Space Mono',monospace", fontWeight: 700, marginBottom: 6 }}>◉ {word.phrase.pron}</div>
+            <div style={{ fontSize: 14, color: C.textS, fontWeight: 600 }}>{word.phrase.en}</div>
           </div>
 
           <PronExercise
@@ -314,7 +341,7 @@ function ExerciseSlide({ sectionIndex, speak, onComplete }) {
 // MEMORAMA
 // ═══════════════════════════════════════════════════════════════
 function Memorama({ section, speak, onComplete }) {
-  const pairs = section.words.slice(0, 6).map(w => ({ es: w.es, en: w.en }));
+  const pairs = section.words.slice(0, 6).map(w => ({ es: w.display, en: w.en }));
   const [cards] = useState(() => {
     const all = [];
     pairs.forEach((v, i) => {
@@ -350,7 +377,7 @@ function Memorama({ section, speak, onComplete }) {
       <div style={{ fontSize: 26, fontWeight: 900, color: C.textH, marginBottom: 8 }}>Memorama Complete!</div>
       <div style={{ fontSize: 15, color: C.textS, fontWeight: 500, marginBottom: 8 }}>You matched all {pairs.length} pairs in <strong style={{ color: section.color }}>{moves} moves</strong></div>
       <div style={{ fontSize: 13, color: C.textM, marginBottom: 32 }}>{moves <= pairs.length + 2 ? "Excellent memory!" : moves <= pairs.length + 5 ? "Good job!" : "Keep practicing!"}</div>
-      <button type="button" onClick={onComplete} style={btn(section.color, { fontSize: 16, padding: "15px 40px", borderRadius: 14 })}>Continue →</button>
+      <button type="button" onClick={onComplete} style={{ ...btn(section.color, { fontSize: 16, padding: "15px 40px", borderRadius: 14 }), touchAction: "manipulation" }}>Continue →</button>
     </div>
   );
 
@@ -375,7 +402,8 @@ function Memorama({ section, speak, onComplete }) {
         {cards.map(card => {
           const isF = flipped.includes(card.id), isM = matched.includes(card.pairId), show = isF || isM;
           return (
-            <div key={card.id} onClick={() => flip(card)} style={{ height: 84, borderRadius: 14, cursor: isM ? "default" : "pointer", transition: "all 0.2s", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "8px 6px", background: isM ? section.colorL : show ? (card.type === "es" ? C.turquesaL : C.magentaL) : C.grisS, border: `1.5px solid ${isM ? section.color + "60" : show ? (card.type === "es" ? C.turquesa : C.magenta) + "50" : C.grisB}`, transform: show ? "scale(1.03)" : "scale(1)" }}>
+            <div key={card.id} onClick={() => flip(card)}
+              style={{ height: 84, borderRadius: 14, cursor: isM ? "default" : "pointer", transition: "all 0.2s", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "8px 6px", background: isM ? section.colorL : show ? (card.type === "es" ? C.turquesaL : C.magentaL) : C.grisS, border: `1.5px solid ${isM ? section.color + "60" : show ? (card.type === "es" ? C.turquesa : C.magenta) + "50" : C.grisB}`, transform: show ? "scale(1.03)" : "scale(1)", touchAction: "manipulation" }}>
               {show ? (
                 <div>
                   {isM && <div style={{ fontSize: 13, marginBottom: 2, color: section.colorD }}>✓</div>}
@@ -421,7 +449,7 @@ function SectionQuiz({ section, speak, onComplete }) {
         <div style={{ fontSize: "clamp(48px,12vw,64px)", fontWeight: 900, color: section.color, lineHeight: 1, marginBottom: 8, letterSpacing: -2 }}>{score}/{qs.length}</div>
         <div style={{ fontSize: 20, color: C.textH, fontWeight: 800, marginBottom: 8 }}>{pct >= 67 ? "Well done!" : "Keep going!"}</div>
         <div style={{ fontSize: 14, color: C.textS, fontWeight: 500, marginBottom: 32 }}>{pct >= 67 ? `You know your ${section.title} vocabulary!` : "Practice makes perfect — you've got this."}</div>
-        <button type="button" onClick={onComplete} style={btn(section.color, { fontSize: 16, padding: "15px 36px", borderRadius: 14 })}>Continue →</button>
+        <button type="button" onClick={onComplete} style={{ ...btn(section.color, { fontSize: 16, padding: "15px 36px", borderRadius: 14 }), touchAction: "manipulation" }}>Continue →</button>
       </div>
     );
   }
@@ -453,7 +481,8 @@ function SectionQuiz({ section, speak, onComplete }) {
           let bg = "#fff", border = C.grisB, tc = C.textB, fw = 600;
           if (sel !== null) { if (isC) { bg = C.limonL; border = C.limon; tc = C.limonD; fw = 800; } else if (isS) { bg = C.rojoL; border = C.rojo; tc = C.rojo; fw = 700; } }
           return (
-            <button type="button" key={i} onClick={() => select(i)} style={{ background: bg, border: `1.5px solid ${border}`, borderRadius: 14, padding: "15px 18px", textAlign: "left", cursor: sel !== null ? "default" : "pointer", color: tc, fontSize: 15, fontWeight: fw, transition: "all 0.18s", display: "flex", alignItems: "center", gap: 14, boxShadow: sel === null ? "0 2px 8px rgba(0,0,0,0.05)" : "none" }}>
+            <button type="button" key={i} onClick={() => select(i)}
+              style={{ background: bg, border: `1.5px solid ${border}`, borderRadius: 14, padding: "15px 18px", textAlign: "left", cursor: sel !== null ? "default" : "pointer", color: tc, fontSize: 15, fontWeight: fw, transition: "all 0.18s", display: "flex", alignItems: "center", gap: 14, boxShadow: sel === null ? "0 2px 8px rgba(0,0,0,0.05)" : "none", touchAction: "manipulation" }}>
               <span style={{ width: 32, height: 32, borderRadius: "50%", flexShrink: 0, background: sel !== null && isC ? C.limon : isS && !isC ? C.rojo : C.grisS, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 900, color: sel !== null && (isC || isS) ? "#fff" : C.textM }}>
                 {sel !== null && isC ? "✓" : isS && !isC ? "✗" : ["A","B","C","D"][i]}
               </span>
@@ -467,7 +496,7 @@ function SectionQuiz({ section, speak, onComplete }) {
           <div style={{ background: sel === q.correct ? C.limonL : C.rojoL, border: `1.5px solid ${sel === q.correct ? C.limon+"60" : C.rojo+"60"}`, borderRadius: 14, padding: "14px 18px", marginBottom: 16, fontSize: 14, color: C.textB, lineHeight: 1.7, fontWeight: 500 }}>
             <span style={{ fontWeight: 900, color: sel === q.correct ? C.limonD : C.rojo }}>{sel === q.correct ? "Correct! " : "Not quite — "}</span>{q.exp}
           </div>
-          <button type="button" onClick={next} style={btn(section.color, { width: "100%", fontSize: 16, padding: "15px", borderRadius: 14 })}>{idx + 1 >= qs.length ? "See Results →" : "Next Question →"}</button>
+          <button type="button" onClick={next} style={{ ...btn(section.color, { width: "100%", fontSize: 16, padding: "15px", borderRadius: 14 }), touchAction: "manipulation" }}>{idx + 1 >= qs.length ? "See Results →" : "Next Question →"}</button>
         </>
       )}
     </div>
@@ -475,10 +504,10 @@ function SectionQuiz({ section, speak, onComplete }) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// BLOCK SURVEY
+// BLOCK SURVEY — with email field
 // ═══════════════════════════════════════════════════════════════
 function BlockSurvey({ section, blockNumber, onComplete }) {
-  const [answers, setAnswers] = useState({ continueNext: 0, pronunciation: 0, memorama: 0, instructions: 0, voiceRecognition: "", comments: "" });
+  const [answers, setAnswers] = useState({ email: "", continueNext: 0, pronunciation: 0, memorama: 0, instructions: 0, voiceRecognition: "", comments: "" });
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const nextLabel = blockNumber < 4 ? `Block ${blockNumber + 1}` : "Lesson Complete";
@@ -502,7 +531,7 @@ function BlockSurvey({ section, blockNumber, onComplete }) {
       <div style={{ fontSize: 48, marginBottom: 16 }}>🙏</div>
       <div style={{ fontSize: 22, fontWeight: 900, color: C.textH, marginBottom: 12 }}>Thank you!</div>
       <div style={{ fontSize: 14, color: C.textS, fontWeight: 500, lineHeight: 1.7, marginBottom: 32 }}>Your feedback goes directly to the course creator.</div>
-      <button type="button" onClick={onComplete} style={btn(section.color, { fontSize: 16, padding: "15px 40px", borderRadius: 14 })}>Continue to {nextLabel} →</button>
+      <button type="button" onClick={onComplete} style={{ ...btn(section.color, { fontSize: 16, padding: "15px 40px", borderRadius: 14 }), touchAction: "manipulation" }}>Continue to {nextLabel} →</button>
     </div>
   );
 
@@ -513,7 +542,7 @@ function BlockSurvey({ section, blockNumber, onComplete }) {
         <div style={{ display: "flex", gap: 6, justifyContent: "center", flexWrap: "wrap" }}>
           {[1,2,3,4,5,6,7,8,9,10].map(n => (
             <button type="button" key={n} onClick={() => setAnswers(p => ({ ...p, [field]: n }))}
-              style={{ width: 36, height: 36, borderRadius: "50%", border: `1.5px solid ${answers[field] === n ? section.color : C.grisB}`, background: answers[field] === n ? section.color : C.grisS, color: answers[field] === n ? "#fff" : C.textS, fontSize: 13, fontWeight: 700, cursor: "pointer", transition: "all 0.15s" }}>
+              style={{ width: 36, height: 36, borderRadius: "50%", border: `1.5px solid ${answers[field] === n ? section.color : C.grisB}`, background: answers[field] === n ? section.color : C.grisS, color: answers[field] === n ? "#fff" : C.textS, fontSize: 13, fontWeight: 700, cursor: "pointer", transition: "all 0.15s", touchAction: "manipulation" }}>
               {n}
             </button>
           ))}
@@ -535,6 +564,19 @@ function BlockSurvey({ section, blockNumber, onComplete }) {
         <div style={{ fontSize: 13, color: "#fff", opacity: 0.9, lineHeight: 1.6 }}>Chat in Spanish is in development. Your feedback shapes the final product. 2 minutes — every answer counts.</div>
       </div>
 
+      {/* Email field */}
+      <div style={{ marginBottom: 24 }}>
+        <div style={{ fontSize: 14, fontWeight: 700, color: C.textH, marginBottom: 6 }}>Your email <span style={{ fontSize: 12, color: C.textM, fontWeight: 500 }}>(optional)</span></div>
+        <div style={{ fontSize: 12, color: C.textS, fontWeight: 500, marginBottom: 10 }}>We'll notify you when the full course is ready — and send you a special launch discount.</div>
+        <input
+          type="email"
+          value={answers.email}
+          onChange={e => setAnswers(p => ({ ...p, email: e.target.value }))}
+          placeholder="email@example.com"
+          style={{ width: "100%", padding: "12px 14px", borderRadius: 12, border: `1.5px solid ${C.grisB}`, fontSize: 16, color: C.textH, fontFamily: "'Plus Jakarta Sans', sans-serif", outline: "none", background: C.grisS, boxSizing: "border-box" }}
+        />
+      </div>
+
       <ScoreRow label={`1. How likely are you to continue to ${nextLabel}?`} field="continueNext" />
       <ScoreRow label="2. How useful was the pronunciation practice?" field="pronunciation" />
       <ScoreRow label="3. How fun was the Memorama game?" field="memorama" />
@@ -545,7 +587,7 @@ function BlockSurvey({ section, blockNumber, onComplete }) {
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           {["Yes, perfectly", "Sometimes", "No, it didn't work"].map(opt => (
             <button type="button" key={opt} onClick={() => setAnswers(p => ({ ...p, voiceRecognition: opt }))}
-              style={{ padding: "12px 16px", borderRadius: 12, border: `1.5px solid ${answers.voiceRecognition === opt ? section.color : C.grisB}`, background: answers.voiceRecognition === opt ? section.colorL : C.grisS, color: answers.voiceRecognition === opt ? section.colorD : C.textS, fontSize: 14, fontWeight: 700, cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
+              style={{ padding: "12px 16px", borderRadius: 12, border: `1.5px solid ${answers.voiceRecognition === opt ? section.color : C.grisB}`, background: answers.voiceRecognition === opt ? section.colorL : C.grisS, color: answers.voiceRecognition === opt ? section.colorD : C.textS, fontSize: 14, fontWeight: 700, cursor: "pointer", textAlign: "left", transition: "all 0.15s", touchAction: "manipulation" }}>
               {answers.voiceRecognition === opt ? "◉ " : "○ "}{opt}
             </button>
           ))}
@@ -560,12 +602,12 @@ function BlockSurvey({ section, blockNumber, onComplete }) {
       </div>
 
       <button type="button" onClick={handleSubmit} disabled={!allDone || submitting}
-        style={{ ...btn(allDone ? section.color : C.grisB, { width: "100%", fontSize: 16, padding: "16px", borderRadius: 50 }), opacity: allDone ? 1 : 0.5, cursor: allDone ? "pointer" : "not-allowed" }}>
+        style={{ ...btn(allDone ? section.color : C.grisB, { width: "100%", fontSize: 16, padding: "16px", borderRadius: 50 }), opacity: allDone ? 1 : 0.5, cursor: allDone ? "pointer" : "not-allowed", touchAction: "manipulation" }}>
         {submitting ? "Sending..." : "Submit Feedback →"}
       </button>
       <div style={{ textAlign: "center", marginTop: 10, fontSize: 12, color: C.textM }}>Thank you — your response goes directly to the course creator.</div>
       <div style={{ textAlign: "center", marginTop: 16 }}>
-        <button type="button" onClick={onComplete} style={{ background: "none", border: "none", color: C.textM, fontSize: 13, cursor: "pointer", textDecoration: "underline" }}>Skip survey</button>
+        <button type="button" onClick={onComplete} style={{ background: "none", border: "none", color: C.textM, fontSize: 13, cursor: "pointer", textDecoration: "underline", touchAction: "manipulation" }}>Skip survey</button>
       </div>
     </div>
   );
@@ -595,7 +637,7 @@ function CompletedSlide({ onBack }) {
           </div>
         ))}
       </div>
-      <button type="button" onClick={onBack} style={btn(C.magenta, { fontSize: 16, padding: "16px 40px", borderRadius: 50, boxShadow: `0 6px 24px ${C.magenta}40` })}>
+      <button type="button" onClick={onBack} style={{ ...btn(C.magenta, { fontSize: 16, padding: "16px 40px", borderRadius: 50, boxShadow: `0 6px 24px ${C.magenta}40` }), touchAction: "manipulation" }}>
         Back to Home →
       </button>
     </div>
@@ -609,6 +651,7 @@ export default function Lesson1({ onBack }) {
   const { speak } = useTTS();
   const [slide, setSlide] = useState(0);
   const [maxUnlocked, setMaxUnlocked] = useState(1);
+  const exerciseBackRef = useRef(null);
 
   function isPronSlide()   { return [3,7,11,15].includes(slide); }
   function isMemoSlide()   { return [4,8,12,16].includes(slide); }
@@ -632,6 +675,17 @@ export default function Lesson1({ onBack }) {
   function unlock(n) { setMaxUnlocked(prev => Math.max(prev, n)); }
   function advance() { const next = slide + 1; unlock(next); goTo(next); }
 
+  function handleBack() {
+    // If on a pronounce slide, let ExerciseSlide handle internal back first
+    if (isPronSlide() && exerciseBackRef.current) {
+      const handled = exerciseBackRef.current();
+      if (handled) return;
+    }
+    // Otherwise go to previous slide or homepage
+    if (slide === 0) { onBack(); return; }
+    goTo(slide - 1);
+  }
+
   return (
     <div style={{ background: "#fff", minHeight: "100vh" }}>
 
@@ -639,7 +693,7 @@ export default function Lesson1({ onBack }) {
       <div style={{ background: "rgba(255,255,255,0.97)", backdropFilter: "blur(12px)", borderBottom: `1.5px solid ${C.grisB}`, padding: "14px 20px", position: "sticky", top: 0, zIndex: 50, boxShadow: "0 2px 12px rgba(0,0,0,0.05)" }}>
         <div style={{ maxWidth: 720, margin: "0 auto" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }} onClick={onBack}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }} onClick={handleBack}>
               <ChatLogo size={32} bg={C.magenta} />
               <div>
                 <div style={{ fontSize: 16, fontWeight: 900, color: C.negro, letterSpacing: -0.5, lineHeight: 1 }}>Chat in Spanish</div>
@@ -648,7 +702,8 @@ export default function Lesson1({ onBack }) {
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <span style={{ fontSize: 12, color: accentColor, fontWeight: 900 }}>{slide + 1} / {TOTAL}</span>
-              <button type="button" onClick={slide === 0 ? onBack : () => goTo(slide - 1)} style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, color: C.textS, padding: "8px 16px", borderRadius: 50, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>← Back</button>
+              <button type="button" onClick={handleBack}
+                style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, color: C.textS, padding: "8px 16px", borderRadius: 50, cursor: "pointer", fontSize: 13, fontWeight: 700, touchAction: "manipulation" }}>← Back</button>
             </div>
           </div>
           <div style={{ height: 6, background: C.grisS, borderRadius: 3, overflow: "hidden", marginBottom: 10 }}>
@@ -692,7 +747,8 @@ export default function Lesson1({ onBack }) {
             <div style={{ background: C.turquesaL, border: `1.5px solid ${C.turquesa}30`, borderRadius: 14, padding: "14px 18px", marginBottom: 28, fontSize: 13, color: C.turquesaD, fontWeight: 600, display: "flex", alignItems: "center", gap: 10 }}>
               <span style={{ fontSize: 20, flexShrink: 0 }}>◉</span>Allow microphone access when prompted. Works best in Chrome.
             </div>
-            <button type="button" onClick={() => { unlock(1); goTo(1); }} style={btn(C.magenta, { fontSize: 17, padding: "16px 44px", borderRadius: 50, boxShadow: `0 6px 24px ${C.magenta}40` })}>
+            <button type="button" onClick={() => { unlock(1); goTo(1); }}
+              style={{ ...btn(C.magenta, { fontSize: 17, padding: "16px 44px", borderRadius: 50, boxShadow: `0 6px 24px ${C.magenta}40` }), touchAction: "manipulation" }}>
               Let's Start! →
             </button>
           </div>
@@ -701,12 +757,12 @@ export default function Lesson1({ onBack }) {
         {/* SLIDE 1 — VIDEO */}
         {slide === 1 && (
           <div style={{ animation: "fadeUp 0.4s ease" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
               <div style={{ width: 52, height: 52, borderRadius: 14, background: C.turquesa, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26, flexShrink: 0, color: "#fff", fontWeight: 900 }}>▶</div>
               <div style={{ fontSize: "clamp(18px,4vw,24px)", fontWeight: 900, color: C.textH, letterSpacing: -0.5, lineHeight: 1.1 }}>Welcome to Cancún</div>
             </div>
-            <p style={{ fontSize: 15, color: C.textS, lineHeight: 1.75, fontWeight: 500, marginBottom: 20 }}>
-              Before we start, get inspired. Watch this travel guide to Cancún and imagine yourself there.
+            <p style={{ fontSize: 14, color: C.textS, lineHeight: 1.7, fontWeight: 500, marginBottom: 20 }}>
+              We picked this video to give you a feel for Cancún before your first lesson.
             </p>
             <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, overflow: "hidden", borderRadius: 20, marginBottom: 20, boxShadow: `0 8px 32px ${C.turquesa}25` }}>
               <iframe
@@ -718,7 +774,8 @@ export default function Lesson1({ onBack }) {
               />
             </div>
             <div style={{ textAlign: "center" }}>
-              <button type="button" onClick={advance} style={{ background: "none", border: "none", color: C.textM, fontSize: 13, cursor: "pointer", fontWeight: 600, textDecoration: "underline" }}>
+              <button type="button" onClick={advance}
+                style={{ background: "none", border: "none", color: C.textM, fontSize: 13, cursor: "pointer", fontWeight: 600, textDecoration: "underline", touchAction: "manipulation" }}>
                 Continue without watching
               </button>
             </div>
@@ -740,7 +797,7 @@ export default function Lesson1({ onBack }) {
               <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 5, background: `linear-gradient(90deg,${C.turquesa} 33%,#fff 33%,#fff 66%,${C.magenta} 66%)` }} />
               <div style={{ fontSize: 11, letterSpacing: 2, color: C.turquesa, fontWeight: 800, textTransform: "uppercase", marginBottom: 12 }}>Your Story Begins</div>
               <p style={{ margin: 0, fontSize: "clamp(14px,2.5vw,16px)", color: C.textS, lineHeight: 1.85, fontStyle: "italic", fontWeight: 500 }}>
-                It's 2:47 PM. Your plane just touched down at <strong style={{ color: C.textH }}>Cancún International Airport — CUN</strong>. Through the window: palm trees, turquoise sky, a sign reading <strong style={{ color: C.turquesa }}>"BIENVENIDOS A MÉXICO."</strong> Your heart races. First challenge: immigration, internet, your ADO bus ticket — all in Spanish.
+                It's 2:47 PM. Your plane just touched down at <strong style={{ color: C.textH }}>Cancún International Airport — CUN</strong>. Through the window: palm trees, a sunny day, a sign reading <strong style={{ color: C.turquesa }}>"BIENVENIDOS A MÉXICO."</strong> Your heart races. First challenge: immigration, baggage, your ADO bus ticket — all in Spanish.
               </p>
             </div>
             <div style={{ background: C.turquesaL, border: `1.5px solid ${C.turquesa}30`, borderRadius: 14, padding: "16px 18px" }}>
@@ -761,7 +818,15 @@ export default function Lesson1({ onBack }) {
         )}
 
         {/* PRONOUNCE */}
-        {isPronSlide() && <ExerciseSlide key={slide} sectionIndex={sectionIdx()} speak={speak} onComplete={advance} />}
+        {isPronSlide() && (
+          <ExerciseSlide
+            key={slide}
+            sectionIndex={sectionIdx()}
+            speak={speak}
+            onComplete={advance}
+            onBackRequest={exerciseBackRef}
+          />
+        )}
 
         {/* MEMORAMA */}
         {isMemoSlide() && (() => {
@@ -784,8 +849,10 @@ export default function Lesson1({ onBack }) {
       {slide === 2 && (
         <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 50, background: "rgba(255,255,255,0.97)", backdropFilter: "blur(12px)", borderTop: `1.5px solid ${C.grisB}`, padding: "14px 20px 20px", boxShadow: "0 -4px 20px rgba(0,0,0,0.06)" }}>
           <div style={{ maxWidth: 720, margin: "0 auto", display: "flex", gap: 12 }}>
-            <button type="button" onClick={() => goTo(slide - 1)} style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, color: C.textS, padding: "14px 20px", borderRadius: 50, cursor: "pointer", fontSize: 15, fontWeight: 700, flexShrink: 0 }}>←</button>
-            <button type="button" onClick={advance} style={btn(C.turquesa, { flex: 1, fontSize: 16, padding: "14px", borderRadius: 50 })}>
+            <button type="button" onClick={handleBack}
+              style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, color: C.textS, padding: "14px 20px", borderRadius: 50, cursor: "pointer", fontSize: 15, fontWeight: 700, flexShrink: 0, touchAction: "manipulation" }}>←</button>
+            <button type="button" onClick={advance}
+              style={{ ...btn(C.turquesa, { flex: 1, fontSize: 16, padding: "14px", borderRadius: 50 }), touchAction: "manipulation" }}>
               Start Speaking Practice →
             </button>
           </div>
@@ -794,4 +861,3 @@ export default function Lesson1({ onBack }) {
     </div>
   );
 }
-
