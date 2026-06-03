@@ -8,83 +8,83 @@ import ChatLogo from "../components/ChatLogo";
 const SHEETS_URL = "https://script.google.com/macros/s/AKfycbzUiHHTyLbu-efTHCzP-GZfs51qEq9hDFmvqnFnAVQCJLXYXcwxRaLG_rTSXImbr0mnFQ/exec";
 
 // ═══════════════════════════════════════════════════════════════
-// LESSON DATA — 4 sections, 8 words + 8 phrases each
+// LESSON DATA — 4 approved blocks
 // ═══════════════════════════════════════════════════════════════
 const SECTIONS = [
   {
     id: "airport", icon: "✈", title: "At the Airport", subtitle: "En el Aeropuerto",
     color: C.turquesa, colorL: C.turquesaL, colorD: C.turquesaD,
     words: [
-      { es: "el aeropuerto",  pron: "el ah-eh-roh-PWER-toh", en: "the airport",   phrase: { es: "¿Dónde está el aeropuerto?",       pron: "DON-deh es-TAH el ah-eh-roh-PWER-toh",      en: "Where is the airport?" } },
-      { es: "el vuelo",       pron: "el BWEH-loh",           en: "the flight",    phrase: { es: "¿A qué hora llega el vuelo?",       pron: "ah KEH OH-rah YEH-gah el BWEH-loh",         en: "What time does the flight arrive?" } },
-      { es: "la llegada",     pron: "lah yeh-GAH-dah",       en: "the arrival",   phrase: { es: "¿Dónde está la llegada?",           pron: "DON-deh es-TAH lah yeh-GAH-dah",            en: "Where is the arrivals area?" } },
-      { es: "la salida",      pron: "lah sah-LEE-dah",       en: "the exit",      phrase: { es: "¿Dónde está la salida?",            pron: "DON-deh es-TAH lah sah-LEE-dah",            en: "Where is the exit?" } },
-      { es: "la maleta",      pron: "lah mah-LEH-tah",       en: "the suitcase",  phrase: { es: "Mi maleta no llegó",                pron: "mee mah-LEH-tah no yeh-GO",                 en: "My suitcase didn't arrive" } },
-      { es: "la mochila",     pron: "lah moh-CHEE-lah",      en: "the backpack",  phrase: { es: "Tengo una mochila y una maleta",    pron: "TEN-goh OO-nah moh-CHEE-lah ee OO-nah mah-LEH-tah", en: "I have a backpack and a suitcase" } },
-      { es: "el pasaporte",   pron: "el pah-sah-POR-teh",    en: "the passport",  phrase: { es: "Aquí está mi pasaporte",            pron: "ah-KEE es-TAH mee pah-sah-POR-teh",         en: "Here is my passport" } },
-      { es: "la aduana",      pron: "lah ah-DWAH-nah",       en: "customs",       phrase: { es: "¿Dónde está la aduana?",            pron: "DON-deh es-TAH lah ah-DWAH-nah",            en: "Where is customs?" } },
+      { es: "el internet",          pron: "el een-ter-NET",                    en: "the internet",          phrase: { es: "¿Hay internet gratis en el aeropuerto?",              pron: "hay een-ter-NET GRAH-tees en el ah-eh-roh-PWER-toh",        en: "Is there free internet at the airport?" } },
+      { es: "la migración",         pron: "lah mee-grah-SYON",                en: "immigration",           phrase: { es: "¿Dónde está la zona de migración?",                  pron: "DON-deh es-TAH lah SO-nah deh mee-grah-SYON",              en: "Where is the immigration area?" } },
+      { es: "la fila",              pron: "lah FEE-lah",                      en: "the line / queue",      phrase: { es: "Perdón, ¿esta es la fila para extranjeros?",          pron: "pehr-DON ES-tah ehs lah FEE-lah PAH-rah eks-tran-HEH-ros", en: "Excuse me, is this the line for foreigners?" } },
+      { es: "el pasaporte",         pron: "el pah-sah-POR-teh",               en: "the passport",          phrase: { es: "Hola, aquí está mi pasaporte.",                       pron: "OH-lah ah-KEE es-TAH mee pah-sah-POR-teh",                 en: "Hello, here is my passport." } },
+      { es: "la reservación",       pron: "lah reh-ser-bah-SYON",             en: "the reservation",       phrase: { es: "Aquí está la reservación de mi hotel.",              pron: "ah-KEE es-TAH lah reh-ser-bah-SYON deh mee oh-TEL",        en: "Here is my hotel reservation." } },
+      { es: "el boleto de regreso", pron: "el boh-LEH-toh deh reh-GREH-soh", en: "the return ticket",     phrase: { es: "Tengo mi boleto de regreso aquí.",                    pron: "TEN-goh mee boh-LEH-toh deh reh-GREH-soh ah-KEE",          en: "I have my return ticket here." } },
+      { es: "la maleta",            pron: "lah mah-LEH-tah",                  en: "the suitcase",          phrase: { es: "¿Dónde recojo mi maleta?",                           pron: "DON-deh reh-KOH-hoh mee mah-LEH-tah",                      en: "Where do I pick up my suitcase?" } },
+      { es: "el autobús ADO",       pron: "el ow-toh-BOOS ah-deh-OH",         en: "the ADO bus",           phrase: { es: "¿Dónde compro el boleto de autobús ADO?",            pron: "DON-deh KOM-proh el boh-LEH-toh deh ow-toh-BOOS ah-deh-OH", en: "Where do I buy the ADO bus ticket?" } },
     ],
     quizQs: [
-      { scene: "Cancún Airport — Migración", q: "The officer holds out his hand. He needs your travel document. What does he want?", options: ["la maleta","el pasaporte","la propina","el recibo"], correct: 1, exp: "el pasaporte = the passport. Always have it ready at migración." },
-      { scene: "Baggage claim", q: "You're looking for your bag. What Spanish word describes it?", options: ["el vuelo","la llegada","la maleta","la aduana"], correct: 2, exp: "la maleta = the suitcase. Tell staff 'mi maleta no llegó' if it's missing." },
-      { scene: "Customs — Aduana", q: "The sign says ADUANA. Where are you?", options: ["At the gate","At the exit","At baggage claim","At customs"], correct: 3, exp: "la aduana = customs. You'll pass through here with your bags." },
-    ],
-  },
-  {
-    id: "greetings", icon: "👋", title: "First Words", subtitle: "Primeras Palabras",
-    color: C.magenta, colorL: C.magentaL, colorD: C.magentaD,
-    words: [
-      { es: "Hola",                    pron: "OH-lah",                        en: "Hello / Hi",       phrase: { es: "Hola, buenos días",                   pron: "OH-lah BWEH-nos DEE-as",                        en: "Hello, good morning" } },
-      { es: "Buenos días",             pron: "BWEH-nos DEE-as",               en: "Good morning",     phrase: { es: "Buenos días, ¿cómo está?",             pron: "BWEH-nos DEE-as KOH-moh es-TAH",                en: "Good morning, how are you?" } },
-      { es: "Buenas tardes",           pron: "BWEH-nas TAR-des",              en: "Good afternoon",   phrase: { es: "Buenas tardes, por favor",             pron: "BWEH-nas TAR-des por fah-VOR",                  en: "Good afternoon, please" } },
-      { es: "Por favor",               pron: "por fah-VOR",                   en: "Please",           phrase: { es: "Por favor, ¿me puede ayudar?",         pron: "por fah-VOR meh PWEH-deh ah-yoo-DAR",           en: "Please, can you help me?" } },
-      { es: "Gracias",                 pron: "GRAH-syahs",                    en: "Thank you",        phrase: { es: "Muchas gracias, muy amable",           pron: "MOO-chas GRAH-syahs mwee ah-MAH-bleh",          en: "Thank you very much, very kind" } },
-      { es: "De nada",                 pron: "deh NAH-dah",                   en: "You're welcome",   phrase: { es: "Gracias — de nada",                   pron: "GRAH-syahs deh NAH-dah",                        en: "Thank you — you're welcome" } },
-      { es: "Perdón",                  pron: "pehr-DON",                      en: "Excuse me",        phrase: { es: "Perdón, no entiendo",                 pron: "pehr-DON no en-TYEN-doh",                       en: "Excuse me, I don't understand" } },
-      { es: "Más despacio, por favor", pron: "mahs des-PAH-syoh por fah-VOR", en: "Slower, please",   phrase: { es: "Perdón, más despacio por favor",       pron: "pehr-DON mahs des-PAH-syoh por fah-VOR",        en: "Excuse me, slower please" } },
-    ],
-    quizQs: [
-      { scene: "Taxi stand — 3:30 PM", q: "You want to greet your taxi driver politely. What do you say?", options: ["Buenos días","Buenas noches","Buenas tardes","Hola amigo"], correct: 2, exp: "Buenas tardes = Good afternoon. Use from noon until ~7pm." },
-      { scene: "Someone helps you with your bag", q: "How do you say thank you?", options: ["Por favor","De nada","Perdón","Gracias"], correct: 3, exp: "Gracias = Thank you. One of the most important words you'll use." },
-      { scene: "A Mexican speaks very fast", q: "What do you say to ask them to slow down?", options: ["No hablo español","Más despacio por favor","¿Habla inglés?","No entiendo"], correct: 1, exp: "Más despacio, por favor = Slower, please. Your #1 survival phrase!" },
+      { scene: "Cancún Airport — WiFi", q: "You need to connect to WiFi. What do you ask?", options: ["¿Hay internet gratis?","¿Dónde está la fila?","¿Dónde está mi maleta?","¿Hay cajero?"], correct: 0, exp: "¿Hay internet gratis en el aeropuerto? = Is there free internet at the airport?" },
+      { scene: "Cancún Airport — Immigration", q: "You need to find the immigration area. What do you ask?", options: ["¿Dónde está la maleta?","¿Dónde está la zona de migración?","¿Dónde está el boleto?","¿Dónde está el hotel?"], correct: 1, exp: "¿Dónde está la zona de migración? = Where is the immigration area?" },
+      { scene: "Baggage claim", q: "You need to find your suitcase. What do you ask?", options: ["¿Dónde está la fila?","¿Dónde compro el boleto?","¿Dónde recojo mi maleta?","¿Dónde está la reservación?"], correct: 2, exp: "¿Dónde recojo mi maleta? = Where do I pick up my suitcase?" },
     ],
   },
   {
     id: "money", icon: "💵", title: "Money & Exchange", subtitle: "Dinero y Cambio",
     color: C.azul, colorL: C.azulL, colorD: C.azulD,
     words: [
-      { es: "el dinero",              pron: "el dee-NEH-roh",                 en: "the money",              phrase: { es: "No tengo dinero",                    pron: "no TEN-goh dee-NEH-roh",                       en: "I don't have money" } },
-      { es: "el peso mexicano",       pron: "el PEH-soh meh-hee-KAH-noh",    en: "Mexican peso",           phrase: { es: "¿Acepta pesos mexicanos?",            pron: "ah-SEP-tah PEH-sos meh-hee-KAH-nos",           en: "Do you accept Mexican pesos?" } },
-      { es: "¿A cómo está el dólar?", pron: "ah KOH-moh es-TAH el DOH-lar",  en: "What's the dollar rate?",phrase: { es: "¿A cómo está el dólar hoy?",          pron: "ah KOH-moh es-TAH el DOH-lar OY",              en: "What's the dollar rate today?" } },
-      { es: "Quiero cambiar dinero",  pron: "KYEH-roh kam-BYAR dee-NEH-roh", en: "I want to exchange",     phrase: { es: "Quiero cambiar cien dólares",         pron: "KYEH-roh kam-BYAR syen DOH-lah-res",           en: "I want to exchange 100 dollars" } },
-      { es: "¿Cuánto cuesta?",        pron: "KWAHN-toh KWES-tah",             en: "How much?",              phrase: { es: "¿Cuánto cuesta esto?",               pron: "KWAHN-toh KWES-tah ES-toh",                    en: "How much does this cost?" } },
-      { es: "la propina",             pron: "lah proh-PEE-nah",               en: "the tip",                phrase: { es: "La propina está incluida",           pron: "lah proh-PEE-nah es-TAH een-kloo-EE-dah",     en: "The tip is included" } },
-      { es: "el recibo",              pron: "el reh-SEE-boh",                 en: "the receipt",            phrase: { es: "¿Me da el recibo?",                  pron: "meh dah el reh-SEE-boh",                       en: "Can I have the receipt?" } },
-      { es: "Es barato",              pron: "ehs bah-RAH-toh",                en: "It's cheap",             phrase: { es: "Es muy barato, gracias",             pron: "ehs mwee bah-RAH-toh GRAH-syahs",              en: "It's very cheap, thank you" } },
+      { es: "los pesos",         pron: "los PEH-sos",              en: "the pesos",          phrase: { es: "¿Dónde puedo conseguir pesos?",              pron: "DON-deh PWEH-doh kon-seh-GHEER PEH-sos",           en: "Where can I get pesos?" } },
+      { es: "la casa de cambio", pron: "lah KAH-sah deh KAM-byoh", en: "the exchange office", phrase: { es: "¿Dónde está la casa de cambio más cercana?",  pron: "DON-deh es-TAH lah KAH-sah deh KAM-byoh mas ser-KAH-nah", en: "Where is the nearest exchange office?" } },
+      { es: "el cajero",         pron: "el kah-HEH-roh",           en: "the ATM",            phrase: { es: "¿Hay un cajero cerca?",                      pron: "hay oon kah-HEH-roh SER-kah",                      en: "Is there an ATM nearby?" } },
+      { es: "¿Cuánto cuesta?",   pron: "KWAHN-toh KWES-tah",       en: "How much is it?",    phrase: { es: "¿Cuánto cuesta esto?",                       pron: "KWAHN-toh KWES-tah ES-toh",                        en: "How much is this?" } },
+      { es: "la cuenta",         pron: "lah KWEN-tah",             en: "the bill / check",   phrase: { es: "¿Me puede traer la cuenta, por favor?",      pron: "meh PWEH-deh trah-EHR lah KWEN-tah por fah-VOR",  en: "Can you bring me the bill, please?" } },
+      { es: "el efectivo",       pron: "el eh-fek-TEE-boh",        en: "cash",               phrase: { es: "¿Puedo pagar en efectivo?",                  pron: "PWEH-doh pah-GHAR en eh-fek-TEE-boh",              en: "Can I pay in cash?" } },
+      { es: "la tarjeta",        pron: "lah tar-HEH-tah",          en: "the card",           phrase: { es: "¿Aceptan tarjeta?",                          pron: "ah-SEP-tan tar-HEH-tah",                           en: "Do you accept card?" } },
+      { es: "el cambio",         pron: "el KAM-byoh",              en: "the change",         phrase: { es: "¿Me puede dar mi cambio, por favor?",        pron: "meh PWEH-deh dar mee KAM-byoh por fah-VOR",       en: "Can you give me my change, please?" } },
     ],
     quizQs: [
-      { scene: "Casa de cambio", q: "You want the exchange rate for your dollars. What do you say?", options: ["¿Cuánto cuesta?","¿Habla inglés?","¿A cómo está el dólar?","¿Cuánto cobra?"], correct: 2, exp: "¿A cómo está el dólar? = What's the dollar rate?" },
-      { scene: "Restaurant — end of meal", q: "The waiter brings the bill. You want to leave a tip. What word do you use?", options: ["el recibo","el dinero","la propina","el peso"], correct: 2, exp: "la propina = the tip. 10-15% is standard in Mexico." },
-      { scene: "Market stall", q: "You want to know the price of a souvenir. What do you ask?", options: ["¿A cómo está?","¿Cuánto cuesta?","¿Es barato?","¿Quiero cambiar?"], correct: 1, exp: "¿Cuánto cuesta? = How much does it cost? Use it everywhere." },
+      { scene: "Casa de cambio", q: "You want to exchange money. Where do you go?", options: ["Al cajero","A la casa de cambio","Al hotel","A la tienda"], correct: 1, exp: "La casa de cambio = the exchange office. Best rates in Mexico." },
+      { scene: "Restaurant — end of meal", q: "You need to pay. How do you ask if they take cards?", options: ["¿Cuánto cuesta?","¿Hay cajero?","¿Aceptan tarjeta?","¿Me da el cambio?"], correct: 2, exp: "¿Aceptan tarjeta? = Do you accept card? Always ask — many places in Mexico are cash only." },
+      { scene: "Market stall", q: "You want to know the price. What do you ask?", options: ["¿Hay efectivo?","¿Cuánto cuesta esto?","¿Dónde está el cajero?","¿Me trae la cuenta?"], correct: 1, exp: "¿Cuánto cuesta esto? = How much is this? Use it everywhere." },
     ],
   },
   {
-    id: "transport", icon: "🚕", title: "Getting Around", subtitle: "Transporte",
+    id: "transport", icon: "🚌", title: "Getting Around", subtitle: "Transporte",
     color: C.limon, colorL: C.limonL, colorD: C.limonD,
     words: [
-      { es: "el taxi",        pron: "el TAK-see",         en: "the taxi",           phrase: { es: "¿Dónde está el taxi?",              pron: "DON-deh es-TAH el TAK-see",                    en: "Where is the taxi?" } },
-      { es: "el autobús",     pron: "el ow-toh-BOOS",     en: "the bus",            phrase: { es: "¿El autobús va al centro?",          pron: "el ow-toh-BOOS bah al SEN-troh",               en: "Does the bus go downtown?" } },
-      { es: "el hostal",      pron: "el os-TAL",          en: "the hostel",         phrase: { es: "Lléveme al hostal, por favor",       pron: "YEH-beh-meh al os-TAL por fah-VOR",           en: "Take me to the hostel, please" } },
-      { es: "Voy a...",       pron: "BOY ah",             en: "I'm going to...",    phrase: { es: "Voy al aeropuerto",                  pron: "BOY al ah-eh-roh-PWER-toh",                    en: "I'm going to the airport" } },
-      { es: "¿A dónde va?",   pron: "ah DON-deh BAH",     en: "Where are you going?",phrase:{ es: "¿A dónde va el autobús?",            pron: "ah DON-deh BAH el ow-toh-BOOS",                en: "Where does the bus go?" } },
-      { es: "¿Cuánto cobra?", pron: "KWAHN-toh KOH-brah", en: "How much do you charge?", phrase: { es: "¿Cuánto cobra al hostal?",      pron: "KWAHN-toh KOH-brah al os-TAL",                 en: "How much to the hostel?" } },
-      { es: "Aquí está bien", pron: "ah-KEE es-TAH BYEN", en: "Stop here",          phrase: { es: "Aquí está bien, gracias",            pron: "ah-KEE es-TAH BYEN GRAH-syahs",                en: "Stop here, thank you" } },
-      { es: "Lléveme a...",   pron: "YEH-beh-meh ah",     en: "Take me to...",      phrase: { es: "Lléveme a la playa, por favor",      pron: "YEH-beh-meh ah lah PLAH-yah por fah-VOR",     en: "Take me to the beach, please" } },
+      { es: "la parada",        pron: "lah pah-RAH-dah",          en: "the bus stop",          phrase: { es: "¿Dónde está la parada del autobús ADO?",        pron: "DON-deh es-TAH lah pah-RAH-dah del ow-toh-BOOS ah-deh-OH", en: "Where is the ADO bus stop?" } },
+      { es: "el autobús",       pron: "el ow-toh-BOOS",           en: "the bus",               phrase: { es: "¿Cuál autobús va a Cancún?",                    pron: "kwal ow-toh-BOOS bah ah kan-KOON",                          en: "Which bus goes to Cancún?" } },
+      { es: "el boleto",        pron: "el boh-LEH-toh",           en: "the ticket",            phrase: { es: "Aquí está mi boleto.",                          pron: "ah-KEE es-TAH mee boh-LEH-toh",                             en: "Here is my ticket." } },
+      { es: "el asiento",       pron: "el ah-SYEN-toh",           en: "the seat",              phrase: { es: "Disculpe, ese es mi asiento. Tengo el ocho.",   pron: "dees-KUL-peh EH-seh ehs mee ah-SYEN-toh TEN-goh el OH-choh", en: "Excuse me, that is my seat. I have number eight." } },
+      { es: "el taxi",          pron: "el TAK-see",               en: "the taxi",              phrase: { es: "¿Dónde puedo tomar un taxi?",                   pron: "DON-deh PWEH-doh toh-MAR oon TAK-see",                      en: "Where can I get a taxi?" } },
+      { es: "la dirección",     pron: "lah dee-rek-SYON",         en: "the address",           phrase: { es: "Esta es la dirección de mi alojamiento.",       pron: "ES-tah ehs lah dee-rek-SYON deh mee ah-loh-hah-MYEN-toh",   en: "This is the address of my accommodation." } },
+      { es: "el precio",        pron: "el PREH-syoh",             en: "the price",             phrase: { es: "¿Cuál es el precio por llevarme a este alojamiento?", pron: "kwal ehs el PREH-syoh por yeh-BAR-meh ah ES-teh ah-loh-hah-MYEN-toh", en: "What is the price to take me to this accommodation?" } },
+      { es: "la reservación",   pron: "lah reh-ser-bah-SYON",     en: "the reservation",       phrase: { es: "Buen día, tengo una reservación a partir de hoy.", pron: "bwen DEE-ah TEN-goh OO-nah reh-ser-bah-SYON ah pahr-TEER deh OY", en: "Good day, I have a reservation starting today." } },
     ],
     quizQs: [
-      { scene: "Inside the taxi", q: "The driver asks '¿A dónde va?' — what is he asking?", options: ["How much money?","Where are you going?","How long is your stay?","First visit?"], correct: 1, exp: "¿A dónde va? = Where are you going? Reply with 'Voy a...'" },
-      { scene: "Arriving at your hostel", q: "Your taxi arrives. How do you tell the driver to stop here?", options: ["Por favor para","Voy a aquí","Aquí está bien","Hasta luego"], correct: 2, exp: "Aquí está bien = Here is fine. Used by locals every day." },
-      { scene: "Taxi stand", q: "You want to know the fare before you get in. What do you ask?", options: ["¿Cuánto cobra?","¿A dónde va?","Lléveme a","Voy a..."], correct: 0, exp: "¿Cuánto cobra? = How much do you charge? Always ask before getting in." },
+      { scene: "ADO bus station", q: "You need to find where the ADO bus stops. What do you ask?", options: ["¿Dónde está el boleto?","¿Dónde está la parada del autobús ADO?","¿Cuál es el precio?","¿Dónde está mi asiento?"], correct: 1, exp: "¿Dónde está la parada del autobús ADO? ADO is the main bus line from Cancún airport." },
+      { scene: "Inside the bus", q: "Someone is sitting in your seat. What do you say?", options: ["Aquí está mi boleto","¿Cuál autobús va a Cancún?","Disculpe, ese es mi asiento","¿Dónde está la parada?"], correct: 2, exp: "Disculpe, ese es mi asiento = Excuse me, that is my seat. Always check your ticket number." },
+      { scene: "Arriving at hostel", q: "You arrive and need to check in. What do you say?", options: ["¿Cuál es el precio?","¿Dónde está el taxi?","Aquí está mi boleto","Buen día, tengo una reservación a partir de hoy"], correct: 3, exp: "Buen día, tengo una reservación a partir de hoy = Good day, I have a reservation starting today." },
+    ],
+  },
+  {
+    id: "people", icon: "👋", title: "Meeting People", subtitle: "Conociendo Gente",
+    color: C.magenta, colorL: C.magentaL, colorD: C.magentaD,
+    words: [
+      { es: "Hola",        pron: "OH-lah",              en: "Hello / Hi",          phrase: { es: "Hola, me llamo...",                      pron: "OH-lah meh YAH-moh",                         en: "Hello, my name is..." } },
+      { es: "Soy",         pron: "SOY",                 en: "I am",                phrase: { es: "Soy de...",                              pron: "SOY deh",                                    en: "I am from..." } },
+      { es: "¿Y tú?",      pron: "ee TOO",              en: "And you?",            phrase: { es: "¿Y tú, cómo te llamas?",                 pron: "ee TOO KOH-moh teh YAH-mas",                 en: "And you, what is your name?" } },
+      { es: "Mucho gusto", pron: "MOO-choh GOOS-toh",   en: "Nice to meet you",    phrase: { es: "Mucho gusto conocerte.",                  pron: "MOO-choh GOOS-toh koh-noh-SER-teh",          en: "Nice to meet you." } },
+      { es: "¿De dónde?",  pron: "deh DON-deh",         en: "From where?",         phrase: { es: "¿De dónde eres?",                        pron: "deh DON-deh EH-res",                         en: "Where are you from?" } },
+      { es: "Vamos",       pron: "BAH-mos",             en: "Let's go",            phrase: { es: "¿Vamos por unos tacos?",                  pron: "BAH-mos por OO-nos TAH-kos",                 en: "Shall we go get some tacos?" } },
+      { es: "Quiero",      pron: "KYEH-roh",            en: "I want",              phrase: { es: "Quiero probar unos tacos de pastor.",     pron: "KYEH-roh proh-BAR OO-nos TAH-kos deh pas-TOR", en: "I want to try some tacos al pastor." } },
+      { es: "la cerveza",  pron: "lah ser-BEH-sah",     en: "the beer",            phrase: { es: "Una cerveza bien fría, por favor.",       pron: "OO-nah ser-BEH-sah byen FREE-ah por fah-VOR", en: "One very cold beer, please." } },
+    ],
+    quizQs: [
+      { scene: "Meeting someone at the hostel", q: "You want to introduce yourself. What do you say first?", options: ["Mucho gusto","Hola, me llamo...","¿De dónde eres?","Soy de..."], correct: 1, exp: "Hola, me llamo... = Hello, my name is... Always start with a greeting." },
+      { scene: "New friend asks your name", q: "They say '¿Cómo te llamas?' — what are they asking?", options: ["Where are you from?","Do you want tacos?","What is your name?","Nice to meet you"], correct: 2, exp: "¿Cómo te llamas? = What is your name? Reply with 'Me llamo...'" },
+      { scene: "Taquería — ordering food", q: "You want to order tacos al pastor. What do you say?", options: ["¿Vamos por tacos?","Una cerveza por favor","Quiero probar unos tacos de pastor","Mucho gusto"], correct: 2, exp: "Quiero probar unos tacos de pastor = I want to try tacos al pastor. The most famous taco in Mexico!" },
     ],
   },
 ];
@@ -95,9 +95,9 @@ const SECTIONS = [
 // 1  = Video
 // 2  = Story
 // 3  = Pronounce Airport    4  = Memorama Airport   5  = Quiz Airport   6  = Survey Airport
-// 7  = Pronounce Greetings  8  = Memorama Greetings 9  = Quiz Greetings 10 = Survey Greetings
-// 11 = Pronounce Money      12 = Memorama Money     13 = Quiz Money     14 = Survey Money
-// 15 = Pronounce Transport  16 = Memorama Transport 17 = Quiz Transport 18 = Survey Transport
+// 7  = Pronounce Money      8  = Memorama Money     9  = Quiz Money     10 = Survey Money
+// 11 = Pronounce Transport  12 = Memorama Transport 13 = Quiz Transport 14 = Survey Transport
+// 15 = Pronounce People     16 = Memorama People    17 = Quiz People    18 = Survey People
 // 19 = Completed!
 const TOTAL = 20;
 
@@ -159,7 +159,7 @@ function useSpeechRec() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// SINGLE PRON EXERCISE (word or phrase)
+// PRON EXERCISE
 // ═══════════════════════════════════════════════════════════════
 function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passLabel = "Next →" }) {
   const { transcript, listening, supported, start, stop, setTranscript } = useSpeechRec();
@@ -233,7 +233,7 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
 function ExerciseSlide({ sectionIndex, speak, onComplete }) {
   const sec = SECTIONS[sectionIndex];
   const [wordIdx, setWordIdx] = useState(0);
-  const [phase, setPhase] = useState("word"); // "word" | "phrase"
+  const [phase, setPhase] = useState("word");
   const [done, setDone] = useState(false);
   useEffect(() => { setWordIdx(0); setPhase("word"); setDone(false); }, [sectionIndex]);
 
@@ -255,7 +255,6 @@ function ExerciseSlide({ sectionIndex, speak, onComplete }) {
 
   return (
     <div>
-      {/* Section header */}
       <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16, padding: "14px 16px", background: sec.colorL, borderRadius: 16, border: `1.5px solid ${sec.color}20` }}>
         <div style={{ width: 44, height: 44, borderRadius: 12, background: sec.color, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0, color: "#fff" }}>{sec.icon}</div>
         <div>
@@ -264,15 +263,14 @@ function ExerciseSlide({ sectionIndex, speak, onComplete }) {
         </div>
       </div>
 
-      {/* Progress */}
       <div style={{ height: 4, background: C.grisB, borderRadius: 2, overflow: "hidden", marginBottom: 20 }}>
         <div style={{ height: "100%", width: `${(wordIdx / sec.words.length) * 100}%`, background: sec.color, borderRadius: 2, transition: "width 0.4s" }} />
       </div>
 
-      {/* WORD BLOCK */}
+      {/* WORD */}
       <div style={{ background: sec.colorL, border: `1.5px solid ${sec.color}30`, borderRadius: 16, padding: "20px", marginBottom: 16, textAlign: "center" }}>
         <div style={{ fontSize: 11, letterSpacing: 2, color: sec.colorD, fontWeight: 800, textTransform: "uppercase", marginBottom: 10 }}>Word</div>
-        <div style={{ fontSize: "clamp(24px,6vw,32px)", fontWeight: 900, color: C.textH, letterSpacing: -0.5, marginBottom: 8 }}>{word.es}</div>
+        <div style={{ fontSize: "clamp(22px,5vw,28px)", fontWeight: 900, color: C.textH, letterSpacing: -0.3, marginBottom: 8 }}>{word.es}</div>
         <div style={{ display: "inline-block", background: C.azulL, border: `1.5px solid ${C.azul}40`, borderRadius: 8, padding: "3px 12px", fontSize: 11, color: C.azulD, fontFamily: "'Space Mono',monospace", fontWeight: 700, marginBottom: 6 }}>◉ {word.pron}</div>
         <div style={{ fontSize: 14, color: C.textS, fontWeight: 600 }}>{word.en}</div>
       </div>
@@ -288,12 +286,12 @@ function ExerciseSlide({ sectionIndex, speak, onComplete }) {
         />
       )}
 
-      {/* PHRASE BLOCK — shown after word is done */}
+      {/* PHRASE */}
       {phase === "phrase" && (
         <>
           <div style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 16, padding: "20px", marginBottom: 16, textAlign: "center" }}>
             <div style={{ fontSize: 11, letterSpacing: 2, color: C.textM, fontWeight: 800, textTransform: "uppercase", marginBottom: 10 }}>Used in a phrase</div>
-            <div style={{ fontSize: "clamp(16px,4vw,20px)", fontWeight: 900, color: C.textH, marginBottom: 8 }}>{word.phrase.es}</div>
+            <div style={{ fontSize: "clamp(15px,3.5vw,19px)", fontWeight: 900, color: C.textH, marginBottom: 8, lineHeight: 1.3 }}>{word.phrase.es}</div>
             <div style={{ display: "inline-block", background: C.azulL, border: `1.5px solid ${C.azul}40`, borderRadius: 8, padding: "3px 12px", fontSize: 11, color: C.azulD, fontFamily: "'Space Mono',monospace", fontWeight: 700, marginBottom: 6 }}>◉ {word.phrase.pron}</div>
             <div style={{ fontSize: 13, color: C.textS, fontWeight: 500 }}>{word.phrase.en}</div>
           </div>
@@ -349,9 +347,9 @@ function Memorama({ section, speak, onComplete }) {
 
   if (done) return (
     <div style={{ textAlign: "center", padding: "48px 0", animation: "fadeUp 0.4s ease" }}>
-      <div style={{ fontSize: 26, fontWeight: 900, color: C.textH, marginBottom: 8, textAlign: "center" }}>Memorama Complete!</div>
-      <div style={{ fontSize: 15, color: C.textS, fontWeight: 500, marginBottom: 8, textAlign: "center" }}>You matched all {pairs.length} pairs in <strong style={{ color: section.color }}>{moves} moves</strong></div>
-      <div style={{ fontSize: 13, color: C.textM, marginBottom: 32, textAlign: "center" }}>{moves <= pairs.length + 2 ? "Excellent memory!" : moves <= pairs.length + 5 ? "Good job!" : "Keep practicing!"}</div>
+      <div style={{ fontSize: 26, fontWeight: 900, color: C.textH, marginBottom: 8 }}>Memorama Complete!</div>
+      <div style={{ fontSize: 15, color: C.textS, fontWeight: 500, marginBottom: 8 }}>You matched all {pairs.length} pairs in <strong style={{ color: section.color }}>{moves} moves</strong></div>
+      <div style={{ fontSize: 13, color: C.textM, marginBottom: 32 }}>{moves <= pairs.length + 2 ? "Excellent memory!" : moves <= pairs.length + 5 ? "Good job!" : "Keep practicing!"}</div>
       <button type="button" onClick={onComplete} style={btn(section.color, { fontSize: 16, padding: "15px 40px", borderRadius: 14 })}>Continue →</button>
     </div>
   );
@@ -381,7 +379,7 @@ function Memorama({ section, speak, onComplete }) {
               {show ? (
                 <div>
                   {isM && <div style={{ fontSize: 13, marginBottom: 2, color: section.colorD }}>✓</div>}
-                  <div style={{ fontSize: "clamp(11px,2.5vw,13px)", fontWeight: 800, color: isM ? section.colorD : card.type === "es" ? C.turquesaD : C.magentaD, lineHeight: 1.3 }}>{card.word}</div>
+                  <div style={{ fontSize: "clamp(10px,2.2vw,12px)", fontWeight: 800, color: isM ? section.colorD : card.type === "es" ? C.turquesaD : C.magentaD, lineHeight: 1.3 }}>{card.word}</div>
                   <div style={{ fontSize: 9, color: C.textM, fontWeight: 600, marginTop: 3, textTransform: "uppercase", letterSpacing: 0.5 }}>{card.type === "es" ? "ES" : "EN"}</div>
                 </div>
               ) : (
@@ -483,7 +481,6 @@ function BlockSurvey({ section, blockNumber, onComplete }) {
   const [answers, setAnswers] = useState({ continueNext: 0, pronunciation: 0, memorama: 0, instructions: 0, voiceRecognition: "", comments: "" });
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-
   const nextLabel = blockNumber < 4 ? `Block ${blockNumber + 1}` : "Lesson Complete";
 
   async function handleSubmit() {
@@ -535,9 +532,7 @@ function BlockSurvey({ section, blockNumber, onComplete }) {
       <div style={{ background: section.color, borderRadius: 20, padding: "24px", marginBottom: 28, textAlign: "center" }}>
         <div style={{ fontSize: 11, letterSpacing: 2, color: "#fff", fontWeight: 800, textTransform: "uppercase", opacity: 0.8, marginBottom: 8 }}>Block {blockNumber} Complete — {section.title}</div>
         <div style={{ fontSize: 20, fontWeight: 900, color: "#fff", marginBottom: 8 }}>You're one of our first testers!</div>
-        <div style={{ fontSize: 13, color: "#fff", opacity: 0.9, lineHeight: 1.6 }}>
-          Chat in Spanish is in development. Your feedback shapes the final product. 2 minutes — every answer counts.
-        </div>
+        <div style={{ fontSize: 13, color: "#fff", opacity: 0.9, lineHeight: 1.6 }}>Chat in Spanish is in development. Your feedback shapes the final product. 2 minutes — every answer counts.</div>
       </div>
 
       <ScoreRow label={`1. How likely are you to continue to ${nextLabel}?`} field="continueNext" />
@@ -559,25 +554,18 @@ function BlockSurvey({ section, blockNumber, onComplete }) {
 
       <div style={{ marginBottom: 28 }}>
         <div style={{ fontSize: 14, fontWeight: 700, color: C.textH, marginBottom: 10 }}>6. What would you change or improve? <span style={{ fontSize: 12, color: C.textM, fontWeight: 500 }}>(optional)</span></div>
-        <textarea
-          value={answers.comments}
-          onChange={e => setAnswers(p => ({ ...p, comments: e.target.value }))}
+        <textarea value={answers.comments} onChange={e => setAnswers(p => ({ ...p, comments: e.target.value }))}
           placeholder="Your ideas go directly to the course creator..."
-          style={{ width: "100%", minHeight: 90, padding: "12px 14px", borderRadius: 12, border: `1.5px solid ${C.grisB}`, fontSize: 13, color: C.textH, fontFamily: "'Plus Jakarta Sans', sans-serif", resize: "vertical", outline: "none", background: C.grisS }}
-        />
+          style={{ width: "100%", minHeight: 90, padding: "12px 14px", borderRadius: 12, border: `1.5px solid ${C.grisB}`, fontSize: 13, color: C.textH, fontFamily: "'Plus Jakarta Sans', sans-serif", resize: "vertical", outline: "none", background: C.grisS }} />
       </div>
 
       <button type="button" onClick={handleSubmit} disabled={!allDone || submitting}
         style={{ ...btn(allDone ? section.color : C.grisB, { width: "100%", fontSize: 16, padding: "16px", borderRadius: 50 }), opacity: allDone ? 1 : 0.5, cursor: allDone ? "pointer" : "not-allowed" }}>
         {submitting ? "Sending..." : "Submit Feedback →"}
       </button>
-      <div style={{ textAlign: "center", marginTop: 10, fontSize: 12, color: C.textM }}>
-        Thank you — your response goes directly to the course creator.
-      </div>
+      <div style={{ textAlign: "center", marginTop: 10, fontSize: 12, color: C.textM }}>Thank you — your response goes directly to the course creator.</div>
       <div style={{ textAlign: "center", marginTop: 16 }}>
-        <button type="button" onClick={onComplete} style={{ background: "none", border: "none", color: C.textM, fontSize: 13, cursor: "pointer", textDecoration: "underline" }}>
-          Skip survey
-        </button>
+        <button type="button" onClick={onComplete} style={{ background: "none", border: "none", color: C.textM, fontSize: 13, cursor: "pointer", textDecoration: "underline" }}>Skip survey</button>
       </div>
     </div>
   );
@@ -622,14 +610,13 @@ export default function Lesson1({ onBack }) {
   const [slide, setSlide] = useState(0);
   const [maxUnlocked, setMaxUnlocked] = useState(1);
 
-  // Section helpers
   function isPronSlide()   { return [3,7,11,15].includes(slide); }
   function isMemoSlide()   { return [4,8,12,16].includes(slide); }
   function isQuizSlide()   { return [5,9,13,17].includes(slide); }
   function isSurveySlide() { return [6,10,14,18].includes(slide); }
   function sectionIdx() {
-    if ([3,4,5,6].includes(slide))   return 0;
-    if ([7,8,9,10].includes(slide))  return 1;
+    if ([3,4,5,6].includes(slide))    return 0;
+    if ([7,8,9,10].includes(slide))   return 1;
     if ([11,12,13,14].includes(slide)) return 2;
     if ([15,16,17,18].includes(slide)) return 3;
     return 0;
@@ -721,7 +708,6 @@ export default function Lesson1({ onBack }) {
             <p style={{ fontSize: 15, color: C.textS, lineHeight: 1.75, fontWeight: 500, marginBottom: 20 }}>
               Before we start, get inspired. Watch this travel guide to Cancún and imagine yourself there.
             </p>
-            {/* YouTube embed */}
             <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, overflow: "hidden", borderRadius: 20, marginBottom: 20, boxShadow: `0 8px 32px ${C.turquesa}25` }}>
               <iframe
                 src="https://www.youtube.com/embed/FWEXKQ0BXIU"
@@ -754,12 +740,17 @@ export default function Lesson1({ onBack }) {
               <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 5, background: `linear-gradient(90deg,${C.turquesa} 33%,#fff 33%,#fff 66%,${C.magenta} 66%)` }} />
               <div style={{ fontSize: 11, letterSpacing: 2, color: C.turquesa, fontWeight: 800, textTransform: "uppercase", marginBottom: 12 }}>Your Story Begins</div>
               <p style={{ margin: 0, fontSize: "clamp(14px,2.5vw,16px)", color: C.textS, lineHeight: 1.85, fontStyle: "italic", fontWeight: 500 }}>
-                It's 2:47 PM. Your plane just touched down at <strong style={{ color: C.textH }}>Cancún International Airport — CUN</strong>. Through the window: palm trees, turquoise sky, a sign reading <strong style={{ color: C.turquesa }}>"BIENVENIDOS A MÉXICO."</strong> Your heart races. First challenge: immigration, baggage, money exchange, taxi — all in Spanish.
+                It's 2:47 PM. Your plane just touched down at <strong style={{ color: C.textH }}>Cancún International Airport — CUN</strong>. Through the window: palm trees, turquoise sky, a sign reading <strong style={{ color: C.turquesa }}>"BIENVENIDOS A MÉXICO."</strong> Your heart races. First challenge: immigration, internet, your ADO bus ticket — all in Spanish.
               </p>
             </div>
             <div style={{ background: C.turquesaL, border: `1.5px solid ${C.turquesa}30`, borderRadius: 14, padding: "16px 18px" }}>
               <div style={{ fontSize: 11, letterSpacing: 2, color: C.turquesaD, fontWeight: 800, textTransform: "uppercase", marginBottom: 8 }}>What you'll learn in this lesson</div>
-              {["Airport vocabulary — passport, customs, baggage","Greetings — hello, thank you, excuse me","Money — pesos, exchange rate, how much?","Transport — taxi, bus, directions"].map((tip, i) => (
+              {[
+                "Airport — internet, migration, passport, ADO bus",
+                "Money — pesos, ATM, cash, card, change",
+                "Transport — bus stop, seat, taxi, address",
+                "Meeting people — greetings, tacos, making friends",
+              ].map((tip, i) => (
                 <div key={i} style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 6 }}>
                   <span style={{ color: C.turquesa, fontWeight: 900, fontSize: 14 }}>→</span>
                   <span style={{ fontSize: 13, color: C.textB, fontWeight: 500 }}>{tip}</span>
@@ -769,31 +760,23 @@ export default function Lesson1({ onBack }) {
           </div>
         )}
 
-        {/* SLIDES 3,7,11,15 — PRONOUNCE */}
-        {isPronSlide() && (
-          <ExerciseSlide key={slide} sectionIndex={sectionIdx()} speak={speak} onComplete={advance} />
-        )}
+        {/* PRONOUNCE */}
+        {isPronSlide() && <ExerciseSlide key={slide} sectionIndex={sectionIdx()} speak={speak} onComplete={advance} />}
 
-        {/* SLIDES 4,8,12,16 — MEMORAMA */}
+        {/* MEMORAMA */}
         {isMemoSlide() && (() => {
           const sec = SECTIONS[sectionIdx()];
           return <Memorama key={slide} section={sec} speak={speak} onComplete={advance} />;
         })()}
 
-        {/* SLIDES 5,9,13,17 — QUIZ */}
-        {isQuizSlide() && (
-          <SectionQuiz key={slide} section={SECTIONS[sectionIdx()]} speak={speak} onComplete={advance} />
-        )}
+        {/* QUIZ */}
+        {isQuizSlide() && <SectionQuiz key={slide} section={SECTIONS[sectionIdx()]} speak={speak} onComplete={advance} />}
 
-        {/* SLIDES 6,10,14,18 — SURVEY */}
-        {isSurveySlide() && (
-          <BlockSurvey key={slide} section={SECTIONS[sectionIdx()]} blockNumber={blockNumber()} onComplete={advance} />
-        )}
+        {/* SURVEY */}
+        {isSurveySlide() && <BlockSurvey key={slide} section={SECTIONS[sectionIdx()]} blockNumber={blockNumber()} onComplete={advance} />}
 
-        {/* SLIDE 19 — COMPLETED */}
-        {slide === 19 && (
-          <CompletedSlide onBack={onBack} />
-        )}
+        {/* COMPLETED */}
+        {slide === 19 && <CompletedSlide onBack={onBack} />}
 
       </div>
 
@@ -811,3 +794,4 @@ export default function Lesson1({ onBack }) {
     </div>
   );
 }
+
