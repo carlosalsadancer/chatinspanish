@@ -44,11 +44,14 @@ export const GLOBAL_CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap');
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  body { background: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; color: #0A0A0F; }
+  body { background: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; color: #0A0A0F; overflow-x: hidden; }
   button { font-family: 'Plus Jakarta Sans', sans-serif; }
   button:hover  { opacity: 0.9; transform: translateY(-1px); }
   button:active { opacity: 0.8; transform: scale(0.98); }
   a:hover { opacity: 0.8; }
+  * { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+  button, a { user-select: none; }
+  input, textarea, select { font-size: 16px !important; }
   @keyframes fadeUp  { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
   @keyframes wave    { from { transform:scaleY(0.3); } to { transform:scaleY(1.4); } }
   @keyframes pulse   { 0%,100%{transform:scale(1)} 50%{transform:scale(1.03)} }
@@ -56,14 +59,12 @@ export const GLOBAL_CSS = `
   ::-webkit-scrollbar       { width: 5px; }
   ::-webkit-scrollbar-thumb { background: #E0E0F0; border-radius: 3px; }
   ::selection { background: #E0F6F8; }
-
   .desktop-nav { display: flex !important; }
   .mobile-menu-btn { display: none !important; }
   .hero-inner { flex-direction: row; }
   .hero-image { display: block; min-height: 380px; }
   .garantia-inner { flex-direction: row; }
   .garantia-image { display: block; min-height: 320px; }
-
   @media (max-width: 768px) {
     .desktop-nav { display: none !important; }
     .mobile-menu-btn { display: block !important; }
