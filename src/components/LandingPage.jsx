@@ -53,7 +53,7 @@ export function Hero({ onStartFree }) {
           <button onClick={onStartFree} style={{ ...btn(C.negro, { fontSize: 16, padding: "16px 32px", borderRadius: 50, boxShadow: "0 6px 24px rgba(0,0,0,0.3)" }) }}>
             Start Your Journey Free →
           </button>
-          <p style={{ fontSize: 13, color: C.blanco, opacity: 0.7, marginTop: 12, fontWeight: 500 }}>No credit card required · 3 free lessons</p>
+          <p style={{ fontSize: 13, color: C.blanco, opacity: 0.7, marginTop: 12, fontWeight: 500 }}>No credit card required · 1 free lesson</p>
         </div>
         <div style={{ width: "45%", flexShrink: 0, borderRadius: 20, overflow: "hidden", aspectRatio: "4/3", boxShadow: "0 20px 60px rgba(0,0,0,0.25)" }} className="hero-image">
           <img src="/img_tacos.png" alt="Backpackers enjoying tacos at authentic Mexican taqueria" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
@@ -121,7 +121,7 @@ export function SolucionMetodo({ onStartFree }) {
         <div style={{ height: 1, background: "rgba(255,255,255,0.3)", marginBottom: 40 }} />
         <div style={{ textAlign: "center" }}>
           <button onClick={onStartFree} style={{ ...btn(C.negro, { fontSize: 16, padding: "16px 36px" }) }}>Start Your Journey Free →</button>
-          <p style={{ fontSize: 13, color: C.blanco, opacity: 0.7, marginTop: 12 }}>No credit card required · 3 free lessons</p>
+          <p style={{ fontSize: 13, color: C.blanco, opacity: 0.7, marginTop: 12 }}>No credit card required · 1 free lesson</p>
         </div>
       </div>
     </section>
