@@ -95,9 +95,9 @@ export function ElProblema() {
 export function SolucionMetodo({ onStartFree }) {
   const steps = [
     { num: "1", icon: "▶", title: "Watch", desc: "See the city on YouTube before you study it", color: C.magenta },
-    { num: "2", icon: "♪", title: "Listen", desc: "Tap any word to hear native Mexican Spanish", color: C.turquesaD },
-    { num: "3", icon: "◈", title: "Play", desc: "Memorama memory game with audio every lesson", color: C.morado },
-    { num: "4", icon: "◉", title: "Speak", desc: "Say it out loud — the app listens and grades you instantly", color: C.magenta },
+    { num: "2", icon: "◉", title: "Speak", desc: "Listen to every word and phrase, say it out loud — get graded instantly", color: C.turquesaD },
+    { num: "3", icon: "◈", title: "Play", desc: "Memorama memory game to lock words in memory", color: C.morado },
+    { num: "4", icon: "?", title: "Quiz", desc: "Real-life situations — use what you just learned", color: C.magenta },
   ];
   return (
     <section id="how-it-works" style={{ background: C.turquesa, padding: "80px 24px" }}>
