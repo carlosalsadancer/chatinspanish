@@ -48,7 +48,7 @@ export function Hero({ onStartFree }) {
             Imagine ordering tacos in Spanish, making Mexican friends, and feeling at home in Mexico.
           </h1>
           <p style={{ fontSize: "clamp(15px,2vw,18px)", color: C.blanco, opacity: 0.9, lineHeight: 1.7, marginBottom: 32, fontWeight: 500 }}>
-            The only course that listens to you speak — and takes you on a virtual journey through Mexico from Cancún to Oaxaca.
+            Learn Mexican Spanish through a virtual journey from Cancún to Oaxaca.
           </p>
           <button onClick={onStartFree} style={{ ...btn(C.negro, { fontSize: 16, padding: "16px 32px", borderRadius: 50, boxShadow: "0 6px 24px rgba(0,0,0,0.3)" }) }}>
             Start Your Journey Free →
