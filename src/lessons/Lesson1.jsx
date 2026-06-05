@@ -647,10 +647,10 @@ function CompletedSlide({ onBack }) {
 // ═══════════════════════════════════════════════════════════════
 // MAIN LESSON COMPONENT
 // ═══════════════════════════════════════════════════════════════
-export default function Lesson1({ onBack }) {
+export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onComplete }) {
   const { speak } = useTTS();
-  const [slide, setSlide] = useState(0);
-  const [maxUnlocked, setMaxUnlocked] = useState(1);
+  const [slide, setSlide] = useState(initialSlide);
+  const [maxUnlocked, setMaxUnlocked] = useState(Math.max(1, initialSlide));
   const exerciseBackRef = useRef(null);
 
   function isPronSlide()   { return [3,7,11,15].includes(slide); }
@@ -671,7 +671,7 @@ export default function Lesson1({ onBack }) {
       ? SECTIONS[sectionIdx()].color
       : C.turquesa;
 
-  function goTo(n) { if (n < 0 || n >= TOTAL || n > maxUnlocked) return; setSlide(n); window.scrollTo({ top: 0, behavior: "smooth" }); }
+  function goTo(n) { if (n < 0 || n >= TOTAL || n > maxUnlocked) return; setSlide(n); if (onSlideChange) onSlideChange(n); window.scrollTo({ top: 0, behavior: "smooth" }); }
   function unlock(n) { setMaxUnlocked(prev => Math.max(prev, n)); }
   function advance() { const next = slide + 1; unlock(next); goTo(next); }
 
@@ -841,7 +841,7 @@ export default function Lesson1({ onBack }) {
         {isSurveySlide() && <BlockSurvey key={slide} section={SECTIONS[sectionIdx()]} blockNumber={blockNumber()} onComplete={advance} />}
 
         {/* COMPLETED */}
-        {slide === 19 && <CompletedSlide onBack={onBack} />}
+        {slide === 19 && <CompletedSlide onBack={onComplete || onBack} />}
 
       </div>
 
