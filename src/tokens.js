@@ -46,9 +46,11 @@ export const GLOBAL_CSS = `
   html { scroll-behavior: smooth; }
   body { background: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; color: #0A0A0F; overflow-x: hidden; }
   button { font-family: 'Plus Jakarta Sans', sans-serif; }
-  button:hover  { opacity: 0.9; transform: translateY(-1px); }
+  @media (hover: hover) {
+    button:hover { opacity: 0.9; transform: translateY(-1px); }
+    a:hover { opacity: 0.8; }
+  }
   button:active { opacity: 0.8; transform: scale(0.98); }
-  a:hover { opacity: 0.8; }
   * { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
   button, a { user-select: none; }
   input, textarea, select { font-size: 16px !important; }
