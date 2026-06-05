@@ -22,7 +22,7 @@ const SECTIONS = [
       { es: "el boleto de regreso", display: "boleto",            pron: "boh-LEH-toh",                     en: "ticket",             phrase: { es: "Tengo mi boleto de regreso aquí.",               pron: "TEN-goh mee boh-LEH-toh deh reh-GREH-soh ah-KEE",            en: "I have my return ticket here." } },
       { es: "la maleta",            display: "maleta",            pron: "mah-LEH-tah",                     en: "suitcase",           phrase: { es: "¿Dónde recojo mi maleta?",                      pron: "DON-deh reh-KOH-hoh mee mah-LEH-tah",                        en: "Where do I pick up my suitcase?" } },
       { es: "la salida",            display: "salida",            pron: "sah-LEE-dah",                     en: "exit",               phrase: { es: "¿Por dónde es la salida?",                      pron: "por DON-deh ehs lah sah-LEE-dah",                            en: "Which way is the exit?" } },
-      { es: "el autobús ADO",       display: "autobús",           pron: "ow-toh-BOOS ah-deh-OH",           en: "ADO bus",            phrase: { es: "¿Dónde compro el boleto de autobús ADO?",       pron: "DON-deh KOM-proh el boh-LEH-toh deh ow-toh-BOOS ah-deh-OH", en: "Where do I buy the ADO bus ticket?" } },
+      { es: "el autobús ADO",       display: "autobús",           pron: "ow-toh-BOOS",                     en: "bus",                phrase: { es: "¿Dónde compro el boleto de autobús ADO?",       pron: "DON-deh KOM-proh el boh-LEH-toh deh ow-toh-BOOS ah-deh-OH", en: "Where do I buy the ADO bus ticket?" } },
     ],
   },
   {
