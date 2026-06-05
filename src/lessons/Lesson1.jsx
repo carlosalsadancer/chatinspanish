@@ -774,11 +774,11 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
               />
             </div>
             <div style={{ textAlign: "center" }}>
-              <button type="button" onClick={advance}
-                style={{ background: "none", border: "none", color: C.textM, fontSize: 13, cursor: "pointer", fontWeight: 600, textDecoration: "underline", touchAction: "manipulation" }}>
-                Continue without watching
-              </button>
-            </div>
+  <button type="button" onClick={advance}
+    style={{ ...btn(C.magenta, { fontSize: 16, padding: "14px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
+    Continue →
+  </button>
+</div>
           </div>
         )}
 
