@@ -349,7 +349,7 @@ function ExerciseSlide({ sectionIndex, speak, onComplete, onBackRequest }) {
         <PronExercise
           key={`word-${sectionIndex}-${wordIdx}`}
           answer={word.es}
-          onListenPress={() => speak(word.es)}
+          onListenPress={() => speak(word.display)}
           onPass={handleWordPass}
           color={sec.color}
           passLabel="Now practice the phrase →"
