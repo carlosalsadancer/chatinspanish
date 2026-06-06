@@ -229,7 +229,7 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
 
   return (
     <div>
-      <div style={{ display: "flex", gap: 12, marginBottom: 12 }}>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 12, marginBottom: 12 }}>
         <button type="button" onClick={onListenPress}
           style={{ flex: 1, background: C.azulL, border: `1.5px solid ${C.azul}40`, borderRadius: 14, padding: "14px 12px", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, touchAction: "manipulation" }}>
           <span style={{ fontSize: 24 }}>♪</span>
