@@ -836,10 +836,10 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
 
         {/* SLIDE 0 — ONBOARDING */}
         {slide === 0 && (
-          <div>
-            <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}><ChatLogo size={80} bg={C.magenta} /></div>
-            <h2 style={{ fontSize: "clamp(26px,6vw,34px)", fontWeight: 900, color: C.textH, letterSpacing: -1, marginBottom: 12 }}>Lesson 1 — Cancún</h2>
-            <p style={{ fontSize: 15, color: C.textS, lineHeight: 1.75, fontWeight: 500, marginBottom: 28 }}>Here's what you'll do in this lesson:</p>
+  <div style={{ textAlign: "center" }}>
+    <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}><ChatLogo size={80} bg={C.magenta} /></div>
+    <h2 style={{ fontSize: "clamp(26px,6vw,34px)", fontWeight: 900, color: C.textH, letterSpacing: -1, marginBottom: 12 }}>Lesson 1 — Cancún</h2>
+    <p style={{ fontSize: 15, color: C.textS, lineHeight: 1.75, fontWeight: 500, marginBottom: 28 }}>Here's what you'll do in this lesson:</p>
             <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 32 }}>
               {[
                 { num: "01", color: C.turquesa, title: "Watch",    desc: "A travel video of Cancún to get you inspired." },
@@ -862,9 +862,9 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
               <span style={{ fontSize: 20, flexShrink: 0 }}>◉</span>Allow microphone access when prompted. Works best in Chrome.
             </div>
             <button type="button" onClick={() => { unlock(1); goTo(1); }}
-              style={{ ...btn(C.magenta, { fontSize: 17, padding: "16px 44px", borderRadius: 50, boxShadow: `0 6px 24px ${C.magenta}40` }), touchAction: "manipulation" }}>
-              Let's Start! →
-            </button>
+  style={{ ...btn(C.magenta, { fontSize: 17, padding: "16px 44px", borderRadius: 50, boxShadow: `0 6px 24px ${C.magenta}40` }), touchAction: "manipulation", display: "inline-block" }}>
+  Let's Start! →
+</button>
           </div>
         )}
 
