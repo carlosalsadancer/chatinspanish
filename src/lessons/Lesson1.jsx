@@ -582,11 +582,11 @@ function SectionQuiz({ section, speak, onComplete }) {
           {sel !== null && (
             <>
               <div style={{ background: isCorrect ? C.limonL : C.rojoL, border: `1.5px solid ${isCorrect ? C.limon+"60" : C.rojo+"60"}`, borderRadius: 14, padding: "12px 16px", marginBottom: 14, fontSize: 13, color: C.textB, lineHeight: 1.7, fontWeight: 500 }}>
-                <span style={{ fontWeight: 900, color: isCorrect ? C.limonD : C.rojo }}>{isCorrect ? "Correct! " : "Not quite — "}</span>
-                {isCorrect ? "Now say it out loud!" : `The correct phrase is: "${q.correct}"`}
+                <span style={{ fontWeight: 900, color: isCorrect ? C.limonD : C.rojo }}>{isCorrect ? "✓ Correct!" : "✗ Not quite —"}</span>
+                {!isCorrect && <span> The correct phrase is: <strong style={{ color: C.textH }}>"{q.correct}"</strong></span>}
               </div>
               <button type="button" onClick={goToProduction}
-                style={{ ...btn(section.color, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 14 }), touchAction: "manipulation" }}>
+                style={{ ...btn(section.color, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 50 }), touchAction: "manipulation" }}>
                 Now say it out loud →
               </button>
             </>
