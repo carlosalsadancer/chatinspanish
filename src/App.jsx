@@ -82,6 +82,15 @@ function HomeScreenModal({ onClose }) {
 }
 
 // ═══════════════════════════════════════════════════════════════
+// GA HELPER
+// ═══════════════════════════════════════════════════════════════
+function trackEvent(name, params = {}) {
+  if (typeof window.gtag === "function") {
+    window.gtag("event", name, params);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
 // ROOT APP
 // ═══════════════════════════════════════════════════════════════
 export default function App() {
@@ -102,7 +111,6 @@ export default function App() {
     }
   }, []);
 
-  // Check if home screen prompt has been shown
   function hasSeenHomeScreenPrompt() {
     return localStorage.getItem("cis_home_prompt") === "true";
   }
@@ -126,32 +134,24 @@ export default function App() {
   }
 
   function handleStartFree() {
-    // Show home screen prompt first time on mobile
     if (isMobile() && !hasSeenHomeScreenPrompt()) {
       setShowHomeScreen(true);
       return;
     }
-
-    // Show Chrome modal on Safari iOS
     if (isSafariIOS()) {
       setShowChromeModal(true);
       return;
     }
-
-    // Show welcome back if there's saved progress
     if (savedSlide > 0) {
       setShowWelcomeBack(true);
       return;
     }
-
     goToLesson(0);
   }
 
   function handleHomeScreenClose() {
     markHomeScreenPromptSeen();
     setShowHomeScreen(false);
-
-    // Continue with normal flow after closing
     if (isSafariIOS()) {
       setShowChromeModal(true);
     } else if (savedSlide > 0) {
@@ -164,6 +164,8 @@ export default function App() {
   function goToLesson(slide = 0) {
     setStartSlide(slide);
     setView("lesson1");
+    // 🎯 GA EVENT 1 — lesson_start
+    trackEvent("lesson_start", { lesson: "lesson_1", slide_from: slide });
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
@@ -173,15 +175,17 @@ export default function App() {
   }
 
   function handleSlideChange(slide) {
-    // Save progress to localStorage
     localStorage.setItem("cis_lesson1_slide", slide.toString());
     setSavedSlide(slide);
+    // 🎯 GA EVENT 2 — slide_change
+    trackEvent("slide_change", { lesson: "lesson_1", slide_number: slide });
   }
 
   function handleLessonComplete() {
-    // Clear progress when lesson is completed
     localStorage.removeItem("cis_lesson1_slide");
     setSavedSlide(0);
+    // 🎯 GA EVENT 3 — lesson_complete
+    trackEvent("lesson_complete", { lesson: "lesson_1" });
     goToLanding();
   }
 
@@ -189,12 +193,10 @@ export default function App() {
     <>
       <style>{GLOBAL_CSS}</style>
 
-      {/* Home Screen Prompt */}
       {showHomeScreen && (
         <HomeScreenModal onClose={handleHomeScreenClose} />
       )}
 
-      {/* Chrome Modal */}
       {showChromeModal && (
         <ChromeModal
           onContinue={() => {
@@ -206,7 +208,6 @@ export default function App() {
         />
       )}
 
-      {/* Welcome Back Modal */}
       {showWelcomeBack && (
         <WelcomeBackModal
           slide={savedSlide}
@@ -224,7 +225,6 @@ export default function App() {
         />
       )}
 
-      {/* Landing */}
       {view === "landing" && (
         <>
           <Header onStartFree={handleStartFree} />
@@ -232,7 +232,6 @@ export default function App() {
         </>
       )}
 
-      {/* Lesson 1 */}
       {view === "lesson1" && (
         <Lesson1
           onBack={goToLanding}
