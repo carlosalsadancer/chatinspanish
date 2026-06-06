@@ -189,24 +189,50 @@ function useSpeechRec() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// KARAOKE TEXT — highlights word being spoken
+// KARAOKE TEXT — timer-based word highlighting (works on mobile)
 // ═══════════════════════════════════════════════════════════════
-function KaraokeText({ text, charIndex, charLength, color }) {
-  if (charIndex < 0) {
-    return <span style={{ fontSize: "clamp(16px,3.5vw,20px)", fontWeight: 900, color: C.textH, lineHeight: 1.3 }}>{text}</span>;
-  }
-  const before = text.slice(0, charIndex);
-  const current = text.slice(charIndex, charIndex + charLength);
-  const after = text.slice(charIndex + charLength);
+function KaraokeText({ text, isPlaying, color }) {
+  const words = text.split(" ");
+  const [activeIdx, setActiveIdx] = useState(-1);
+  const timersRef = useRef([]);
+
+  useEffect(() => {
+    // Clear previous timers
+    timersRef.current.forEach(t => clearTimeout(t));
+    timersRef.current = [];
+
+    if (!isPlaying) { setActiveIdx(-1); return; }
+
+    // Estimate ~380ms per word at rate 0.78
+    const msPerWord = 380;
+    words.forEach((_, i) => {
+      const t = setTimeout(() => setActiveIdx(i), i * msPerWord);
+      timersRef.current.push(t);
+    });
+    // Reset after all words
+    const total = setTimeout(() => setActiveIdx(-1), words.length * msPerWord + 400);
+    timersRef.current.push(total);
+
+    return () => timersRef.current.forEach(t => clearTimeout(t));
+  }, [isPlaying, text]);
+
   return (
     <span style={{ fontSize: "clamp(16px,3.5vw,20px)", fontWeight: 900, color: C.textH, lineHeight: 1.3 }}>
-      {before}
-      <span style={{ background: color, color: "#fff", borderRadius: 4, padding: "0 2px" }}>{current}</span>
-      {after}
+      {words.map((word, i) => (
+        <span key={i}>
+          <span style={{
+            background: activeIdx === i ? color : "transparent",
+            color: activeIdx === i ? "#fff" : C.textH,
+            borderRadius: 4,
+            padding: "0 2px",
+            transition: "background 0.15s"
+          }}>{word}</span>
+          {i < words.length - 1 ? " " : ""}
+        </span>
+      ))}
     </span>
   );
 }
-
 // ═══════════════════════════════════════════════════════════════
 // PRON EXERCISE
 // ═══════════════════════════════════════════════════════════════
@@ -283,16 +309,15 @@ function ExerciseSlide({ sectionIndex, speak, onComplete, onBackRequest }) {
   const [wordIdx, setWordIdx] = useState(0);
   const [phase, setPhase] = useState("word");
   const [done, setDone] = useState(false);
-  const [karaokeIdx, setKaraokeIdx] = useState(-1);
-  const [karaokeLen, setKaraokeLen] = useState(0);
+  const [karaokePlaying, setKaraokePlaying] = useState(false);
 
   useEffect(() => { setWordIdx(0); setPhase("word"); setDone(false); }, [sectionIndex]);
 
   useEffect(() => {
     if (onBackRequest) {
       onBackRequest.current = () => {
-        if (phase === "phrase") { setPhase("word"); setKaraokeIdx(-1); return true; }
-        if (phase === "word" && wordIdx > 0) { setWordIdx(wordIdx - 1); setPhase("phrase"); setKaraokeIdx(-1); return true; }
+        if (phase === "phrase") { setPhase("word"); setKaraokePlaying(false); return true; }
+        if (phase === "word" && wordIdx > 0) { setWordIdx(wordIdx - 1); setPhase("phrase"); setKaraokePlaying(false); return true; }
         return false;
       };
     }
@@ -302,22 +327,23 @@ function ExerciseSlide({ sectionIndex, speak, onComplete, onBackRequest }) {
     <div style={{ textAlign: "center", padding: "48px 0" }}>
       <div style={{ fontSize: 26, fontWeight: 900, color: C.textH, letterSpacing: -0.5, marginBottom: 8 }}>Section complete!</div>
       <div style={{ fontSize: 15, color: C.textS, fontWeight: 500, marginBottom: 32 }}>Great work on <strong>{sec.title}</strong>!</div>
-      <button type="button" onClick={onComplete} style={{ ...btn(sec.color, { fontSize: 16, padding: "15px 40px", borderRadius: 14 }), touchAction: "manipulation" }}>Continue →</button>
+      <button type="button" onClick={onComplete} style={{ ...btn(sec.color, { fontSize: 16, padding: "15px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>Continue →</button>
     </div>
   );
 
   const word = sec.words[wordIdx];
 
-  function handleWordPass() { setPhase("phrase"); setKaraokeIdx(-1); }
+  function handleWordPass() { setPhase("phrase"); setKaraokePlaying(false); }
   function handlePhrasePass() {
-    setKaraokeIdx(-1);
+    setKaraokePlaying(false);
     if (wordIdx + 1 < sec.words.length) { setWordIdx(wordIdx + 1); setPhase("word"); }
     else { setDone(true); onComplete(); }
   }
 
   function handleListenPhrase() {
-    setKaraokeIdx(0); setKaraokeLen(0);
-    speak(word.phrase.es, (ci, cl) => { setKaraokeIdx(ci); setKaraokeLen(cl); });
+    setKaraokePlaying(true);
+    speak(word.phrase.es);
+    setTimeout(() => setKaraokePlaying(false), word.phrase.es.split(" ").length * 380 + 600);
   }
 
   const cardStyle = (bg, borderColor) => ({
@@ -362,7 +388,7 @@ function ExerciseSlide({ sectionIndex, speak, onComplete, onBackRequest }) {
           <div style={cardStyle(C.grisS, C.grisB)}>
             <div style={{ fontSize: 11, letterSpacing: 2, color: C.textM, fontWeight: 800, textTransform: "uppercase", marginBottom: 10 }}>Used in a phrase</div>
             <div style={{ marginBottom: 8, lineHeight: 1.4 }}>
-              <KaraokeText text={word.phrase.es} charIndex={karaokeIdx} charLength={karaokeLen} color={sec.color} />
+              <KaraokeText text={word.phrase.es} isPlaying={karaokePlaying} color={sec.color} />
             </div>
             <div style={{ display: "inline-block", background: C.azulL, border: `1.5px solid ${C.azul}40`, borderRadius: 8, padding: "3px 12px", fontSize: 12, color: C.azulD, fontFamily: "'Space Mono',monospace", fontWeight: 700, marginBottom: 6 }}>◉ {word.phrase.pron}</div>
             <div style={{ fontSize: 14, color: C.textS, fontWeight: 600 }}>{word.phrase.en}</div>
