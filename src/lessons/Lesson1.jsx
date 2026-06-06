@@ -473,7 +473,6 @@ function Memorama({ section, speak, onComplete }) {
 function SectionQuiz({ section, speak, onComplete }) {
   const questions = QUIZ_DATA[section.id];
   const [idx, setIdx] = useState(0);
-  const [phase, setPhase] = useState("recognition"); // "recognition" | "production"
   const [sel, setSel] = useState(null);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
@@ -495,8 +494,6 @@ function SectionQuiz({ section, speak, onComplete }) {
     if (opt === questions[idx].correct) setScore(s => s + 1);
   }
 
-  function goToProduction() { setPhase("production"); }
-
   function handleMic() {
     if (listening) { stop(); return; }
     setPronResult(null); setTranscript(""); start();
@@ -505,7 +502,6 @@ function SectionQuiz({ section, speak, onComplete }) {
   function nextQuestion() {
     if (idx + 1 >= questions.length) { setDone(true); return; }
     setIdx(i => i + 1);
-    setPhase("recognition");
     setSel(null);
     setPronResult(null);
     setPronAttempts(0);
@@ -518,8 +514,8 @@ function SectionQuiz({ section, speak, onComplete }) {
       <div style={{ textAlign: "center", padding: "40px 0", animation: "fadeUp 0.4s ease" }}>
         <div style={{ fontSize: "clamp(48px,12vw,64px)", fontWeight: 900, color: section.color, lineHeight: 1, marginBottom: 8, letterSpacing: -2 }}>{score}/{questions.length}</div>
         <div style={{ fontSize: 20, color: C.textH, fontWeight: 800, marginBottom: 8 }}>{pct >= 75 ? "Excellent!" : pct >= 50 ? "Well done!" : "Keep going!"}</div>
-        <div style={{ fontSize: 14, color: C.textS, fontWeight: 500, marginBottom: 32 }}>{pct >= 75 ? `You really know your ${section.title} phrases!` : "Practice makes perfect — you've got this."}</div>
-        <button type="button" onClick={onComplete} style={{ ...btn(section.color, { fontSize: 16, padding: "15px 36px", borderRadius: 14 }), touchAction: "manipulation" }}>Continue →</button>
+        <div style={{ fontSize: 14, color: C.textS, fontWeight: 500, lineHeight: 1.7, marginBottom: 32 }}>{pct >= 75 ? `You really know your ${section.title} phrases!` : "Practice makes perfect — you've got this."}</div>
+        <button type="button" onClick={onComplete} style={{ ...btn(section.color, { fontSize: 16, padding: "15px 36px", borderRadius: 50 }), touchAction: "manipulation" }}>Continue →</button>
       </div>
     );
   }
@@ -532,11 +528,9 @@ function SectionQuiz({ section, speak, onComplete }) {
     <div>
       {/* Header */}
       <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16, padding: "16px 18px", background: section.colorL, borderRadius: 16, border: `1.5px solid ${section.color}20` }}>
-        <div style={{ width: 48, height: 48, borderRadius: 14, background: section.color, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, flexShrink: 0, color: "#fff", fontWeight: 900 }}>
-          {phase === "recognition" ? "?" : "◉"}
-        </div>
+        <div style={{ width: 48, height: 48, borderRadius: 14, background: section.color, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, flexShrink: 0, color: "#fff", fontWeight: 900 }}>?</div>
         <div>
-          <div style={{ fontSize: 18, fontWeight: 900, color: C.textH }}>{phase === "recognition" ? "Quick Quiz" : "Now say it!"}</div>
+          <div style={{ fontSize: 18, fontWeight: 900, color: C.textH }}>Quick Quiz</div>
           <div style={{ fontSize: 12, color: section.colorD, fontWeight: 700 }}>{section.title} · Question {idx + 1} of {questions.length}</div>
         </div>
       </div>
@@ -556,65 +550,47 @@ function SectionQuiz({ section, speak, onComplete }) {
         <div style={{ fontSize: "clamp(14px,3vw,17px)", color: C.textH, lineHeight: 1.65, fontWeight: 700 }}>{q.q}</div>
       </div>
 
-      {/* RECOGNITION PHASE */}
-      {phase === "recognition" && (
-        <>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 16 }}>
-            {q.options.map((opt, i) => {
-              const isC = opt === q.correct, isS = opt === sel;
-              let bg = "#fff", border = C.grisB, tc = C.textB, fw = 600;
-              if (sel !== null) {
-                if (isC) { bg = C.limonL; border = C.limon; tc = C.limonD; fw = 800; }
-                else if (isS) { bg = C.rojoL; border = C.rojo; tc = C.rojo; fw = 700; }
-              }
-              return (
-                <button type="button" key={i} onClick={() => select(opt)}
-                  style={{ background: bg, border: `1.5px solid ${border}`, borderRadius: 14, padding: "14px 16px", textAlign: "left", cursor: sel !== null ? "default" : "pointer", color: tc, fontSize: 14, fontWeight: fw, transition: "all 0.18s", display: "flex", alignItems: "center", gap: 12, touchAction: "manipulation" }}>
-                  <span style={{ width: 28, height: 28, borderRadius: "50%", flexShrink: 0, background: sel !== null && isC ? C.limon : isS && !isC ? C.rojo : C.grisS, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 900, color: sel !== null && (isC || (isS && !isC)) ? "#fff" : C.textM }}>
-                    {sel !== null && isC ? "✓" : isS && !isC ? "✗" : ["A","B","C","D"][i]}
-                  </span>
-                  {opt}
-                </button>
-              );
-            })}
-          </div>
-
-          {sel !== null && (
-            <>
-              <div style={{ background: isCorrect ? C.limonL : C.rojoL, border: `1.5px solid ${isCorrect ? C.limon+"60" : C.rojo+"60"}`, borderRadius: 14, padding: "12px 16px", marginBottom: 14, fontSize: 13, color: C.textB, lineHeight: 1.7, fontWeight: 500 }}>
-                <span style={{ fontWeight: 900, color: isCorrect ? C.limonD : C.rojo }}>{isCorrect ? "✓ Correct!" : "✗ Not quite —"}</span>
-                {!isCorrect && <span> The correct phrase is: <strong style={{ color: C.textH }}>"{q.correct}"</strong></span>}
-              </div>
-              <button type="button" onClick={goToProduction}
-                style={{ ...btn(section.color, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 50 }), touchAction: "manipulation" }}>
-                Now say it out loud →
-              </button>
-            </>
-          )}
-        </>
-      )}
-
-      {/* PRODUCTION PHASE */}
-      {phase === "production" && (
-        <>
-          <div style={{ background: section.colorL, border: `1.5px solid ${section.color}30`, borderRadius: 16, padding: "20px", marginBottom: 16, textAlign: "center" }}>
-            <div style={{ fontSize: 11, letterSpacing: 2, color: section.colorD, fontWeight: 800, textTransform: "uppercase", marginBottom: 10 }}>Say this phrase out loud</div>
-            <div style={{ fontSize: "clamp(15px,3.5vw,19px)", fontWeight: 900, color: C.textH, marginBottom: 10, lineHeight: 1.3 }}>{q.correct}</div>
-          </div>
-
-          <div style={{ display: "flex", gap: 12, marginBottom: 12 }}>
-            <button type="button" onClick={() => speak(q.correct)}
-              style={{ flex: 1, background: C.azulL, border: `1.5px solid ${C.azul}40`, borderRadius: 14, padding: "14px 12px", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, touchAction: "manipulation" }}>
-              <span style={{ fontSize: 24 }}>♪</span>
-              <span style={{ fontSize: 12, fontWeight: 800, color: C.azulD }}>Listen</span>
+      {/* OPTIONS */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 16 }}>
+        {q.options.map((opt, i) => {
+          const isC = opt === q.correct, isS = opt === sel;
+          let bg = "#fff", border = C.grisB, tc = C.textB, fw = 600;
+          if (sel !== null) {
+            if (isC) { bg = C.limonL; border = C.limon; tc = C.limonD; fw = 800; }
+            else if (isS) { bg = C.rojoL; border = C.rojo; tc = C.rojo; fw = 700; }
+          }
+          return (
+            <button type="button" key={i} onClick={() => select(opt)}
+              style={{ background: bg, border: `1.5px solid ${border}`, borderRadius: 14, padding: "14px 16px", textAlign: "left", cursor: sel !== null ? "default" : "pointer", color: tc, fontSize: 14, fontWeight: fw, transition: "all 0.18s", display: "flex", alignItems: "center", gap: 12, touchAction: "manipulation" }}>
+              <span style={{ width: 28, height: 28, borderRadius: "50%", flexShrink: 0, background: sel !== null && isC ? C.limon : isS && !isC ? C.rojo : C.grisS, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 900, color: sel !== null && (isC || (isS && !isC)) ? "#fff" : C.textM }}>
+                {sel !== null && isC ? "✓" : isS && !isC ? "✗" : ["A","B","C","D"][i]}
+              </span>
+              {opt}
             </button>
-            <button type="button" onClick={handleMic}
-              style={{ flex: 2, border: "none", borderRadius: 14, padding: "14px 12px", cursor: "pointer", color: "#fff", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, background: listening ? C.magenta : pronResult === "perfect" || pronResult === "good" ? C.limon : section.color, transition: "all 0.2s", touchAction: "manipulation" }}>
-              <span style={{ fontSize: 24 }}>{listening ? "⏹" : "◉"}</span>
-              <span style={{ fontSize: 12, fontWeight: 900 }}>{listening ? "Listening…" : pronResult ? "Try again" : "Speak now"}</span>
-            </button>
+          );
+        })}
+      </div>
+
+      {/* FEEDBACK + MIC — aparece después de seleccionar */}
+      {sel !== null && (
+        <>
+          {/* Mensaje de resultado */}
+          <div style={{ background: isCorrect ? C.limonL : C.rojoL, border: `1.5px solid ${isCorrect ? C.limon+"60" : C.rojo+"60"}`, borderRadius: 14, padding: "16px 18px", marginBottom: 16 }}>
+            <div style={{ fontSize: 14, fontWeight: 900, color: isCorrect ? C.limonD : C.rojo, marginBottom: 8 }}>
+              {isCorrect ? "✓ Correct! Now say it out loud:" : "✗ Not quite! The correct phrase is:"}
+            </div>
+            <div style={{ fontSize: "clamp(16px,4vw,20px)", fontWeight: 900, color: C.textH, lineHeight: 1.3 }}>
+              "{q.correct}"
+            </div>
           </div>
 
+          {/* Botón micrófono */}
+          <button type="button" onClick={handleMic}
+            style={{ ...btn(listening ? C.magenta : pronResult === "perfect" || pronResult === "good" ? C.limon : section.color, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 50 }), touchAction: "manipulation", marginBottom: 12 }}>
+            {listening ? "⏹  Listening…" : pronResult ? "◉  Try again" : "◉  Tap to speak"}
+          </button>
+
+          {/* Onda de audio */}
           {listening && (
             <div style={{ display: "flex", gap: 3, justifyContent: "center", alignItems: "center", height: 28, marginBottom: 10 }}>
               {[2,4,6,8,6,4,2,4,6,8,6,4,2].map((h, i) => (
@@ -623,6 +599,7 @@ function SectionQuiz({ section, speak, onComplete }) {
             </div>
           )}
 
+          {/* Resultado pronunciación */}
           {pronResult && transcript && (
             <div style={{ background: pronResult === "perfect" ? C.limonL : pronResult === "good" ? C.azulL : C.rojoL, border: `1.5px solid ${pronResult === "perfect" ? C.limon : pronResult === "good" ? C.azul : C.rojo}40`, borderRadius: 12, padding: "12px 16px", marginBottom: 12, textAlign: "center" }}>
               <div style={{ fontSize: 14, fontWeight: 900, color: pronResult === "perfect" ? C.limonD : pronResult === "good" ? C.azulD : C.rojo, marginBottom: 4 }}>
@@ -636,11 +613,16 @@ function SectionQuiz({ section, speak, onComplete }) {
             </div>
           )}
 
-          {!supported && <div style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 10, padding: "10px 14px", marginBottom: 10, fontSize: 12, color: C.textS }}>Voice recognition works best in Chrome.</div>}
+          {!supported && (
+            <div style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 10, padding: "10px 14px", marginBottom: 10, fontSize: 12, color: C.textS }}>
+              Voice recognition works best in Chrome.
+            </div>
+          )}
 
+          {/* Next button — aparece después de intentar */}
           {(canAdvancePron || !supported) && (
             <button type="button" onClick={nextQuestion}
-              style={{ ...btn(pronResult === "perfect" ? C.limon : section.color, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 14 }), touchAction: "manipulation" }}>
+              style={{ ...btn(pronResult === "perfect" ? C.limon : section.color, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 50 }), touchAction: "manipulation" }}>
               {idx + 1 >= questions.length ? "See Results →" : "Next Question →"}
             </button>
           )}
@@ -649,7 +631,6 @@ function SectionQuiz({ section, speak, onComplete }) {
     </div>
   );
 }
-
 // ═══════════════════════════════════════════════════════════════
 // BLOCK SURVEY — with email field
 // ═══════════════════════════════════════════════════════════════
