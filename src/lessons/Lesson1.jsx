@@ -893,7 +893,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
         {/* SLIDE 2 — STORY */}
         {slide === 2 && (
           <div>
-            <div style={{ display: "flex", gap: 14, alignItems: "center", marginBottom: 24 }}>
+            <div style={{ display: "flex", gap: 14, alignItems: "center", justifyContent: "center", marginBottom: 24 }}>
               <div style={{ width: 56, height: 56, borderRadius: 16, background: C.turquesa, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28, flexShrink: 0, color: "#fff", fontWeight: 900 }}>✈</div>
               <div>
                 <div style={{ display: "inline-block", background: C.turquesaL, color: C.turquesaD, fontSize: 11, fontWeight: 800, letterSpacing: 1.5, textTransform: "uppercase", padding: "4px 12px", borderRadius: 8, marginBottom: 6 }}>Lesson 1 · Beginner · Free</div>
