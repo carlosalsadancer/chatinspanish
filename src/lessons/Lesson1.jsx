@@ -881,7 +881,15 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
             <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, overflow: "hidden", borderRadius: 20, marginBottom: 20, boxShadow: `0 8px 32px ${C.turquesa}25` }}>
               <iframe src="https://www.youtube.com/embed/FWEXKQ0BXIU" title="Cancún travel guide"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen
-                style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none", borderRad
+                style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none", borderRadius: 20 }} />
+            </div>
+            <button type="button" onClick={advance}
+              onPointerDown={(e) => { e.preventDefault(); advance(); }}
+              style={{ ...btn(C.magenta, { fontSize: 16, padding: "14px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
+              Continue →
+            </button>
+          </div>
+        )}
         {/* SLIDE 2 — STORY */}
         {slide === 2 && (
           <div>
