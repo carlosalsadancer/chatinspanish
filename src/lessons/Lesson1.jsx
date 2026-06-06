@@ -870,8 +870,8 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
 
         {/* SLIDE 1 — VIDEO */}
         {slide === 1 && (
-          <div style={{ animation: "fadeUp 0.4s ease" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+          <div style={{ animation: "fadeUp 0.4s ease", textAlign: "center" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 12 }}>
               <div style={{ width: 52, height: 52, borderRadius: 14, background: C.turquesa, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26, flexShrink: 0, color: "#fff", fontWeight: 900 }}>▶</div>
               <div style={{ fontSize: "clamp(18px,4vw,24px)", fontWeight: 900, color: C.textH, letterSpacing: -0.5, lineHeight: 1.1 }}>Welcome to Cancún</div>
             </div>
@@ -881,18 +881,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
             <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, overflow: "hidden", borderRadius: 20, marginBottom: 20, boxShadow: `0 8px 32px ${C.turquesa}25` }}>
               <iframe src="https://www.youtube.com/embed/FWEXKQ0BXIU" title="Cancún travel guide"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen
-                style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none", borderRadius: 20 }} />
-            </div>
-            <div style={{ textAlign: "center" }}>
-              <button type="button" onClick={advance}
-onPointerDown={(e) => { e.preventDefault(); advance(); }}
-                style={{ ...btn(C.magenta, { fontSize: 16, padding: "14px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
-                Continue →
-              </button>
-            </div>
-          </div>
-        )}
-
+                style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none", borderRad
         {/* SLIDE 2 — STORY */}
         {slide === 2 && (
           <div>
