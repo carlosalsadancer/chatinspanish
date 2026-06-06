@@ -663,6 +663,14 @@ function BlockSurvey({ section, blockNumber, onComplete }) {
     setSubmitting(true);
     try {
       await fetch(SHEETS_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...answers, block: section.id }) });
+      // 🎯 GA EVENT 4 — survey_submit
+      if (typeof window.gtag === "function") {
+        window.gtag("event", "survey_submit", {
+          block: section.id,
+          block_number: blockNumber,
+          has_email: answers.email.trim() !== "",
+        });
+      }
     } catch(e) { console.log("Submit error:", e); }
     setSubmitted(true); setSubmitting(false);
   }
