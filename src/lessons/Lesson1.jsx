@@ -896,6 +896,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
             </div>
             <div style={{ textAlign: "center" }}>
               <button type="button" onClick={advance}
+onPointerDown={(e) => { e.preventDefault(); advance(); }}
                 style={{ ...btn(C.magenta, { fontSize: 16, padding: "14px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
                 Continue →
               </button>
