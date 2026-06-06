@@ -950,10 +950,10 @@ onPointerDown={(e) => { e.preventDefault(); advance(); }}
       {/* BOTTOM NAV — story slide only */}
       {slide === 2 && (
         <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 50, background: "rgba(255,255,255,0.97)", backdropFilter: "blur(12px)", borderTop: `1.5px solid ${C.grisB}`, padding: "14px 20px 20px", boxShadow: "0 -4px 20px rgba(0,0,0,0.06)" }}>
-          <div style={{ maxWidth: 720, margin: "0 auto", display: "flex", gap: 12 }}>
+          <div style={{ maxWidth: 720, margin: "0 auto", display: "flex", justifyContent: "center" }}>
             <button type="button" onClick={advance}
               onPointerDown={(e) => { e.preventDefault(); advance(); }}
-              style={{ ...btn(C.turquesa, { flex: 1, fontSize: 16, padding: "14px", borderRadius: 50 }), touchAction: "manipulation" }}>
+              style={{ ...btn(C.turquesa, { fontSize: 16, padding: "14px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
               Start →
             </button>
           </div>
