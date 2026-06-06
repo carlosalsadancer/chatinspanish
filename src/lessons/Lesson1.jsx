@@ -496,7 +496,7 @@ function Memorama({ section, speak, onComplete }) {
 // ═══════════════════════════════════════════════════════════════
 // SECTION QUIZ — recognition + production (8 questions per block)
 // ═══════════════════════════════════════════════════════════════
-function SectionQuiz({ section, speak, onComplete }) {
+function SectionQuiz({ section, speak, onComplete, onBackRequest }) {
   const questions = QUIZ_DATA[section.id];
   const [idx, setIdx] = useState(0);
   const [sel, setSel] = useState(null);
@@ -506,6 +506,19 @@ function SectionQuiz({ section, speak, onComplete }) {
   const { transcript, listening, supported, start, stop, setTranscript } = useSpeechRec();
   const [pronResult, setPronResult] = useState(null);
   const [pronAttempts, setPronAttempts] = useState(0);
+
+  useEffect(() => {
+    if (onBackRequest) {
+      onBackRequest.current = () => {
+        // Si hay respuesta seleccionada, regresa a las opciones
+        if (sel !== null) { setSel(null); setPronResult(null); setPronAttempts(0); setTranscript(""); return true; }
+        // Si estamos en pregunta > 0, regresa a la anterior
+        if (idx > 0) { setIdx(i => i - 1); setSel(null); setPronResult(null); setPronAttempts(0); setTranscript(""); return true; }
+        // Si estamos en pregunta 0, deja que el Back vaya al Memorama
+        return false;
+      };
+    }
+  }, [sel, idx, onBackRequest]);
 
   useEffect(() => {
     if (!transcript || listening) return;
@@ -597,10 +610,9 @@ function SectionQuiz({ section, speak, onComplete }) {
         })}
       </div>
 
-      {/* FEEDBACK + MIC — aparece después de seleccionar */}
+      {/* FEEDBACK + MIC */}
       {sel !== null && (
         <>
-          {/* Mensaje de resultado */}
           <div style={{ background: isCorrect ? C.limonL : C.rojoL, border: `1.5px solid ${isCorrect ? C.limon+"60" : C.rojo+"60"}`, borderRadius: 14, padding: "16px 18px", marginBottom: 16 }}>
             <div style={{ fontSize: 14, fontWeight: 900, color: isCorrect ? C.limonD : C.rojo, marginBottom: 8 }}>
               {isCorrect ? "✓ Correct! Now say it out loud:" : "✗ Not quite! The correct phrase is:"}
@@ -610,13 +622,11 @@ function SectionQuiz({ section, speak, onComplete }) {
             </div>
           </div>
 
-          {/* Botón micrófono */}
           <button type="button" onClick={handleMic}
             style={{ ...btn(listening ? C.magenta : pronResult === "perfect" || pronResult === "good" ? C.limon : section.color, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 50 }), touchAction: "manipulation", marginBottom: 12 }}>
             {listening ? "⏹  Listening…" : pronResult ? "◉  Try again" : "◉  Tap to speak"}
           </button>
 
-          {/* Onda de audio */}
           {listening && (
             <div style={{ display: "flex", gap: 3, justifyContent: "center", alignItems: "center", height: 28, marginBottom: 10 }}>
               {[2,4,6,8,6,4,2,4,6,8,6,4,2].map((h, i) => (
@@ -625,7 +635,6 @@ function SectionQuiz({ section, speak, onComplete }) {
             </div>
           )}
 
-          {/* Resultado pronunciación */}
           {pronResult && transcript && (
             <div style={{ background: pronResult === "perfect" ? C.limonL : pronResult === "good" ? C.azulL : C.rojoL, border: `1.5px solid ${pronResult === "perfect" ? C.limon : pronResult === "good" ? C.azul : C.rojo}40`, borderRadius: 12, padding: "12px 16px", marginBottom: 12, textAlign: "center" }}>
               <div style={{ fontSize: 14, fontWeight: 900, color: pronResult === "perfect" ? C.limonD : pronResult === "good" ? C.azulD : C.rojo, marginBottom: 4 }}>
@@ -645,7 +654,6 @@ function SectionQuiz({ section, speak, onComplete }) {
             </div>
           )}
 
-          {/* Next button — aparece después de intentar */}
           {(canAdvancePron || !supported) && (
             <button type="button" onClick={nextQuestion}
               style={{ ...btn(pronResult === "perfect" ? C.limon : section.color, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 50 }), touchAction: "manipulation" }}>
@@ -819,7 +827,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
   function advance() { const next = slide + 1; unlock(next); goTo(next); }
 
   function handleBack() {
-    if (isPronSlide() && exerciseBackRef.current) {
+    if ((isPronSlide() || isQuizSlide()) && exerciseBackRef.current) {
       const handled = exerciseBackRef.current();
       if (handled) return;
     }
@@ -862,10 +870,10 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
 
         {/* SLIDE 0 — ONBOARDING */}
         {slide === 0 && (
-  <div style={{ textAlign: "center" }}>
-    <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}><ChatLogo size={80} bg={C.magenta} /></div>
-    <h2 style={{ fontSize: "clamp(26px,6vw,34px)", fontWeight: 900, color: C.textH, letterSpacing: -1, marginBottom: 12 }}>Lesson 1 — Cancún</h2>
-    <p style={{ fontSize: 15, color: C.textS, lineHeight: 1.75, fontWeight: 500, marginBottom: 28 }}>Here's what you'll do in this lesson:</p>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}><ChatLogo size={80} bg={C.magenta} /></div>
+            <h2 style={{ fontSize: "clamp(26px,6vw,34px)", fontWeight: 900, color: C.textH, letterSpacing: -1, marginBottom: 12 }}>Lesson 1 — Cancún</h2>
+            <p style={{ fontSize: 15, color: C.textS, lineHeight: 1.75, fontWeight: 500, marginBottom: 28 }}>Here's what you'll do in this lesson:</p>
             <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 32 }}>
               {[
                 { num: "01", color: C.turquesa, title: "Watch",    desc: "A travel video of Cancún to get you inspired." },
@@ -888,9 +896,9 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
               <span style={{ fontSize: 20, flexShrink: 0 }}>◉</span>Allow microphone access when prompted. Works best in Chrome.
             </div>
             <button type="button" onClick={() => { unlock(1); goTo(1); }}
-  style={{ ...btn(C.magenta, { fontSize: 17, padding: "16px 44px", borderRadius: 50, boxShadow: `0 6px 24px ${C.magenta}40` }), touchAction: "manipulation", display: "inline-block" }}>
-  Let's Start! →
-</button>
+              style={{ ...btn(C.magenta, { fontSize: 17, padding: "16px 44px", borderRadius: 50, boxShadow: `0 6px 24px ${C.magenta}40` }), touchAction: "manipulation", display: "inline-block" }}>
+              Let's Start! →
+            </button>
           </div>
         )}
 
@@ -916,6 +924,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
             </button>
           </div>
         )}
+
         {/* SLIDE 2 — STORY */}
         {slide === 2 && (
           <div>
@@ -953,7 +962,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
 
         {isPronSlide() && <ExerciseSlide key={slide} sectionIndex={sectionIdx()} speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
         {isMemoSlide() && (() => { const sec = SECTIONS[sectionIdx()]; return <Memorama key={slide} section={sec} speak={speak} onComplete={advance} />; })()}
-        {isQuizSlide() && <SectionQuiz key={slide} section={SECTIONS[sectionIdx()]} speak={speak} onComplete={advance} />}
+        {isQuizSlide() && <SectionQuiz key={slide} section={SECTIONS[sectionIdx()]} speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
         {isSurveySlide() && <BlockSurvey key={slide} section={SECTIONS[sectionIdx()]} blockNumber={blockNumber()} onComplete={advance} />}
         {slide === 19 && <CompletedSlide onBack={onComplete || onBack} />}
 
