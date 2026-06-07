@@ -81,7 +81,7 @@ const QUIZ_DATA = [
 // 5 = Quiz
 // 6 = Survey
 // 7 = Lesson Complete
-const TOTAL = 8;
+const TOTAL = 8; // Airport
 
 // ═══════════════════════════════════════════════════════════════
 // HELPERS
