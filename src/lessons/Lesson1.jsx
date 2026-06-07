@@ -1,16 +1,17 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { C, btn } from "../tokens";
 import ChatLogo from "../components/ChatLogo";
+
 // ═══════════════════════════════════════════════════════════════
 // SVG ICONS — inline (no external dependency)
 // ═══════════════════════════════════════════════════════════════
-const Plane   = ({size=24,color="#fff"}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19 2c-2-2-4-2-5.5-.5L10 5 1.8 6.2c-.5.1-.9.5-.9 1.1 0 .3.1.6.3.8l3.5 3.5L3 19.2c-.1.5.2 1 .7 1.2.2.1.5.1.7 0L12 17l7.6 3.4c.2.1.5.1.7 0 .5-.2.8-.7.7-1.2z"/></svg>;
+const Plane    = ({size=24,color="#fff"}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19 2c-2-2-4-2-5.5-.5L10 5 1.8 6.2c-.5.1-.9.5-.9 1.1 0 .3.1.6.3.8l3.5 3.5L3 19.2c-.1.5.2 1 .7 1.2.2.1.5.1.7 0L12 17l7.6 3.4c.2.1.5.1.7 0 .5-.2.8-.7.7-1.2z"/></svg>;
 const Banknote = ({size=24,color="#fff"}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>;
-const Bus     = ({size=24,color="#fff"}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M8 6v6M15 6v6M2 12h19.6M18 18h2a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h2"/><path d="M8 18h8"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9H4z"/></svg>;
-const Users   = ({size=24,color="#fff"}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>;
-const Lock    = ({size=24,color="#fff"}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>;
-const Check   = ({size=24,color="#fff",strokeWidth=2}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>;
-const Star    = ({size=24,color="#fff"}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>;
+const Bus      = ({size=24,color="#fff"}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M8 6v6M15 6v6M2 12h19.6M18 18h2a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h2"/><path d="M8 18h8"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9H4z"/></svg>;
+const Users    = ({size=24,color="#fff"}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>;
+const Lock     = ({size=24,color="#fff"}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>;
+const Check    = ({size=24,color="#fff",strokeWidth=2}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>;
+const Star     = ({size=24,color="#fff"}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>;
 
 // ═══════════════════════════════════════════════════════════════
 // GOOGLE SHEETS URL
@@ -21,16 +22,16 @@ const SHEETS_URL = "https://script.google.com/macros/s/AKfycbzUiHHTyLbu-efTHCzP-
 // LESSON MAP — Basic Level
 // ═══════════════════════════════════════════════════════════════
 const LESSONS = [
-  { id: 1, title: "At the Airport",   icon: Plane,    color: C.turquesa },
-  { id: 2, title: "Money & Exchange", icon: Banknote,  color: C.azul     },
-  { id: 3, title: "Getting Around",   icon: Bus,       color: C.limon    },
-  { id: 4, title: "Meeting People",   icon: Users,     color: C.magenta  },
-  { id: 5,  title: "Coming Soon", icon: Lock, color: C.grisB },
-  { id: 6,  title: "Coming Soon", icon: Lock, color: C.grisB },
-  { id: 7,  title: "Coming Soon", icon: Lock, color: C.grisB },
-  { id: 8,  title: "Coming Soon", icon: Lock, color: C.grisB },
-  { id: 9,  title: "Coming Soon", icon: Lock, color: C.grisB },
-  { id: 10, title: "Coming Soon", icon: Lock, color: C.grisB },
+  { id: 1,  title: "At the Airport",   icon: Plane,    color: C.turquesa },
+  { id: 2,  title: "Money & Exchange", icon: Banknote, color: C.azul     },
+  { id: 3,  title: "Getting Around",   icon: Bus,      color: C.limon    },
+  { id: 4,  title: "Meeting People",   icon: Users,    color: C.magenta  },
+  { id: 5,  title: "Coming Soon",      icon: Lock,     color: C.grisB    },
+  { id: 6,  title: "Coming Soon",      icon: Lock,     color: C.grisB    },
+  { id: 7,  title: "Coming Soon",      icon: Lock,     color: C.grisB    },
+  { id: 8,  title: "Coming Soon",      icon: Lock,     color: C.grisB    },
+  { id: 9,  title: "Coming Soon",      icon: Lock,     color: C.grisB    },
+  { id: 10, title: "Coming Soon",      icon: Lock,     color: C.grisB    },
 ];
 
 // ═══════════════════════════════════════════════════════════════
@@ -46,14 +47,14 @@ const SECTION = {
     "Buy an ADO bus ticket",
   ],
   words: [
-    { es: "el internet",          display: "internet",    pron: "een-ter-NET",              en: "internet",    phrase: { es: "¿Hay internet gratis en el aeropuerto?",      pron: "hay een-ter-NET GRAH-tees en el ah-eh-roh-PWER-toh",         en: "Is there free internet at the airport?" } },
-    { es: "la migración",         display: "migración",   pron: "mee-grah-SYON",            en: "immigration", phrase: { es: "¿Dónde está la zona de migración?",           pron: "DON-deh es-TAH lah SO-nah deh mee-grah-SYON",               en: "Where is the immigration area?" } },
-    { es: "la fila",              display: "fila",        pron: "FEE-lah",                  en: "line",        phrase: { es: "Perdón, ¿esta es la fila para extranjeros?",  pron: "pehr-DON ES-tah ehs lah FEE-lah PAH-rah eks-tran-HEH-ros", en: "Excuse me, is this the line for foreigners?" } },
-    { es: "el pasaporte",         display: "pasaporte",   pron: "pah-sah-POR-teh",          en: "passport",    phrase: { es: "Hola, aquí está mi pasaporte.",               pron: "OH-lah ah-KEE es-TAH mee pah-sah-POR-teh",                  en: "Hello, here is my passport." } },
-    { es: "el boleto de regreso", display: "boleto",      pron: "boh-LEH-toh",              en: "ticket",      phrase: { es: "Tengo mi boleto de regreso aquí.",             pron: "TEN-goh mee boh-LEH-toh deh reh-GREH-soh ah-KEE",           en: "I have my return ticket here." } },
-    { es: "la maleta",            display: "maleta",      pron: "mah-LEH-tah",              en: "suitcase",    phrase: { es: "¿Dónde recojo mi maleta?",                    pron: "DON-deh reh-KOH-hoh mee mah-LEH-tah",                       en: "Where do I pick up my suitcase?" } },
-    { es: "la salida",            display: "salida",      pron: "sah-LEE-dah",              en: "exit",        phrase: { es: "¿Por dónde es la salida?",                    pron: "por DON-deh ehs lah sah-LEE-dah",                           en: "Which way is the exit?" } },
-    { es: "el autobús ADO",       display: "autobús",     pron: "ow-toh-BOOS",              en: "bus",         phrase: { es: "¿Dónde compro el boleto de autobús ADO?",     pron: "DON-deh KOM-proh el boh-LEH-toh deh ow-toh-BOOS ah-deh-OH",en: "Where do I buy the ADO bus ticket?" } },
+    { es: "el internet",          display: "internet",    pron: "een-ter-NET",         en: "internet",    phrase: { es: "¿Hay internet gratis en el aeropuerto?",      pron: "hay een-ter-NET GRAH-tees en el ah-eh-roh-PWER-toh",          en: "Is there free internet at the airport?" } },
+    { es: "la migración",         display: "migración",   pron: "mee-grah-SYON",       en: "immigration", phrase: { es: "¿Dónde está la zona de migración?",           pron: "DON-deh es-TAH lah SO-nah deh mee-grah-SYON",                en: "Where is the immigration area?" } },
+    { es: "la fila",              display: "fila",        pron: "FEE-lah",             en: "line",        phrase: { es: "Perdón, ¿esta es la fila para extranjeros?",  pron: "pehr-DON ES-tah ehs lah FEE-lah PAH-rah eks-tran-HEH-ros",  en: "Excuse me, is this the line for foreigners?" } },
+    { es: "el pasaporte",         display: "pasaporte",   pron: "pah-sah-POR-teh",     en: "passport",    phrase: { es: "Hola, aquí está mi pasaporte.",               pron: "OH-lah ah-KEE es-TAH mee pah-sah-POR-teh",                   en: "Hello, here is my passport." } },
+    { es: "el boleto de regreso", display: "boleto",      pron: "boh-LEH-toh",         en: "ticket",      phrase: { es: "Tengo mi boleto de regreso aquí.",             pron: "TEN-goh mee boh-LEH-toh deh reh-GREH-soh ah-KEE",            en: "I have my return ticket here." } },
+    { es: "la maleta",            display: "maleta",      pron: "mah-LEH-tah",         en: "suitcase",    phrase: { es: "¿Dónde recojo mi maleta?",                    pron: "DON-deh reh-KOH-hoh mee mah-LEH-tah",                        en: "Where do I pick up my suitcase?" } },
+    { es: "la salida",            display: "salida",      pron: "sah-LEE-dah",         en: "exit",        phrase: { es: "¿Por dónde es la salida?",                    pron: "por DON-deh ehs lah sah-LEE-dah",                            en: "Which way is the exit?" } },
+    { es: "el autobús ADO",       display: "autobús",     pron: "ow-toh-BOOS",         en: "bus",         phrase: { es: "¿Dónde compro el boleto de autobús ADO?",     pron: "DON-deh KOM-proh el boh-LEH-toh deh ow-toh-BOOS ah-deh-OH", en: "Where do I buy the ADO bus ticket?" } },
   ],
 };
 
@@ -61,26 +62,20 @@ const SECTION = {
 // QUIZ DATA — Airport
 // ═══════════════════════════════════════════════════════════════
 const QUIZ_DATA = [
-  { scene: "Cancún Airport — arrival",               q: "You just landed and need WiFi. What do you ask?",                    correct: "¿Hay internet gratis en el aeropuerto?",      options: ["¿Hay internet gratis en el aeropuerto?","¿Dónde está la maleta?","¿Cuánto cuesta el WiFi?","¿Hay un cajero cerca?"] },
-  { scene: "Immigration area",                        q: "You need to find immigration. What do you ask?",                    correct: "¿Dónde está la zona de migración?",           options: ["¿Dónde está la zona de migración?","¿Dónde está la salida?","¿Dónde recojo mi maleta?","¿Por dónde es la fila?"] },
-  { scene: "Immigration — foreigner line",            q: "You're not sure which line to join. What do you ask?",             correct: "Perdón, ¿esta es la fila para extranjeros?",  options: ["Perdón, ¿esta es la fila para extranjeros?","¿Dónde está la migración?","¿Cuál es mi asiento?","Aquí está mi pasaporte"] },
-  { scene: "Immigration officer asks for document",   q: "The officer asks for your travel document. What do you say?",      correct: "Hola, aquí está mi pasaporte.",               options: ["Hola, aquí está mi pasaporte.","Tengo mi boleto de regreso aquí.","¿Por dónde es la salida?","Aquí está la reservación de mi hotel."] },
-  { scene: "Immigration — proof of return",           q: "The officer asks for proof you're leaving Mexico. What do you show?", correct: "Tengo mi boleto de regreso aquí.",          options: ["Tengo mi boleto de regreso aquí.","Hola, aquí está mi pasaporte.","¿Dónde recojo mi maleta?","¿Hay internet gratis?"] },
-  { scene: "Baggage claim",                           q: "You need to find your suitcase. What do you ask?",                 correct: "¿Dónde recojo mi maleta?",                    options: ["¿Dónde recojo mi maleta?","¿Dónde está la fila?","¿Cuánto cuesta el boleto?","¿Dónde está la migración?"] },
-  { scene: "After baggage claim",                     q: "You need to find the way out. What do you ask?",                   correct: "¿Por dónde es la salida?",                    options: ["¿Por dónde es la salida?","¿Dónde está la maleta?","¿Hay internet gratis?","¿Dónde está la fila?"] },
-  { scene: "Outside the airport",                     q: "You want to get a bus to Cancún. What do you ask?",                correct: "¿Dónde compro el boleto de autobús ADO?",     options: ["¿Dónde compro el boleto de autobús ADO?","¿Por dónde es la salida?","¿Dónde recojo mi maleta?","¿Hay un cajero cerca?"] },
+  { scene: "Cancún Airport — arrival",             q: "You just landed and need WiFi. What do you ask?",                       correct: "¿Hay internet gratis en el aeropuerto?",     options: ["¿Hay internet gratis en el aeropuerto?","¿Dónde está la maleta?","¿Cuánto cuesta el WiFi?","¿Hay un cajero cerca?"] },
+  { scene: "Immigration area",                      q: "You need to find immigration. What do you ask?",                       correct: "¿Dónde está la zona de migración?",          options: ["¿Dónde está la zona de migración?","¿Dónde está la salida?","¿Dónde recojo mi maleta?","¿Por dónde es la fila?"] },
+  { scene: "Immigration — foreigner line",          q: "You're not sure which line to join. What do you ask?",                 correct: "Perdón, ¿esta es la fila para extranjeros?", options: ["Perdón, ¿esta es la fila para extranjeros?","¿Dónde está la migración?","¿Cuál es mi asiento?","Aquí está mi pasaporte"] },
+  { scene: "Immigration officer asks for document", q: "The officer asks for your travel document. What do you say?",          correct: "Hola, aquí está mi pasaporte.",              options: ["Hola, aquí está mi pasaporte.","Tengo mi boleto de regreso aquí.","¿Por dónde es la salida?","Aquí está la reservación de mi hotel."] },
+  { scene: "Immigration — proof of return",         q: "The officer asks for proof you're leaving Mexico. What do you show?",  correct: "Tengo mi boleto de regreso aquí.",           options: ["Tengo mi boleto de regreso aquí.","Hola, aquí está mi pasaporte.","¿Dónde recojo mi maleta?","¿Hay internet gratis?"] },
+  { scene: "Baggage claim",                         q: "You need to find your suitcase. What do you ask?",                     correct: "¿Dónde recojo mi maleta?",                   options: ["¿Dónde recojo mi maleta?","¿Dónde está la fila?","¿Cuánto cuesta el boleto?","¿Dónde está la migración?"] },
+  { scene: "After baggage claim",                   q: "You need to find the way out. What do you ask?",                       correct: "¿Por dónde es la salida?",                   options: ["¿Por dónde es la salida?","¿Dónde está la maleta?","¿Hay internet gratis?","¿Dónde está la fila?"] },
+  { scene: "Outside the airport",                   q: "You want to get a bus to Cancún. What do you ask?",                    correct: "¿Dónde compro el boleto de autobús ADO?",    options: ["¿Dónde compro el boleto de autobús ADO?","¿Por dónde es la salida?","¿Dónde recojo mi maleta?","¿Hay un cajero cerca?"] },
 ];
 
 // ═══════════════════════════════════════════════════════════════
 // SLIDE MAP
-// 0 = Onboarding
-// 1 = Video
-// 2 = Story
-// 3 = Speak
-// 4 = Memorama
-// 5 = Quiz
-// 6 = Survey
-// 7 = Lesson Complete
+// 0 = Onboarding  1 = Video  2 = Story  3 = Speak
+// 4 = Memorama    5 = Quiz   6 = Survey  7 = Lesson Complete
 const TOTAL = 8; // Airport
 
 // ═══════════════════════════════════════════════════════════════
@@ -141,13 +136,13 @@ function useSpeechRec() {
   const stop  = useCallback(() => { try { recRef.current?.stop(); } catch(e) {} setListening(false); }, []);
   return { transcript, listening, supported, start, stop, setTranscript };
 }
+
 // ═══════════════════════════════════════════════════════════════
 // CONFETTI CELEBRATION
 // ═══════════════════════════════════════════════════════════════
 function Confetti({ show, message, color = C.limon }) {
   const particles = Array.from({ length: 32 });
   const colors = [C.magenta, C.turquesa, C.limon, C.azul, "#fff"];
-
   if (!show) return null;
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center", pointerEvents: "none" }}>
@@ -184,7 +179,6 @@ function KaraokeText({ text, isPlaying, color }) {
   const words = text.split(" ");
   const [activeIdx, setActiveIdx] = useState(-1);
   const timersRef = useRef([]);
-
   useEffect(() => {
     timersRef.current.forEach(t => clearTimeout(t));
     timersRef.current = [];
@@ -198,7 +192,6 @@ function KaraokeText({ text, isPlaying, color }) {
     timersRef.current.push(total);
     return () => timersRef.current.forEach(t => clearTimeout(t));
   }, [isPlaying, text]);
-
   return (
     <span style={{ fontSize: "clamp(16px,3.5vw,20px)", fontWeight: 900, color: C.textH, lineHeight: 1.3 }}>
       {words.map((word, i) => (
@@ -243,7 +236,6 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
         </button>
         <button type="button"
           onClick={handleMic}
-          onPointerDown={(e) => { e.preventDefault(); handleMic(); }}
           style={{ flex: 2, border: "none", borderRadius: 14, padding: "14px 12px", cursor: "pointer", color: "#fff", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, background: listening ? C.magenta : canAdvance && result !== "retry" ? C.limon : color, transition: "all 0.2s", touchAction: "manipulation" }}>
           <span style={{ fontSize: 24 }}>{listening ? "⏹" : "◉"}</span>
           <span style={{ fontSize: 12, fontWeight: 900 }}>{listening ? "Listening…" : result ? "Try again" : "Speak now"}</span>
@@ -368,14 +360,12 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
       <div style={{ height: 4, background: C.grisB, borderRadius: 2, overflow: "hidden", marginBottom: 20 }}>
         <div style={{ height: "100%", width: `${(wordIdx / sec.words.length) * 100}%`, background: sec.color, borderRadius: 2, transition: "width 0.4s" }} />
       </div>
-
       <div style={cardStyle(sec.colorL, `${sec.color}30`)}>
         <div style={{ fontSize: 11, letterSpacing: 2, color: sec.colorD, fontWeight: 800, textTransform: "uppercase", marginBottom: 10 }}>Word</div>
         <div style={{ fontSize: "clamp(22px,5vw,28px)", fontWeight: 900, color: C.textH, letterSpacing: -0.3, marginBottom: 8 }}>{word.display}</div>
         <div style={{ display: "inline-block", background: C.azulL, border: `1.5px solid ${C.azul}40`, borderRadius: 8, padding: "3px 12px", fontSize: 12, color: C.azulD, fontFamily: "'Space Mono',monospace", fontWeight: 700, marginBottom: 6 }}>◉ {word.pron}</div>
         <div style={{ fontSize: 14, color: C.textS, fontWeight: 600 }}>{word.en}</div>
       </div>
-
       {phase === "word" && (
         <PronExercise
           key={`word-${wordIdx}`}
@@ -386,7 +376,6 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
           passLabel="Now practice the phrase →"
         />
       )}
-
       {phase === "phrase" && (
         <>
           <div style={cardStyle(C.grisS, C.grisB)}>
@@ -410,6 +399,7 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
     </div>
   );
 }
+
 // ═══════════════════════════════════════════════════════════════
 // MEMORAMA
 // ═══════════════════════════════════════════════════════════════
@@ -650,7 +640,6 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
           </div>
           <button type="button"
             onClick={handleMic}
-            onPointerDown={(e) => { e.preventDefault(); handleMic(); }}
             style={{ ...btn(listening ? C.magenta : pronResult === "perfect" || pronResult === "good" ? C.limon : section.color, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 50 }), touchAction: "manipulation", marginBottom: 12 }}>
             {listening ? "⏹  Listening…" : pronResult ? "◉  Try again" : "◉  Tap to speak"}
           </button>
@@ -788,7 +777,6 @@ function BlockSurvey({ onComplete }) {
       </div>
       <button type="button"
         onClick={handleSubmit}
-        onPointerDown={(e) => { e.preventDefault(); if (allDone && !submitting) handleSubmit(); }}
         disabled={!allDone || submitting}
         style={{ ...btn(allDone ? section.color : C.grisB, { width: "100%", fontSize: 16, padding: "16px", borderRadius: 50 }), opacity: allDone ? 1 : 0.5, cursor: allDone ? "pointer" : "not-allowed", touchAction: "manipulation" }}>
         {submitting ? "Sending..." : "Submit Feedback →"}
@@ -825,7 +813,6 @@ function LessonComplete({ onNext }) {
       </div>
       <h2 style={{ fontSize: "clamp(24px,6vw,32px)", fontWeight: 900, color: C.textH, letterSpacing: -1, marginBottom: 8 }}>Lesson 1 Complete!</h2>
       <p style={{ fontSize: 15, color: C.textS, fontWeight: 500, marginBottom: 24 }}>You just survived the Cancún airport — in Spanish!</p>
-
       <div style={{ background: C.turquesaL, border: `1.5px solid ${C.turquesa}30`, borderRadius: 16, padding: "20px", marginBottom: 24, textAlign: "left" }}>
         <div style={{ fontSize: 11, letterSpacing: 2, color: C.turquesaD, fontWeight: 800, textTransform: "uppercase", marginBottom: 12 }}>You can now:</div>
         {section.skills.map((skill, i) => (
@@ -837,12 +824,11 @@ function LessonComplete({ onNext }) {
           </div>
         ))}
       </div>
-
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 12, marginBottom: 32 }}>
         {[
-          { label: "Words learned",     value: "8",  color: C.turquesa },
-          { label: "Phrases practiced", value: "8",  color: C.magenta  },
-          { label: "Quiz questions",    value: "8",  color: C.azul     },
+          { label: "Words learned",     value: "8", color: C.turquesa },
+          { label: "Phrases practiced", value: "8", color: C.magenta  },
+          { label: "Quiz questions",    value: "8", color: C.azul     },
         ].map((s, i) => (
           <div key={i} style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 16, padding: "16px 12px", textAlign: "center" }}>
             <div style={{ fontSize: 26, fontWeight: 900, color: s.color, marginBottom: 4 }}>{s.value}</div>
@@ -850,7 +836,6 @@ function LessonComplete({ onNext }) {
           </div>
         ))}
       </div>
-
       <button type="button"
         onClick={onNext}
         onPointerDown={(e) => { e.preventDefault(); onNext(); }}
@@ -860,8 +845,9 @@ function LessonComplete({ onNext }) {
     </div>
   );
 }
+
 // ═══════════════════════════════════════════════════════════════
-// JOURNEY BAR — Basic Level progress
+// JOURNEY BAR
 // ═══════════════════════════════════════════════════════════════
 function JourneyBar({ completedLessons = [] }) {
   return (
@@ -881,10 +867,7 @@ function JourneyBar({ completedLessons = [] }) {
                 display: "flex", alignItems: "center", justifyContent: "center",
                 opacity: isLocked ? 0.5 : 1,
               }}>
-                {isLocked
-                  ? <Lock size={12} color={C.textF} />
-                  : <Icon size={12} color={isCompleted ? "#fff" : lesson.color} />
-                }
+                {isLocked ? <Lock size={12} color={C.textF} /> : <Icon size={12} color={isCompleted ? "#fff" : lesson.color} />}
               </div>
               <div style={{ fontSize: 8, fontWeight: 700, color: isCompleted ? C.limonD : isLocked ? C.textF : C.textM }}>L{lesson.id}</div>
             </div>
@@ -925,8 +908,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
     goTo(slide - 1);
   }
 
-  const accentColor = slide === 3 || slide === 4 || slide === 5 || slide === 6
-    ? SECTION.color : C.turquesa;
+  const accentColor = [3,4,5,6].includes(slide) ? SECTION.color : C.turquesa;
 
   return (
     <div style={{ background: "#fff", minHeight: "100vh" }}>
@@ -968,13 +950,9 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
                 style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, color: C.textS, padding: "8px 16px", borderRadius: 50, cursor: "pointer", fontSize: 13, fontWeight: 700, touchAction: "manipulation" }}>← Back</button>
             </div>
           </div>
-
-          {/* Progress bar */}
           <div style={{ height: 5, background: C.grisS, borderRadius: 3, overflow: "hidden", marginBottom: 8 }}>
             <div style={{ height: "100%", width: `${((slide + 1) / TOTAL) * 100}%`, background: `linear-gradient(90deg,${C.turquesa},${C.magenta})`, borderRadius: 3, transition: "width 0.4s" }} />
           </div>
-
-          {/* Journey Bar */}
           <JourneyBar completedLessons={completedLessons} />
         </div>
       </div>
@@ -1078,19 +1056,10 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
           </div>
         )}
 
-        {/* SLIDE 3 — SPEAK */}
         {slide === 3 && <ExerciseSlide speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
-
-        {/* SLIDE 4 — MEMORAMA */}
         {slide === 4 && <Memorama speak={speak} onComplete={advance} />}
-
-        {/* SLIDE 5 — QUIZ */}
         {slide === 5 && <SectionQuiz speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
-
-        {/* SLIDE 6 — SURVEY */}
         {slide === 6 && <BlockSurvey onComplete={advance} />}
-
-        {/* SLIDE 7 — LESSON COMPLETE */}
         {slide === 7 && <LessonComplete onNext={onComplete || onBack} />}
 
       </div>
