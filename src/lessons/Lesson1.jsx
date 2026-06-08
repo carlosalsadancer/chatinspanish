@@ -74,8 +74,6 @@ const QUIZ_DATA = [
 
 // ═══════════════════════════════════════════════════════════════
 // SLIDE MAP
-// 0 = Onboarding  1 = Video  2 = Story  3 = Speak
-// 4 = Memorama    5 = Quiz   6 = Survey  7 = Lesson Complete
 const TOTAL = 8; // Airport
 
 // ═══════════════════════════════════════════════════════════════
@@ -138,9 +136,9 @@ function useSpeechRec() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// CONFETTI CELEBRATION
+// CONFETTI — fuegos artificiales de abajo hacia arriba
 // ═══════════════════════════════════════════════════════════════
-function Confetti({ show, message, color = C.limon }) {
+function Confetti({ show, message }) {
   const particles = Array.from({ length: 32 });
   const colors = [C.magenta, C.turquesa, C.limon, C.azul, "#fff"];
   if (!show) return null;
@@ -153,16 +151,16 @@ function Confetti({ show, message, color = C.limon }) {
         const col = colors[Math.floor(Math.random() * colors.length)];
         return (
           <div key={i} style={{
-            position: "absolute", top: "-10px", left: `${x}%`,
+            position: "absolute", bottom: "-10px", left: `${x}%`,
             width: size, height: size, borderRadius: Math.random() > 0.5 ? "50%" : 2,
             background: col, opacity: 0.9,
-            animation: `confettiFall ${0.8 + Math.random() * 0.8}s ease-in ${delay}s forwards`,
+            animation: `confettiRise ${0.8 + Math.random() * 0.8}s ease-out ${delay}s forwards`,
           }} />
         );
       })}
       <div style={{
-        background: color, borderRadius: 20, padding: "20px 36px",
-        textAlign: "center", boxShadow: `0 8px 32px ${color}60`,
+        background: C.magenta, borderRadius: 20, padding: "20px 36px",
+        textAlign: "center", boxShadow: `0 8px 32px ${C.magenta}60`,
         animation: "celebPop 0.3s cubic-bezier(0.34,1.56,0.64,1)",
       }}>
         <Check size={32} color="#fff" strokeWidth={3} style={{ marginBottom: 8 }} />
@@ -173,7 +171,7 @@ function Confetti({ show, message, color = C.limon }) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// KARAOKE TEXT — timer-based (works on mobile)
+// KARAOKE TEXT
 // ═══════════════════════════════════════════════════════════════
 function KaraokeText({ text, isPlaying, color }) {
   const words = text.split(" ");
@@ -266,12 +264,14 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
       )}
       {!supported && <div style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 10, padding: "10px 14px", marginBottom: 10, fontSize: 12, color: C.textS }}>Voice recognition works best in Chrome.</div>}
       {(canAdvance || !supported) && (
-        <button type="button"
-          onClick={onPass}
-          onPointerDown={(e) => { e.preventDefault(); onPass(); }}
-          style={{ ...btn(result === "perfect" ? C.limon : color, { width: "100%", fontSize: 14, padding: "13px", borderRadius: 50 }), touchAction: "manipulation" }}>
-          {passLabel}
-        </button>
+        <div style={{ textAlign: "center", marginTop: 8 }}>
+          <button type="button"
+            onClick={onPass}
+            onPointerDown={(e) => { e.preventDefault(); onPass(); }}
+            style={{ ...btn(result === "perfect" ? C.limon : color, { fontSize: 14, padding: "13px 28px", borderRadius: 50 }), touchAction: "manipulation" }}>
+            {passLabel}
+          </button>
+        </div>
       )}
     </div>
   );
@@ -347,7 +347,7 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
 
   return (
     <div>
-      <Confetti show={celebrate} message={celebrateMsg} color={C.limon} />
+      <Confetti show={celebrate} message={celebrateMsg} />
       <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16, padding: "14px 16px", background: sec.colorL, borderRadius: 16, border: `1.5px solid ${sec.color}20` }}>
         <div style={{ width: 44, height: 44, borderRadius: 12, background: sec.color, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: "#fff" }}>
           <Plane size={22} color="#fff" />
@@ -463,7 +463,7 @@ function Memorama({ speak, onComplete }) {
 
   return (
     <div style={{ animation: "fadeUp 0.3s ease" }}>
-      <Confetti show={celebrate} message="Memorama Complete!" color={C.limon} />
+      <Confetti show={celebrate} message="Memorama Complete!" />
       <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16, padding: "16px 18px", background: section.colorL, borderRadius: 16, border: `1.5px solid ${section.color}20` }}>
         <div style={{ width: 48, height: 48, borderRadius: 14, background: section.color, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: "#fff" }}>
           <Star size={24} color="#fff" />
@@ -590,7 +590,7 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
 
   return (
     <div>
-      <Confetti show={celebrate} message="Quiz Complete!" color={C.limon} />
+      <Confetti show={celebrate} message="Quiz Complete!" />
       <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16, padding: "16px 18px", background: section.colorL, borderRadius: 16, border: `1.5px solid ${section.color}20` }}>
         <div style={{ width: 48, height: 48, borderRadius: 14, background: section.color, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: "#fff", fontWeight: 900, fontSize: 24 }}>?</div>
         <div>
@@ -634,15 +634,17 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
         <>
           <div style={{ background: isCorrect ? C.limonL : C.rojoL, border: `1.5px solid ${isCorrect ? C.limon+"60" : C.rojo+"60"}`, borderRadius: 14, padding: "16px 18px", marginBottom: 16 }}>
             <div style={{ fontSize: 14, fontWeight: 900, color: isCorrect ? C.limonD : C.rojo, marginBottom: 8 }}>
-              {isCorrect ? "✓ Correct! Now say it out loud:" : "✗ Not quite! The correct phrase is:"}
+              {isCorrect ? "✓ Correct! Now say it out loud:" : "This is the correct answer, say it loud:"}
             </div>
-            <div style={{ fontSize: "clamp(16px,4vw,20px)", fontWeight: 900, color: C.textH, lineHeight: 1.3 }}>"{q.correct}"</div>
+            <div style={{ fontSize: "clamp(14px,3vw,17px)", fontWeight: 900, color: C.textH, lineHeight: 1.3 }}>"{q.correct}"</div>
           </div>
-          <button type="button"
-            onClick={handleMic}
-            style={{ ...btn(listening ? C.magenta : pronResult === "perfect" || pronResult === "good" ? C.limon : section.color, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 50 }), touchAction: "manipulation", marginBottom: 12 }}>
-            {listening ? "⏹  Listening…" : pronResult ? "◉  Try again" : "◉  Tap to speak"}
-          </button>
+          <div style={{ textAlign: "center", marginBottom: 12 }}>
+            <button type="button"
+              onClick={handleMic}
+              style={{ ...btn(listening ? C.magenta : pronResult === "perfect" || pronResult === "good" ? C.limon : section.color, { fontSize: 15, padding: "14px 32px", borderRadius: 50 }), touchAction: "manipulation" }}>
+              {listening ? "⏹  Listening…" : pronResult ? "◉  Try again" : "◉  Tap to speak"}
+            </button>
+          </div>
           {listening && (
             <div style={{ display: "flex", gap: 3, justifyContent: "center", alignItems: "center", height: 28, marginBottom: 10 }}>
               {[2,4,6,8,6,4,2,4,6,8,6,4,2].map((h, i) => (
@@ -668,12 +670,14 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
             </div>
           )}
           {(canAdvancePron || !supported) && (
-            <button type="button"
-              onClick={nextQuestion}
-              onPointerDown={(e) => { e.preventDefault(); nextQuestion(); }}
-              style={{ ...btn(pronResult === "perfect" ? C.limon : section.color, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 50 }), touchAction: "manipulation" }}>
-              {idx + 1 >= questions.length ? "See Results →" : "Next Question →"}
-            </button>
+            <div style={{ textAlign: "center", marginTop: 8 }}>
+              <button type="button"
+                onClick={nextQuestion}
+                onPointerDown={(e) => { e.preventDefault(); nextQuestion(); }}
+                style={{ ...btn(pronResult === "perfect" ? C.limon : section.color, { fontSize: 15, padding: "14px 32px", borderRadius: 50 }), touchAction: "manipulation" }}>
+                {idx + 1 >= questions.length ? "See Results →" : "Next Question →"}
+              </button>
+            </div>
           )}
         </>
       )}
@@ -775,12 +779,14 @@ function BlockSurvey({ onComplete }) {
         <textarea value={answers.comments} onChange={e => setAnswers(p => ({ ...p, comments: e.target.value }))} placeholder="Your ideas go directly to the course creator..."
           style={{ width: "100%", minHeight: 90, padding: "12px 14px", borderRadius: 12, border: `1.5px solid ${C.grisB}`, fontSize: 13, color: C.textH, fontFamily: "'Plus Jakarta Sans', sans-serif", resize: "vertical", outline: "none", background: C.grisS }} />
       </div>
-      <button type="button"
-        onClick={handleSubmit}
-        disabled={!allDone || submitting}
-        style={{ ...btn(allDone ? section.color : C.grisB, { width: "100%", fontSize: 16, padding: "16px", borderRadius: 50 }), opacity: allDone ? 1 : 0.5, cursor: allDone ? "pointer" : "not-allowed", touchAction: "manipulation" }}>
-        {submitting ? "Sending..." : "Submit Feedback →"}
-      </button>
+      <div style={{ textAlign: "center" }}>
+        <button type="button"
+          onClick={handleSubmit}
+          disabled={!allDone || submitting}
+          style={{ ...btn(allDone ? section.color : C.grisB, { fontSize: 16, padding: "16px 40px", borderRadius: 50 }), opacity: allDone ? 1 : 0.5, cursor: allDone ? "pointer" : "not-allowed", touchAction: "manipulation" }}>
+          {submitting ? "Sending..." : "Submit Feedback →"}
+        </button>
+      </div>
       <div style={{ textAlign: "center", marginTop: 10, fontSize: 12, color: C.textM }}>Thank you — your response goes directly to the course creator.</div>
       <div style={{ textAlign: "center", marginTop: 16 }}>
         <button type="button"
@@ -804,7 +810,7 @@ function LessonComplete({ onNext }) {
 
   return (
     <div style={{ textAlign: "center", padding: "40px 0", animation: "fadeUp 0.4s ease" }}>
-      <Confetti show={celebrate} message="Lesson 1 Complete!" color={C.magenta} />
+      <Confetti show={celebrate} message="Lesson 1 Complete!" />
       <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.turquesaL, border: `1.5px solid ${C.turquesa}30`, borderRadius: 50, padding: "6px 16px", marginBottom: 20 }}>
         <span style={{ fontSize: 11, fontWeight: 800, color: C.turquesaD, letterSpacing: 1.5, textTransform: "uppercase" }}>Basic · Lesson 1</span>
       </div>
@@ -913,9 +919,9 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
   return (
     <div style={{ background: "#fff", minHeight: "100vh" }}>
       <style>{`
-        @keyframes confettiFall {
+        @keyframes confettiRise {
           0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
-          100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+          100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
         }
         @keyframes celebPop {
           0%   { transform: scale(0.5); opacity: 0; }
@@ -1044,7 +1050,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
                 It's 2:47 PM. Your plane just touched down at <strong style={{ color: C.textH }}>Cancún International Airport — CUN</strong>. Through the window: palm trees, a sunny day, a sign reading <strong style={{ color: C.turquesa }}>"BIENVENIDOS A MÉXICO."</strong> Your heart races. First challenge: immigration, baggage, your ADO bus ticket — all in Spanish.
               </p>
             </div>
-            <div style={{ background: C.turquesaL, border: `1.5px solid ${C.turquesa}30`, borderRadius: 14, padding: "16px 18px" }}>
+            <div style={{ background: C.turquesaL, border: `1.5px solid ${C.turquesa}30`, borderRadius: 14, padding: "16px 18px", marginBottom: 32 }}>
               <div style={{ fontSize: 11, letterSpacing: 2, color: C.turquesaD, fontWeight: 800, textTransform: "uppercase", marginBottom: 8 }}>What you'll learn</div>
               {SECTION.skills.map((skill, i) => (
                 <div key={i} style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 6 }}>
@@ -1052,6 +1058,14 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
                   <span style={{ fontSize: 13, color: C.textB, fontWeight: 500 }}>{skill}</span>
                 </div>
               ))}
+            </div>
+            <div style={{ textAlign: "center" }}>
+              <button type="button"
+                onClick={advance}
+                onPointerDown={(e) => { e.preventDefault(); advance(); }}
+                style={{ ...btn(C.turquesa, { fontSize: 16, padding: "14px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
+                Start →
+              </button>
             </div>
           </div>
         )}
@@ -1063,20 +1077,6 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
         {slide === 7 && <LessonComplete onNext={onComplete || onBack} />}
 
       </div>
-
-      {/* BOTTOM NAV — story slide only */}
-      {slide === 2 && (
-        <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 50, background: "rgba(255,255,255,0.97)", backdropFilter: "blur(12px)", borderTop: `1.5px solid ${C.grisB}`, padding: "14px 20px 20px", boxShadow: "0 -4px 20px rgba(0,0,0,0.06)" }}>
-          <div style={{ maxWidth: 720, margin: "0 auto", display: "flex", justifyContent: "center" }}>
-            <button type="button"
-              onClick={advance}
-              onPointerDown={(e) => { e.preventDefault(); advance(); }}
-              style={{ ...btn(C.turquesa, { fontSize: 16, padding: "14px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
-              Start →
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
