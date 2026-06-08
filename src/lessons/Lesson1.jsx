@@ -47,14 +47,14 @@ const SECTION = {
     "Buy an ADO bus ticket",
   ],
   words: [
-    { es: "el internet",          display: "internet",    pron: "een-ter-NET",         en: "internet",    phrase: { es: "¿Hay internet gratis en el aeropuerto?",      pron: "hay een-ter-NET GRAH-tees en el ah-eh-roh-PWER-toh",          en: "Is there free internet at the airport?" } },
-    { es: "la migración",         display: "migración",   pron: "mee-grah-SYON",       en: "immigration", phrase: { es: "¿Dónde está la zona de migración?",           pron: "DON-deh es-TAH lah SO-nah deh mee-grah-SYON",                en: "Where is the immigration area?" } },
-    { es: "la fila",              display: "fila",        pron: "FEE-lah",             en: "line",        phrase: { es: "Perdón, ¿esta es la fila para extranjeros?",  pron: "pehr-DON ES-tah ehs lah FEE-lah PAH-rah eks-tran-HEH-ros",  en: "Excuse me, is this the line for foreigners?" } },
-    { es: "el pasaporte",         display: "pasaporte",   pron: "pah-sah-POR-teh",     en: "passport",    phrase: { es: "Hola, aquí está mi pasaporte.",               pron: "OH-lah ah-KEE es-TAH mee pah-sah-POR-teh",                   en: "Hello, here is my passport." } },
-    { es: "el boleto de regreso", display: "boleto",      pron: "boh-LEH-toh",         en: "ticket",      phrase: { es: "Tengo mi boleto de regreso aquí.",             pron: "TEN-goh mee boh-LEH-toh deh reh-GREH-soh ah-KEE",            en: "I have my return ticket here." } },
-    { es: "la maleta",            display: "maleta",      pron: "mah-LEH-tah",         en: "suitcase",    phrase: { es: "¿Dónde recojo mi maleta?",                    pron: "DON-deh reh-KOH-hoh mee mah-LEH-tah",                        en: "Where do I pick up my suitcase?" } },
-    { es: "la salida",            display: "salida",      pron: "sah-LEE-dah",         en: "exit",        phrase: { es: "¿Por dónde es la salida?",                    pron: "por DON-deh ehs lah sah-LEE-dah",                            en: "Which way is the exit?" } },
-    { es: "el autobús ADO",       display: "autobús",     pron: "ow-toh-BOOS",         en: "bus",         phrase: { es: "¿Dónde compro el boleto de autobús ADO?",     pron: "DON-deh KOM-proh el boh-LEH-toh deh ow-toh-BOOS ah-deh-OH", en: "Where do I buy the ADO bus ticket?" } },
+    { es: "el internet",          display: "internet",  pron: "een-ter-NET",         en: "internet",    phrase: { es: "¿Hay internet gratis en el aeropuerto?",      pron: "hay een-ter-NET GRAH-tees en el ah-eh-roh-PWER-toh",          en: "Is there free internet at the airport?" } },
+    { es: "la migración",         display: "migración", pron: "mee-grah-SYON",       en: "immigration", phrase: { es: "¿Dónde está la zona de migración?",           pron: "DON-deh es-TAH lah SO-nah deh mee-grah-SYON",                en: "Where is the immigration area?" } },
+    { es: "la fila",              display: "fila",      pron: "FEE-lah",             en: "line",        phrase: { es: "Perdón, ¿esta es la fila para extranjeros?",  pron: "pehr-DON ES-tah ehs lah FEE-lah PAH-rah eks-tran-HEH-ros",  en: "Excuse me, is this the line for foreigners?" } },
+    { es: "el pasaporte",         display: "pasaporte", pron: "pah-sah-POR-teh",     en: "passport",    phrase: { es: "Hola, aquí está mi pasaporte.",               pron: "OH-lah ah-KEE es-TAH mee pah-sah-POR-teh",                   en: "Hello, here is my passport." } },
+    { es: "el boleto de regreso", display: "boleto",    pron: "boh-LEH-toh",         en: "ticket",      phrase: { es: "Tengo mi boleto de regreso aquí.",             pron: "TEN-goh mee boh-LEH-toh deh reh-GREH-soh ah-KEE",            en: "I have my return ticket here." } },
+    { es: "la maleta",            display: "maleta",    pron: "mah-LEH-tah",         en: "suitcase",    phrase: { es: "¿Dónde recojo mi maleta?",                    pron: "DON-deh reh-KOH-hoh mee mah-LEH-tah",                        en: "Where do I pick up my suitcase?" } },
+    { es: "la salida",            display: "salida",    pron: "sah-LEE-dah",         en: "exit",        phrase: { es: "¿Por dónde es la salida?",                    pron: "por DON-deh ehs lah sah-LEE-dah",                            en: "Which way is the exit?" } },
+    { es: "el autobús ADO",       display: "autobús",   pron: "ow-toh-BOOS",         en: "bus",         phrase: { es: "¿Dónde compro el boleto de autobús ADO?",     pron: "DON-deh KOM-proh el boh-LEH-toh deh ow-toh-BOOS ah-deh-OH", en: "Where do I buy the ADO bus ticket?" } },
   ],
 };
 
@@ -100,7 +100,7 @@ function useTTS() {
   const synth = useRef(null);
   const [speaking, setSpeaking] = useState(false);
   useEffect(() => { synth.current = window.speechSynthesis; return () => synth.current?.cancel(); }, []);
-  const speak = useCallback((text) => {
+  const speak = useCallback((text, onWordBoundary) => {
     if (!synth.current) return;
     synth.current.cancel(); setSpeaking(true);
     const u = new SpeechSynthesisUtterance(text);
@@ -108,8 +108,11 @@ function useTTS() {
     const voices = synth.current.getVoices();
     const v = voices.find(v => v.lang.startsWith("es-MX")) || voices.find(v => v.lang.startsWith("es"));
     if (v) u.voice = v;
-    u.onend = () => setSpeaking(false);
-    u.onerror = () => setSpeaking(false);
+    if (onWordBoundary) {
+      u.onboundary = (e) => { if (e.name === "word") onWordBoundary(e.charIndex, e.charLength); };
+    }
+    u.onend = () => { setSpeaking(false); if (onWordBoundary) onWordBoundary(-1, 0); };
+    u.onerror = () => { setSpeaking(false); if (onWordBoundary) onWordBoundary(-1, 0); };
     synth.current.speak(u);
   }, []);
   return { speak, speaking };
@@ -171,33 +174,20 @@ function Confetti({ show, message }) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// KARAOKE TEXT
+// KARAOKE TEXT — sincronizado con onboundary (no timers)
 // ═══════════════════════════════════════════════════════════════
-function KaraokeText({ text, isPlaying, color }) {
-  const words = text.split(" ");
-  const [activeIdx, setActiveIdx] = useState(-1);
-  const timersRef = useRef([]);
-  useEffect(() => {
-    timersRef.current.forEach(t => clearTimeout(t));
-    timersRef.current = [];
-    if (!isPlaying) { setActiveIdx(-1); return; }
-    const msPerWord = 380;
-    words.forEach((_, i) => {
-      const t = setTimeout(() => setActiveIdx(i), i * msPerWord);
-      timersRef.current.push(t);
-    });
-    const total = setTimeout(() => setActiveIdx(-1), words.length * msPerWord + 400);
-    timersRef.current.push(total);
-    return () => timersRef.current.forEach(t => clearTimeout(t));
-  }, [isPlaying, text]);
+function KaraokeText({ text, charIndex, charLength, color }) {
+  if (charIndex < 0) {
+    return <span style={{ fontSize: "clamp(16px,3.5vw,20px)", fontWeight: 900, color: C.textH, lineHeight: 1.3 }}>{text}</span>;
+  }
+  const before = text.slice(0, charIndex);
+  const current = text.slice(charIndex, charIndex + charLength);
+  const after = text.slice(charIndex + charLength);
   return (
     <span style={{ fontSize: "clamp(16px,3.5vw,20px)", fontWeight: 900, color: C.textH, lineHeight: 1.3 }}>
-      {words.map((word, i) => (
-        <span key={i}>
-          <span style={{ background: activeIdx === i ? color : "transparent", color: activeIdx === i ? "#fff" : C.textH, borderRadius: 4, padding: "0 2px", transition: "background 0.15s" }}>{word}</span>
-          {i < words.length - 1 ? " " : ""}
-        </span>
-      ))}
+      {before}
+      <span style={{ background: color, color: "#fff", borderRadius: 4, padding: "0 2px" }}>{current}</span>
+      {after}
     </span>
   );
 }
@@ -227,7 +217,6 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
       <div style={{ display: "flex", gap: 12, marginBottom: 12 }}>
         <button type="button"
           onClick={onListenPress}
-          onPointerDown={(e) => { e.preventDefault(); onListenPress(); }}
           style={{ flex: 1, background: C.azulL, border: `1.5px solid ${C.azul}40`, borderRadius: 14, padding: "14px 12px", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, touchAction: "manipulation" }}>
           <span style={{ fontSize: 24 }}>♪</span>
           <span style={{ fontSize: 12, fontWeight: 800, color: C.azulD }}>Listen</span>
@@ -254,21 +243,20 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
               {result === "perfect" ? "Perfect!" : result === "good" ? "Good job!" : "Try again!"}
             </span>
           </div>
-          <div style={{ fontSize: 12, color: C.textS, fontWeight: 500 }}>
+          <div style={{ fontSize: 14, color: C.textS, fontWeight: 500 }}>
             {result === "perfect" && "Native speakers will understand you!"}
             {result === "good"    && "Good pronunciation! Keep going."}
             {result === "retry"   && <>I heard: <strong>"{transcript}"</strong> — listen first, then try again.</>}
           </div>
-          {attempts >= 2 && result === "retry" && <div style={{ marginTop: 6, fontSize: 11, color: C.textM, fontStyle: "italic" }}>You can continue — pronunciation improves with practice!</div>}
+          {attempts >= 2 && result === "retry" && <div style={{ marginTop: 6, fontSize: 14, color: C.textM, fontStyle: "italic" }}>You can continue — pronunciation improves with practice!</div>}
         </div>
       )}
-      {!supported && <div style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 10, padding: "10px 14px", marginBottom: 10, fontSize: 12, color: C.textS }}>Voice recognition works best in Chrome.</div>}
+      {!supported && <div style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 10, padding: "10px 14px", marginBottom: 10, fontSize: 14, color: C.textS }}>Voice recognition works best in Chrome.</div>}
       {(canAdvance || !supported) && (
         <div style={{ textAlign: "center", marginTop: 8 }}>
           <button type="button"
             onClick={onPass}
-            onPointerDown={(e) => { e.preventDefault(); onPass(); }}
-            style={{ ...btn(result === "perfect" ? C.limon : color, { fontSize: 14, padding: "13px 28px", borderRadius: 50 }), touchAction: "manipulation" }}>
+            style={{ ...btn(result === "perfect" ? C.limon : color, { fontSize: 15, padding: "13px 28px", borderRadius: 50 }), touchAction: "manipulation" }}>
             {passLabel}
           </button>
         </div>
@@ -285,15 +273,16 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
   const [wordIdx, setWordIdx] = useState(0);
   const [phase, setPhase] = useState("word");
   const [done, setDone] = useState(false);
-  const [karaokePlaying, setKaraokePlaying] = useState(false);
+  const [karaokeIdx, setKaraokeIdx] = useState(-1);
+  const [karaokeLen, setKaraokeLen] = useState(0);
   const [celebrate, setCelebrate] = useState(false);
   const [celebrateMsg, setCelebrateMsg] = useState("");
 
   useEffect(() => {
     if (onBackRequest) {
       onBackRequest.current = () => {
-        if (phase === "phrase") { setPhase("word"); setKaraokePlaying(false); return true; }
-        if (phase === "word" && wordIdx > 0) { setWordIdx(wordIdx - 1); setPhase("phrase"); setKaraokePlaying(false); return true; }
+        if (phase === "phrase") { setPhase("word"); setKaraokeIdx(-1); return true; }
+        if (phase === "word" && wordIdx > 0) { setWordIdx(wordIdx - 1); setPhase("phrase"); setKaraokeIdx(-1); return true; }
         return false;
       };
     }
@@ -305,10 +294,10 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
     setTimeout(() => setCelebrate(false), 1500);
   }
 
-  function handleWordPass() { setPhase("phrase"); setKaraokePlaying(false); }
+  function handleWordPass() { setPhase("phrase"); setKaraokeIdx(-1); }
 
   function handlePhrasePass() {
-    setKaraokePlaying(false);
+    setKaraokeIdx(-1);
     const msg = CELEBRATE_MESSAGES[wordIdx % CELEBRATE_MESSAGES.length];
     showCelebration(msg);
     setTimeout(() => {
@@ -318,9 +307,8 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
   }
 
   function handleListenPhrase() {
-    setKaraokePlaying(true);
-    speak(sec.words[wordIdx].phrase.es);
-    setTimeout(() => setKaraokePlaying(false), sec.words[wordIdx].phrase.es.split(" ").length * 380 + 600);
+    setKaraokeIdx(0); setKaraokeLen(0);
+    speak(sec.words[wordIdx].phrase.es, (ci, cl) => { setKaraokeIdx(ci); setKaraokeLen(cl); });
   }
 
   const cardStyle = (bg, borderColor) => ({
@@ -334,12 +322,13 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
       </div>
       <div style={{ fontSize: 24, fontWeight: 900, color: C.textH, letterSpacing: -0.5, marginBottom: 8 }}>Speaking Complete!</div>
       <div style={{ fontSize: 15, color: C.textS, fontWeight: 500, marginBottom: 32 }}>Great work on <strong>{sec.title}</strong>!</div>
-      <button type="button"
-        onClick={onComplete}
-        onPointerDown={(e) => { e.preventDefault(); onComplete(); }}
-        style={{ ...btn(sec.color, { fontSize: 16, padding: "15px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
-        Continue →
-      </button>
+      <div style={{ textAlign: "center" }}>
+        <button type="button"
+          onClick={onComplete}
+          style={{ ...btn(sec.color, { fontSize: 15, padding: "15px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
+          Continue →
+        </button>
+      </div>
     </div>
   );
 
@@ -381,7 +370,7 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
           <div style={cardStyle(C.grisS, C.grisB)}>
             <div style={{ fontSize: 11, letterSpacing: 2, color: C.textM, fontWeight: 800, textTransform: "uppercase", marginBottom: 10 }}>Used in a phrase</div>
             <div style={{ marginBottom: 8, lineHeight: 1.4 }}>
-              <KaraokeText text={word.phrase.es} isPlaying={karaokePlaying} color={sec.color} />
+              <KaraokeText text={word.phrase.es} charIndex={karaokeIdx} charLength={karaokeLen} color={sec.color} />
             </div>
             <div style={{ display: "inline-block", background: C.azulL, border: `1.5px solid ${C.azul}40`, borderRadius: 8, padding: "3px 12px", fontSize: 12, color: C.azulD, fontFamily: "'Space Mono',monospace", fontWeight: 700, marginBottom: 6 }}>◉ {word.phrase.pron}</div>
             <div style={{ fontSize: 14, color: C.textS, fontWeight: 600 }}>{word.phrase.en}</div>
@@ -451,13 +440,14 @@ function Memorama({ speak, onComplete }) {
       </div>
       <div style={{ fontSize: 24, fontWeight: 900, color: C.textH, marginBottom: 8 }}>Memorama Complete!</div>
       <div style={{ fontSize: 15, color: C.textS, fontWeight: 500, marginBottom: 8 }}>You matched all {pairs.length} pairs in <strong style={{ color: section.color }}>{moves} moves</strong></div>
-      <div style={{ fontSize: 13, color: C.textM, marginBottom: 32 }}>{moves <= pairs.length + 2 ? "Excellent memory!" : moves <= pairs.length + 5 ? "Good job!" : "Keep practicing!"}</div>
-      <button type="button"
-        onClick={onComplete}
-        onPointerDown={(e) => { e.preventDefault(); onComplete(); }}
-        style={{ ...btn(section.color, { fontSize: 16, padding: "15px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
-        Continue →
-      </button>
+      <div style={{ fontSize: 14, color: C.textM, marginBottom: 32 }}>{moves <= pairs.length + 2 ? "Excellent memory!" : moves <= pairs.length + 5 ? "Good job!" : "Keep practicing!"}</div>
+      <div style={{ textAlign: "center" }}>
+        <button type="button"
+          onClick={onComplete}
+          style={{ ...btn(section.color, { fontSize: 15, padding: "15px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
+          Continue →
+        </button>
+      </div>
     </div>
   );
 
@@ -480,7 +470,7 @@ function Memorama({ speak, onComplete }) {
       <div style={{ height: 6, background: C.grisB, borderRadius: 3, overflow: "hidden", marginBottom: 16 }}>
         <div style={{ height: "100%", width: `${(matched.length / pairs.length) * 100}%`, background: `linear-gradient(90deg,${section.color},${section.colorD})`, borderRadius: 3, transition: "width 0.4s" }} />
       </div>
-      <div style={{ fontSize: 13, color: C.textM, fontWeight: 600, marginBottom: 16 }}>Tap two cards to find matching pairs — Spanish ↔ English</div>
+      <div style={{ fontSize: 14, color: C.textM, fontWeight: 600, marginBottom: 16 }}>Tap two cards to find matching pairs — Spanish ↔ English</div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10, marginBottom: 16 }}>
         {cards.map(card => {
           const isF = flipped.includes(card.id), isM = matched.includes(card.pairId), show = isF || isM;
@@ -502,7 +492,7 @@ function Memorama({ speak, onComplete }) {
           );
         })}
       </div>
-      <div style={{ background: section.colorL, border: `1.5px solid ${section.color}30`, borderRadius: 12, padding: "10px 14px", fontSize: 12, color: section.colorD, fontWeight: 600 }}>Spanish cards play audio when flipped — listen carefully!</div>
+      <div style={{ background: section.colorL, border: `1.5px solid ${section.color}30`, borderRadius: 12, padding: "10px 14px", fontSize: 14, color: section.colorD, fontWeight: 600 }}>Spanish cards play audio when flipped — listen carefully!</div>
     </div>
   );
 }
@@ -574,12 +564,13 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
         <div style={{ fontSize: "clamp(48px,12vw,64px)", fontWeight: 900, color: section.color, lineHeight: 1, marginBottom: 8, letterSpacing: -2 }}>{score}/{questions.length}</div>
         <div style={{ fontSize: 20, color: C.textH, fontWeight: 800, marginBottom: 8 }}>{pct >= 75 ? "Excellent!" : pct >= 50 ? "Well done!" : "Keep going!"}</div>
         <div style={{ fontSize: 14, color: C.textS, fontWeight: 500, lineHeight: 1.7, marginBottom: 32 }}>{pct >= 75 ? "You really know your Airport phrases!" : "Practice makes perfect — you've got this."}</div>
-        <button type="button"
-          onClick={onComplete}
-          onPointerDown={(e) => { e.preventDefault(); onComplete(); }}
-          style={{ ...btn(section.color, { fontSize: 16, padding: "15px 36px", borderRadius: 50 }), touchAction: "manipulation" }}>
-          Continue →
-        </button>
+        <div style={{ textAlign: "center" }}>
+          <button type="button"
+            onClick={onComplete}
+            style={{ ...btn(section.color, { fontSize: 15, padding: "15px 36px", borderRadius: 50 }), touchAction: "manipulation" }}>
+            Continue →
+          </button>
+        </div>
       </div>
     );
   }
@@ -602,7 +593,7 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
         <div style={{ height: "100%", width: `${(idx / questions.length) * 100}%`, background: `linear-gradient(90deg,${section.color},${section.colorD})`, borderRadius: 3, transition: "width 0.5s" }} />
       </div>
       <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: C.textM, fontWeight: 700, marginBottom: 20 }}>
-        <span>{idx + 1} / {questions.length}</span>
+        <span style={{ whiteSpace: "nowrap" }}>{idx + 1} / {questions.length}</span>
         <span style={{ color: section.color, fontWeight: 900 }}>Score: {score}</span>
       </div>
       <div style={{ background: C.azulL, border: `1.5px solid ${C.azul}30`, borderLeft: `5px solid ${C.azul}`, borderRadius: 14, padding: "16px 18px", marginBottom: 20 }}>
@@ -620,7 +611,6 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
           return (
             <button type="button" key={i}
               onClick={() => select(opt)}
-              onPointerDown={(e) => { e.preventDefault(); select(opt); }}
               style={{ background: bg, border: `1.5px solid ${border}`, borderRadius: 14, padding: "14px 16px", textAlign: "left", cursor: sel !== null ? "default" : "pointer", color: tc, fontSize: 14, fontWeight: fw, transition: "all 0.18s", display: "flex", alignItems: "center", gap: 12, touchAction: "manipulation" }}>
               <span style={{ width: 28, height: 28, borderRadius: "50%", flexShrink: 0, background: sel !== null && isC ? C.limon : isS && !isC ? C.rojo : C.grisS, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 900, color: sel !== null && (isC || (isS && !isC)) ? "#fff" : C.textM }}>
                 {sel !== null && isC ? "✓" : isS && !isC ? "✗" : ["A","B","C","D"][i]}
@@ -657,7 +647,7 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
               <div style={{ fontSize: 14, fontWeight: 900, color: pronResult === "perfect" ? C.limonD : pronResult === "good" ? C.azulD : C.rojo, marginBottom: 4 }}>
                 {pronResult === "perfect" ? "Perfect!" : pronResult === "good" ? "Good job!" : "Try again!"}
               </div>
-              <div style={{ fontSize: 12, color: C.textS }}>
+              <div style={{ fontSize: 14, color: C.textS }}>
                 {pronResult === "retry" && <>I heard: <strong>"{transcript}"</strong></>}
                 {pronResult === "perfect" && "Native speakers will understand you!"}
                 {pronResult === "good" && "Good pronunciation!"}
@@ -665,7 +655,7 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
             </div>
           )}
           {!supported && (
-            <div style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 10, padding: "10px 14px", marginBottom: 10, fontSize: 12, color: C.textS }}>
+            <div style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 10, padding: "10px 14px", marginBottom: 10, fontSize: 14, color: C.textS }}>
               Voice recognition works best in Chrome.
             </div>
           )}
@@ -673,7 +663,6 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
             <div style={{ textAlign: "center", marginTop: 8 }}>
               <button type="button"
                 onClick={nextQuestion}
-                onPointerDown={(e) => { e.preventDefault(); nextQuestion(); }}
                 style={{ ...btn(pronResult === "perfect" ? C.limon : section.color, { fontSize: 15, padding: "14px 32px", borderRadius: 50 }), touchAction: "manipulation" }}>
                 {idx + 1 >= questions.length ? "See Results →" : "Next Question →"}
               </button>
@@ -712,12 +701,13 @@ function BlockSurvey({ onComplete }) {
       </div>
       <div style={{ fontSize: 22, fontWeight: 900, color: C.textH, marginBottom: 12 }}>Thank you!</div>
       <div style={{ fontSize: 14, color: C.textS, fontWeight: 500, lineHeight: 1.7, marginBottom: 32 }}>Your feedback goes directly to the course creator.</div>
-      <button type="button"
-        onClick={onComplete}
-        onPointerDown={(e) => { e.preventDefault(); onComplete(); }}
-        style={{ ...btn(section.color, { fontSize: 16, padding: "15px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
-        Continue →
-      </button>
+      <div style={{ textAlign: "center" }}>
+        <button type="button"
+          onClick={onComplete}
+          style={{ ...btn(section.color, { fontSize: 15, padding: "15px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
+          Continue →
+        </button>
+      </div>
     </div>
   );
 
@@ -729,7 +719,6 @@ function BlockSurvey({ onComplete }) {
           {[1,2,3,4,5,6,7,8,9,10].map(n => (
             <button type="button" key={n}
               onClick={() => setAnswers(p => ({ ...p, [field]: n }))}
-              onPointerDown={(e) => { e.preventDefault(); setAnswers(p => ({ ...p, [field]: n })); }}
               style={{ width: 36, height: 36, borderRadius: "50%", border: `1.5px solid ${answers[field] === n ? section.color : C.grisB}`, background: answers[field] === n ? section.color : C.grisS, color: answers[field] === n ? "#fff" : C.textS, fontSize: 13, fontWeight: 700, cursor: "pointer", transition: "all 0.15s", touchAction: "manipulation" }}>
               {n}
             </button>
@@ -753,7 +742,7 @@ function BlockSurvey({ onComplete }) {
       </div>
       <div style={{ marginBottom: 24 }}>
         <div style={{ fontSize: 14, fontWeight: 700, color: C.textH, marginBottom: 6 }}>Your email <span style={{ fontSize: 12, color: C.textM, fontWeight: 500 }}>(optional)</span></div>
-        <div style={{ fontSize: 12, color: C.textS, fontWeight: 500, marginBottom: 10 }}>We'll notify you when the full course is ready — and send you a special launch discount.</div>
+        <div style={{ fontSize: 14, color: C.textS, fontWeight: 500, marginBottom: 10 }}>We'll notify you when the full course is ready — and send you a special launch discount.</div>
         <input type="email" value={answers.email} onChange={e => setAnswers(p => ({ ...p, email: e.target.value }))} placeholder="email@example.com"
           style={{ width: "100%", padding: "12px 14px", borderRadius: 12, border: `1.5px solid ${C.grisB}`, fontSize: 16, color: C.textH, fontFamily: "'Plus Jakarta Sans', sans-serif", outline: "none", background: C.grisS, boxSizing: "border-box" }} />
       </div>
@@ -767,7 +756,6 @@ function BlockSurvey({ onComplete }) {
           {["Yes, perfectly", "Sometimes", "No, it didn't work"].map(opt => (
             <button type="button" key={opt}
               onClick={() => setAnswers(p => ({ ...p, voiceRecognition: opt }))}
-              onPointerDown={(e) => { e.preventDefault(); setAnswers(p => ({ ...p, voiceRecognition: opt })); }}
               style={{ padding: "12px 16px", borderRadius: 12, border: `1.5px solid ${answers.voiceRecognition === opt ? section.color : C.grisB}`, background: answers.voiceRecognition === opt ? section.colorL : C.grisS, color: answers.voiceRecognition === opt ? section.colorD : C.textS, fontSize: 14, fontWeight: 700, cursor: "pointer", textAlign: "left", transition: "all 0.15s", touchAction: "manipulation" }}>
               {answers.voiceRecognition === opt ? "◉ " : "○ "}{opt}
             </button>
@@ -783,15 +771,14 @@ function BlockSurvey({ onComplete }) {
         <button type="button"
           onClick={handleSubmit}
           disabled={!allDone || submitting}
-          style={{ ...btn(allDone ? section.color : C.grisB, { fontSize: 16, padding: "16px 40px", borderRadius: 50 }), opacity: allDone ? 1 : 0.5, cursor: allDone ? "pointer" : "not-allowed", touchAction: "manipulation" }}>
+          style={{ ...btn(allDone ? section.color : C.grisB, { fontSize: 15, padding: "16px 40px", borderRadius: 50 }), opacity: allDone ? 1 : 0.5, cursor: allDone ? "pointer" : "not-allowed", touchAction: "manipulation" }}>
           {submitting ? "Sending..." : "Submit Feedback →"}
         </button>
       </div>
-      <div style={{ textAlign: "center", marginTop: 10, fontSize: 12, color: C.textM }}>Thank you — your response goes directly to the course creator.</div>
+      <div style={{ textAlign: "center", marginTop: 10, fontSize: 14, color: C.textM }}>Thank you — your response goes directly to the course creator.</div>
       <div style={{ textAlign: "center", marginTop: 16 }}>
         <button type="button"
           onClick={onComplete}
-          onPointerDown={(e) => { e.preventDefault(); onComplete(); }}
           style={{ background: "none", border: "none", color: C.textM, fontSize: 13, cursor: "pointer", textDecoration: "underline", touchAction: "manipulation" }}>
           Skip survey
         </button>
@@ -844,8 +831,7 @@ function LessonComplete({ onNext }) {
       </div>
       <button type="button"
         onClick={onNext}
-        onPointerDown={(e) => { e.preventDefault(); onNext(); }}
-        style={{ ...btn(C.magenta, { fontSize: 16, padding: "16px 40px", borderRadius: 50, boxShadow: `0 6px 24px ${C.magenta}40` }), touchAction: "manipulation" }}>
+        style={{ ...btn(C.magenta, { fontSize: 15, padding: "16px 40px", borderRadius: 50, boxShadow: `0 6px 24px ${C.magenta}40` }), touchAction: "manipulation" }}>
         Continue to Lesson 2 →
       </button>
     </div>
@@ -949,10 +935,9 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
               </div>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <span style={{ fontSize: 12, color: accentColor, fontWeight: 900 }}>{slide + 1} / {TOTAL}</span>
+              <span style={{ fontSize: 12, color: accentColor, fontWeight: 900, whiteSpace: "nowrap" }}>{slide + 1} / {TOTAL}</span>
               <button type="button"
                 onClick={handleBack}
-                onPointerDown={(e) => { e.preventDefault(); handleBack(); }}
                 style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, color: C.textS, padding: "8px 16px", borderRadius: 50, cursor: "pointer", fontSize: 13, fontWeight: 700, touchAction: "manipulation" }}>← Back</button>
             </div>
           </div>
@@ -999,8 +984,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
             </div>
             <button type="button"
               onClick={() => { unlock(1); goTo(1); }}
-              onPointerDown={(e) => { e.preventDefault(); unlock(1); goTo(1); }}
-              style={{ ...btn(C.magenta, { fontSize: 17, padding: "16px 44px", borderRadius: 50, boxShadow: `0 6px 24px ${C.magenta}40` }), touchAction: "manipulation", display: "inline-block" }}>
+              style={{ ...btn(C.magenta, { fontSize: 15, padding: "16px 44px", borderRadius: 50, boxShadow: `0 6px 24px ${C.magenta}40` }), touchAction: "manipulation", display: "inline-block" }}>
               Let's Start! →
             </button>
           </div>
@@ -1023,8 +1007,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
             </div>
             <button type="button"
               onClick={advance}
-              onPointerDown={(e) => { e.preventDefault(); advance(); }}
-              style={{ ...btn(C.magenta, { fontSize: 16, padding: "14px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
+              style={{ ...btn(C.magenta, { fontSize: 15, padding: "14px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
               Continue →
             </button>
           </div>
@@ -1062,8 +1045,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
             <div style={{ textAlign: "center" }}>
               <button type="button"
                 onClick={advance}
-                onPointerDown={(e) => { e.preventDefault(); advance(); }}
-                style={{ ...btn(C.turquesa, { fontSize: 16, padding: "14px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
+                style={{ ...btn(C.turquesa, { fontSize: 15, padding: "14px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
                 Start →
               </button>
             </div>
