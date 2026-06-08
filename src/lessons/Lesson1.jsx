@@ -3,9 +3,8 @@ import { C, btn } from "../tokens";
 import ChatLogo from "../components/ChatLogo";
 
 // ═══════════════════════════════════════════════════════════════
-// SVG ICONS — inline (no external dependency)
+// SVG ICONS — solo los que no se reemplazaron por emojis
 // ═══════════════════════════════════════════════════════════════
-const Plane    = ({size=24,color="#fff"}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19 2c-2-2-4-2-5.5-.5L10 5 1.8 6.2c-.5.1-.9.5-.9 1.1 0 .3.1.6.3.8l3.5 3.5L3 19.2c-.1.5.2 1 .7 1.2.2.1.5.1.7 0L12 17l7.6 3.4c.2.1.5.1.7 0 .5-.2.8-.7.7-1.2z"/></svg>;
 const Banknote = ({size=24,color="#fff"}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>;
 const Bus      = ({size=24,color="#fff"}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M8 6v6M15 6v6M2 12h19.6M18 18h2a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h2"/><path d="M8 18h8"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9H4z"/></svg>;
 const Users    = ({size=24,color="#fff"}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>;
@@ -22,23 +21,23 @@ const SHEETS_URL = "https://script.google.com/macros/s/AKfycbzUiHHTyLbu-efTHCzP-
 // LESSON MAP — Basic Level
 // ═══════════════════════════════════════════════════════════════
 const LESSONS = [
-  { id: 1,  title: "At the Airport",   icon: Plane,    color: C.turquesa },
-  { id: 2,  title: "Money & Exchange", icon: Banknote, color: C.azul     },
-  { id: 3,  title: "Getting Around",   icon: Bus,      color: C.limon    },
-  { id: 4,  title: "Meeting People",   icon: Users,    color: C.magenta  },
-  { id: 5,  title: "Coming Soon",      icon: Lock,     color: C.grisB    },
-  { id: 6,  title: "Coming Soon",      icon: Lock,     color: C.grisB    },
-  { id: 7,  title: "Coming Soon",      icon: Lock,     color: C.grisB    },
-  { id: 8,  title: "Coming Soon",      icon: Lock,     color: C.grisB    },
-  { id: 9,  title: "Coming Soon",      icon: Lock,     color: C.grisB    },
-  { id: 10, title: "Coming Soon",      icon: Lock,     color: C.grisB    },
+  { id: 1,  title: "At the Airport",   emoji: "✈️",  color: C.turquesa },
+  { id: 2,  title: "Money & Exchange", emoji: "💵",  color: C.azul     },
+  { id: 3,  title: "Getting Around",   emoji: "🚌",  color: C.limon    },
+  { id: 4,  title: "Meeting People",   emoji: "👥",  color: C.magenta  },
+  { id: 5,  title: "Coming Soon",      emoji: "🔒",  color: C.grisB    },
+  { id: 6,  title: "Coming Soon",      emoji: "🔒",  color: C.grisB    },
+  { id: 7,  title: "Coming Soon",      emoji: "🔒",  color: C.grisB    },
+  { id: 8,  title: "Coming Soon",      emoji: "🔒",  color: C.grisB    },
+  { id: 9,  title: "Coming Soon",      emoji: "🔒",  color: C.grisB    },
+  { id: 10, title: "Coming Soon",      emoji: "🔒",  color: C.grisB    },
 ];
 
 // ═══════════════════════════════════════════════════════════════
 // SECTION DATA — Airport only
 // ═══════════════════════════════════════════════════════════════
 const SECTION = {
-  id: "airport", icon: Plane, title: "At the Airport", subtitle: "En el Aeropuerto",
+  id: "airport", title: "At the Airport", subtitle: "En el Aeropuerto",
   color: C.turquesa, colorL: C.turquesaL, colorD: C.turquesaD,
   skills: [
     "Find immigration",
@@ -74,7 +73,7 @@ const QUIZ_DATA = [
 
 // ═══════════════════════════════════════════════════════════════
 // SLIDE MAP
-const TOTAL = 8; // Airport
+const TOTAL = 8;
 
 // ═══════════════════════════════════════════════════════════════
 // HELPERS
@@ -174,7 +173,7 @@ function Confetti({ show, message }) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// KARAOKE TEXT — sincronizado con onboundary (no timers)
+// KARAOKE TEXT — sincronizado con onboundary
 // ═══════════════════════════════════════════════════════════════
 function KaraokeText({ text, charIndex, charLength, color }) {
   if (charIndex < 0) {
@@ -256,6 +255,7 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
         <div style={{ textAlign: "center", marginTop: 8 }}>
           <button type="button"
             onClick={onPass}
+            onPointerDown={(e) => { e.preventDefault(); onPass(); }}
             style={{ ...btn(result === "perfect" ? C.limon : color, { fontSize: 15, padding: "13px 28px", borderRadius: 50 }), touchAction: "manipulation" }}>
             {passLabel}
           </button>
@@ -323,9 +323,9 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
       <div style={{ fontSize: 24, fontWeight: 900, color: C.textH, letterSpacing: -0.5, marginBottom: 8 }}>Speaking Complete!</div>
       <div style={{ fontSize: 15, color: C.textS, fontWeight: 500, marginBottom: 32 }}>Great work on <strong>{sec.title}</strong>!</div>
       <div style={{ textAlign: "center" }}>
-        <button type="button"
-          onClick={onComplete}
-          style={{ ...btn(sec.color, { fontSize: 15, padding: "15px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
+        <button type="button" onClick={onComplete}
+          onPointerDown={(e) => { e.preventDefault(); onComplete(); }}
+          style={{ ...btn(C.magenta, { fontSize: 15, padding: "15px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
           Continue →
         </button>
       </div>
@@ -338,9 +338,7 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
     <div>
       <Confetti show={celebrate} message={celebrateMsg} />
       <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16, padding: "14px 16px", background: sec.colorL, borderRadius: 16, border: `1.5px solid ${sec.color}20` }}>
-        <div style={{ width: 44, height: 44, borderRadius: 12, background: sec.color, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: "#fff" }}>
-          <Plane size={22} color="#fff" />
-        </div>
+        <div style={{ width: 44, height: 44, borderRadius: 12, background: sec.color, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 22 }}>✈️</div>
         <div>
           <div style={{ fontSize: 16, fontWeight: 900, color: C.textH }}>Speaking Practice</div>
           <div style={{ fontSize: 11, color: sec.colorD, fontWeight: 700 }}>{sec.title} · Word {wordIdx + 1} of {sec.words.length}</div>
@@ -442,9 +440,9 @@ function Memorama({ speak, onComplete }) {
       <div style={{ fontSize: 15, color: C.textS, fontWeight: 500, marginBottom: 8 }}>You matched all {pairs.length} pairs in <strong style={{ color: section.color }}>{moves} moves</strong></div>
       <div style={{ fontSize: 14, color: C.textM, marginBottom: 32 }}>{moves <= pairs.length + 2 ? "Excellent memory!" : moves <= pairs.length + 5 ? "Good job!" : "Keep practicing!"}</div>
       <div style={{ textAlign: "center" }}>
-        <button type="button"
-          onClick={onComplete}
-          style={{ ...btn(section.color, { fontSize: 15, padding: "15px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
+        <button type="button" onClick={onComplete}
+          onPointerDown={(e) => { e.preventDefault(); onComplete(); }}
+          style={{ ...btn(C.magenta, { fontSize: 15, padding: "15px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
           Continue →
         </button>
       </div>
@@ -455,7 +453,7 @@ function Memorama({ speak, onComplete }) {
     <div style={{ animation: "fadeUp 0.3s ease" }}>
       <Confetti show={celebrate} message="Memorama Complete!" />
       <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16, padding: "16px 18px", background: section.colorL, borderRadius: 16, border: `1.5px solid ${section.color}20` }}>
-        <div style={{ width: 48, height: 48, borderRadius: 14, background: section.color, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: "#fff" }}>
+        <div style={{ width: 48, height: 48, borderRadius: 14, background: section.color, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
           <Star size={24} color="#fff" />
         </div>
         <div style={{ flex: 1 }}>
@@ -565,9 +563,9 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
         <div style={{ fontSize: 20, color: C.textH, fontWeight: 800, marginBottom: 8 }}>{pct >= 75 ? "Excellent!" : pct >= 50 ? "Well done!" : "Keep going!"}</div>
         <div style={{ fontSize: 14, color: C.textS, fontWeight: 500, lineHeight: 1.7, marginBottom: 32 }}>{pct >= 75 ? "You really know your Airport phrases!" : "Practice makes perfect — you've got this."}</div>
         <div style={{ textAlign: "center" }}>
-          <button type="button"
-            onClick={onComplete}
-            style={{ ...btn(section.color, { fontSize: 15, padding: "15px 36px", borderRadius: 50 }), touchAction: "manipulation" }}>
+          <button type="button" onClick={onComplete}
+            onPointerDown={(e) => { e.preventDefault(); onComplete(); }}
+            style={{ ...btn(C.magenta, { fontSize: 15, padding: "15px 36px", borderRadius: 50 }), touchAction: "manipulation" }}>
             Continue →
           </button>
         </div>
@@ -583,7 +581,7 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
     <div>
       <Confetti show={celebrate} message="Quiz Complete!" />
       <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16, padding: "16px 18px", background: section.colorL, borderRadius: 16, border: `1.5px solid ${section.color}20` }}>
-        <div style={{ width: 48, height: 48, borderRadius: 14, background: section.color, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: "#fff", fontWeight: 900, fontSize: 24 }}>?</div>
+        <div style={{ width: 48, height: 48, borderRadius: 14, background: section.color, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontWeight: 900, fontSize: 24 }}>?</div>
         <div>
           <div style={{ fontSize: 18, fontWeight: 900, color: C.textH }}>Quick Quiz</div>
           <div style={{ fontSize: 12, color: section.colorD, fontWeight: 700 }}>{section.title} · Question {idx + 1} of {questions.length}</div>
@@ -611,6 +609,7 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
           return (
             <button type="button" key={i}
               onClick={() => select(opt)}
+              onPointerDown={(e) => { e.preventDefault(); select(opt); }}
               style={{ background: bg, border: `1.5px solid ${border}`, borderRadius: 14, padding: "14px 16px", textAlign: "left", cursor: sel !== null ? "default" : "pointer", color: tc, fontSize: 14, fontWeight: fw, transition: "all 0.18s", display: "flex", alignItems: "center", gap: 12, touchAction: "manipulation" }}>
               <span style={{ width: 28, height: 28, borderRadius: "50%", flexShrink: 0, background: sel !== null && isC ? C.limon : isS && !isC ? C.rojo : C.grisS, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 900, color: sel !== null && (isC || (isS && !isC)) ? "#fff" : C.textM }}>
                 {sel !== null && isC ? "✓" : isS && !isC ? "✗" : ["A","B","C","D"][i]}
@@ -663,6 +662,7 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
             <div style={{ textAlign: "center", marginTop: 8 }}>
               <button type="button"
                 onClick={nextQuestion}
+                onPointerDown={(e) => { e.preventDefault(); nextQuestion(); }}
                 style={{ ...btn(pronResult === "perfect" ? C.limon : section.color, { fontSize: 15, padding: "14px 32px", borderRadius: 50 }), touchAction: "manipulation" }}>
                 {idx + 1 >= questions.length ? "See Results →" : "Next Question →"}
               </button>
@@ -702,9 +702,9 @@ function BlockSurvey({ onComplete }) {
       <div style={{ fontSize: 22, fontWeight: 900, color: C.textH, marginBottom: 12 }}>Thank you!</div>
       <div style={{ fontSize: 14, color: C.textS, fontWeight: 500, lineHeight: 1.7, marginBottom: 32 }}>Your feedback goes directly to the course creator.</div>
       <div style={{ textAlign: "center" }}>
-        <button type="button"
-          onClick={onComplete}
-          style={{ ...btn(section.color, { fontSize: 15, padding: "15px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
+        <button type="button" onClick={onComplete}
+          onPointerDown={(e) => { e.preventDefault(); onComplete(); }}
+          style={{ ...btn(C.magenta, { fontSize: 15, padding: "15px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
           Continue →
         </button>
       </div>
@@ -719,6 +719,7 @@ function BlockSurvey({ onComplete }) {
           {[1,2,3,4,5,6,7,8,9,10].map(n => (
             <button type="button" key={n}
               onClick={() => setAnswers(p => ({ ...p, [field]: n }))}
+              onPointerDown={(e) => { e.preventDefault(); setAnswers(p => ({ ...p, [field]: n })); }}
               style={{ width: 36, height: 36, borderRadius: "50%", border: `1.5px solid ${answers[field] === n ? section.color : C.grisB}`, background: answers[field] === n ? section.color : C.grisS, color: answers[field] === n ? "#fff" : C.textS, fontSize: 13, fontWeight: 700, cursor: "pointer", transition: "all 0.15s", touchAction: "manipulation" }}>
               {n}
             </button>
@@ -756,6 +757,7 @@ function BlockSurvey({ onComplete }) {
           {["Yes, perfectly", "Sometimes", "No, it didn't work"].map(opt => (
             <button type="button" key={opt}
               onClick={() => setAnswers(p => ({ ...p, voiceRecognition: opt }))}
+              onPointerDown={(e) => { e.preventDefault(); setAnswers(p => ({ ...p, voiceRecognition: opt })); }}
               style={{ padding: "12px 16px", borderRadius: 12, border: `1.5px solid ${answers.voiceRecognition === opt ? section.color : C.grisB}`, background: answers.voiceRecognition === opt ? section.colorL : C.grisS, color: answers.voiceRecognition === opt ? section.colorD : C.textS, fontSize: 14, fontWeight: 700, cursor: "pointer", textAlign: "left", transition: "all 0.15s", touchAction: "manipulation" }}>
               {answers.voiceRecognition === opt ? "◉ " : "○ "}{opt}
             </button>
@@ -768,8 +770,8 @@ function BlockSurvey({ onComplete }) {
           style={{ width: "100%", minHeight: 90, padding: "12px 14px", borderRadius: 12, border: `1.5px solid ${C.grisB}`, fontSize: 13, color: C.textH, fontFamily: "'Plus Jakarta Sans', sans-serif", resize: "vertical", outline: "none", background: C.grisS }} />
       </div>
       <div style={{ textAlign: "center" }}>
-        <button type="button"
-          onClick={handleSubmit}
+        <button type="button" onClick={handleSubmit}
+          onPointerDown={(e) => { e.preventDefault(); if (allDone && !submitting) handleSubmit(); }}
           disabled={!allDone || submitting}
           style={{ ...btn(allDone ? section.color : C.grisB, { fontSize: 15, padding: "16px 40px", borderRadius: 50 }), opacity: allDone ? 1 : 0.5, cursor: allDone ? "pointer" : "not-allowed", touchAction: "manipulation" }}>
           {submitting ? "Sending..." : "Submit Feedback →"}
@@ -777,8 +779,8 @@ function BlockSurvey({ onComplete }) {
       </div>
       <div style={{ textAlign: "center", marginTop: 10, fontSize: 14, color: C.textM }}>Thank you — your response goes directly to the course creator.</div>
       <div style={{ textAlign: "center", marginTop: 16 }}>
-        <button type="button"
-          onClick={onComplete}
+        <button type="button" onClick={onComplete}
+          onPointerDown={(e) => { e.preventDefault(); onComplete(); }}
           style={{ background: "none", border: "none", color: C.textM, fontSize: 13, cursor: "pointer", textDecoration: "underline", touchAction: "manipulation" }}>
           Skip survey
         </button>
@@ -801,9 +803,7 @@ function LessonComplete({ onNext }) {
       <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.turquesaL, border: `1.5px solid ${C.turquesa}30`, borderRadius: 50, padding: "6px 16px", marginBottom: 20 }}>
         <span style={{ fontSize: 11, fontWeight: 800, color: C.turquesaD, letterSpacing: 1.5, textTransform: "uppercase" }}>Basic · Lesson 1</span>
       </div>
-      <div style={{ width: 72, height: 72, borderRadius: 22, background: C.limonL, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px" }}>
-        <Plane size={36} color={C.limonD} />
-      </div>
+      <div style={{ width: 72, height: 72, borderRadius: 22, background: C.limonL, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px", fontSize: 40 }}>✈️</div>
       <h2 style={{ fontSize: "clamp(24px,6vw,32px)", fontWeight: 900, color: C.textH, letterSpacing: -1, marginBottom: 8 }}>Lesson 1 Complete!</h2>
       <p style={{ fontSize: 15, color: C.textS, fontWeight: 500, marginBottom: 24 }}>You just survived the Cancún airport — in Spanish!</p>
       <div style={{ background: C.turquesaL, border: `1.5px solid ${C.turquesa}30`, borderRadius: 16, padding: "20px", marginBottom: 24, textAlign: "left" }}>
@@ -829,8 +829,8 @@ function LessonComplete({ onNext }) {
           </div>
         ))}
       </div>
-      <button type="button"
-        onClick={onNext}
+      <button type="button" onClick={onNext}
+        onPointerDown={(e) => { e.preventDefault(); onNext(); }}
         style={{ ...btn(C.magenta, { fontSize: 15, padding: "16px 40px", borderRadius: 50, boxShadow: `0 6px 24px ${C.magenta}40` }), touchAction: "manipulation" }}>
         Continue to Lesson 2 →
       </button>
@@ -839,7 +839,7 @@ function LessonComplete({ onNext }) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// JOURNEY BAR
+// JOURNEY BAR — emojis
 // ═══════════════════════════════════════════════════════════════
 function JourneyBar({ completedLessons = [] }) {
   return (
@@ -849,7 +849,6 @@ function JourneyBar({ completedLessons = [] }) {
         {LESSONS.map((lesson) => {
           const isCompleted = completedLessons.includes(lesson.id);
           const isLocked = lesson.id > 4;
-          const Icon = lesson.icon;
           return (
             <div key={lesson.id} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }}>
               <div style={{
@@ -857,9 +856,9 @@ function JourneyBar({ completedLessons = [] }) {
                 background: isCompleted ? C.limon : isLocked ? C.grisS : lesson.color + "20",
                 border: `1.5px solid ${isCompleted ? C.limonD : isLocked ? C.grisB : lesson.color + "60"}`,
                 display: "flex", alignItems: "center", justifyContent: "center",
-                opacity: isLocked ? 0.5 : 1,
+                opacity: isLocked ? 0.5 : 1, fontSize: 14,
               }}>
-                {isLocked ? <Lock size={12} color={C.textF} /> : <Icon size={12} color={isCompleted ? "#fff" : lesson.color} />}
+                {lesson.emoji}
               </div>
               <div style={{ fontSize: 8, fontWeight: 700, color: isCompleted ? C.limonD : isLocked ? C.textF : C.textM }}>L{lesson.id}</div>
             </div>
@@ -938,6 +937,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
               <span style={{ fontSize: 12, color: accentColor, fontWeight: 900, whiteSpace: "nowrap" }}>{slide + 1} / {TOTAL}</span>
               <button type="button"
                 onClick={handleBack}
+                onPointerDown={(e) => { e.preventDefault(); handleBack(); }}
                 style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, color: C.textS, padding: "8px 16px", borderRadius: 50, cursor: "pointer", fontSize: 13, fontWeight: 700, touchAction: "manipulation" }}>← Back</button>
             </div>
           </div>
@@ -979,11 +979,12 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
               ))}
             </div>
             <div style={{ background: C.turquesaL, border: `1.5px solid ${C.turquesa}30`, borderRadius: 14, padding: "14px 18px", marginBottom: 28, fontSize: 13, color: C.turquesaD, fontWeight: 600, display: "flex", alignItems: "center", gap: 10, textAlign: "left" }}>
-              <span style={{ flexShrink: 0 }}><Plane size={18} color={C.turquesaD} /></span>
+              <span style={{ flexShrink: 0, fontSize: 18 }}>🎤</span>
               Allow microphone access when prompted. Works best in Chrome.
             </div>
             <button type="button"
               onClick={() => { unlock(1); goTo(1); }}
+              onPointerDown={(e) => { e.preventDefault(); unlock(1); goTo(1); }}
               style={{ ...btn(C.magenta, { fontSize: 15, padding: "16px 44px", borderRadius: 50, boxShadow: `0 6px 24px ${C.magenta}40` }), touchAction: "manipulation", display: "inline-block" }}>
               Let's Start! →
             </button>
@@ -994,7 +995,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
         {slide === 1 && (
           <div style={{ animation: "fadeUp 0.4s ease", textAlign: "center" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 12 }}>
-              <div style={{ width: 52, height: 52, borderRadius: 14, background: C.turquesa, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26, flexShrink: 0, color: "#fff", fontWeight: 900 }}>▶</div>
+              <div style={{ width: 52, height: 52, borderRadius: 14, background: C.turquesa, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26, flexShrink: 0 }}>▶</div>
               <div style={{ fontSize: "clamp(18px,4vw,24px)", fontWeight: 900, color: C.textH, letterSpacing: -0.5, lineHeight: 1.1 }}>Welcome to Cancún</div>
             </div>
             <p style={{ fontSize: 14, color: C.textS, lineHeight: 1.7, fontWeight: 500, marginBottom: 20 }}>
@@ -1005,8 +1006,8 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen
                 style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none", borderRadius: 20 }} />
             </div>
-            <button type="button"
-              onClick={advance}
+            <button type="button" onClick={advance}
+              onPointerDown={(e) => { e.preventDefault(); advance(); }}
               style={{ ...btn(C.magenta, { fontSize: 15, padding: "14px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
               Continue →
             </button>
@@ -1017,9 +1018,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
         {slide === 2 && (
           <div>
             <div style={{ display: "flex", gap: 14, alignItems: "center", justifyContent: "center", marginBottom: 24 }}>
-              <div style={{ width: 56, height: 56, borderRadius: 16, background: C.turquesa, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: "#fff", fontWeight: 900 }}>
-                <Plane size={28} color="#fff" />
-              </div>
+              <div style={{ width: 56, height: 56, borderRadius: 16, background: C.turquesa, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 28 }}>✈️</div>
               <div>
                 <div style={{ display: "inline-block", background: C.turquesaL, color: C.turquesaD, fontSize: 11, fontWeight: 800, letterSpacing: 1.5, textTransform: "uppercase", padding: "4px 12px", borderRadius: 8, marginBottom: 6 }}>Basic · Lesson 1 · Free</div>
                 <div style={{ fontSize: "clamp(22px,5vw,28px)", fontWeight: 900, color: C.textH, letterSpacing: -0.8, lineHeight: 1.1 }}>You Just Landed!</div>
@@ -1037,15 +1036,15 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
               <div style={{ fontSize: 11, letterSpacing: 2, color: C.turquesaD, fontWeight: 800, textTransform: "uppercase", marginBottom: 8 }}>What you'll learn</div>
               {SECTION.skills.map((skill, i) => (
                 <div key={i} style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 6 }}>
-                  <Plane size={13} color={C.turquesa} />
+                  <span style={{ fontSize: 13 }}>✈️</span>
                   <span style={{ fontSize: 13, color: C.textB, fontWeight: 500 }}>{skill}</span>
                 </div>
               ))}
             </div>
             <div style={{ textAlign: "center" }}>
-              <button type="button"
-                onClick={advance}
-                style={{ ...btn(C.turquesa, { fontSize: 15, padding: "14px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
+              <button type="button" onClick={advance}
+                onPointerDown={(e) => { e.preventDefault(); advance(); }}
+                style={{ ...btn(C.magenta, { fontSize: 15, padding: "14px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
                 Start →
               </button>
             </div>
