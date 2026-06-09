@@ -58,7 +58,7 @@ const SECTION = {
 };
 
 // ═══════════════════════════════════════════════════════════════
-// QUIZ DATA — Airport
+// QUIZ DATA
 // ═══════════════════════════════════════════════════════════════
 const QUIZ_DATA = [
   { scene: "Cancún Airport — arrival",             q: "You just landed and need WiFi. What do you ask?",                       correct: "¿Hay internet gratis en el aeropuerto?",     options: ["¿Hay internet gratis en el aeropuerto?","¿Dónde está la maleta?","¿Cuánto cuesta el WiFi?","¿Hay un cajero cerca?"] },
@@ -108,7 +108,33 @@ function useTTS() {
     const v = voices.find(v => v.lang.startsWith("es-MX")) || voices.find(v => v.lang.startsWith("es"));
     if (v) u.voice = v;
     if (onWordBoundary) {
-      u.onboundary = (e) => { if (e.name === "word") onWordBoundary(e.charIndex, e.charLength); };
+      // Sistema híbrido: intenta onboundary, fallback a timers si no funciona (Android/iOS)
+      let boundaryFired = false;
+      const words = text.split(" ");
+      let timerFallback = null;
+
+      u.onboundary = (e) => {
+        if (e.name === "word") {
+          boundaryFired = true;
+          if (timerFallback) { clearTimeout(timerFallback); timerFallback = null; }
+          onWordBoundary(e.charIndex, e.charLength);
+        }
+      };
+
+      // Si después de 600ms no se disparó onboundary, usar timers
+      timerFallback = setTimeout(() => {
+        if (!boundaryFired) {
+          const msPerWord = 380;
+          words.forEach((_, i) => {
+            setTimeout(() => {
+              const charIndex = words.slice(0, i).join(" ").length + (i > 0 ? 1 : 0);
+              const charLength = words[i].length;
+              onWordBoundary(charIndex, charLength);
+            }, i * msPerWord);
+          });
+          setTimeout(() => onWordBoundary(-1, 0), words.length * msPerWord + 400);
+        }
+      }, 600);
     }
     u.onend = () => { setSpeaking(false); if (onWordBoundary) onWordBoundary(-1, 0); };
     u.onerror = () => { setSpeaking(false); if (onWordBoundary) onWordBoundary(-1, 0); };
@@ -173,17 +199,17 @@ function Confetti({ show, message }) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// KARAOKE TEXT — sincronizado con onboundary
+// KARAOKE TEXT — sincronizado con onboundary + fallback timers
 // ═══════════════════════════════════════════════════════════════
 function KaraokeText({ text, charIndex, charLength, color }) {
   if (charIndex < 0) {
-    return <span style={{ fontSize: "clamp(16px,3.5vw,20px)", fontWeight: 900, color: C.textH, lineHeight: 1.3 }}>{text}</span>;
+    return <span style={{ fontSize: "clamp(22px,5vw,28px)", fontWeight: 900, color: C.textH, lineHeight: 1.3 }}>{text}</span>;
   }
   const before = text.slice(0, charIndex);
   const current = text.slice(charIndex, charIndex + charLength);
   const after = text.slice(charIndex + charLength);
   return (
-    <span style={{ fontSize: "clamp(16px,3.5vw,20px)", fontWeight: 900, color: C.textH, lineHeight: 1.3 }}>
+    <span style={{ fontSize: "clamp(22px,5vw,28px)", fontWeight: 900, color: C.textH, lineHeight: 1.3 }}>
       {before}
       <span style={{ background: color, color: "#fff", borderRadius: 4, padding: "0 2px" }}>{current}</span>
       {after}
@@ -194,10 +220,19 @@ function KaraokeText({ text, charIndex, charLength, color }) {
 // ═══════════════════════════════════════════════════════════════
 // PRON EXERCISE
 // ═══════════════════════════════════════════════════════════════
-function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passLabel = "Next →" }) {
+function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passLabel = "Next →", blockMicMs = 0 }) {
   const { transcript, listening, supported, start, stop, setTranscript } = useSpeechRec();
   const [attempts, setAttempts] = useState(0);
   const [result, setResult] = useState(null);
+  const [micBlocked, setMicBlocked] = useState(blockMicMs > 0);
+
+  // Bloquear micrófono por blockMicMs para evitar tap bleeding en móvil
+  useEffect(() => {
+    if (blockMicMs > 0) {
+      const t = setTimeout(() => setMicBlocked(false), blockMicMs);
+      return () => clearTimeout(t);
+    }
+  }, [blockMicMs]);
 
   useEffect(() => {
     if (!transcript || listening) return;
@@ -206,7 +241,12 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
     setAttempts(a => a + 1);
   }, [transcript, listening]);
 
-  function handleMic() { if (listening) { stop(); return; } setResult(null); setTranscript(""); start(); }
+  function handleMic() {
+    if (micBlocked) return;
+    if (listening) { stop(); return; }
+    setResult(null); setTranscript(""); start();
+  }
+
   const canAdvance = result === "perfect" || result === "good" || attempts >= 2;
   const resultColor = result === "perfect" ? C.limon : result === "good" ? C.azul : C.rojo;
   const resultBg    = result === "perfect" ? C.limonL : result === "good" ? C.azulL : C.rojoL;
@@ -222,7 +262,7 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
         </button>
         <button type="button"
           onClick={handleMic}
-          style={{ flex: 2, border: "none", borderRadius: 14, padding: "14px 12px", cursor: "pointer", color: "#fff", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, background: listening ? C.magenta : canAdvance && result !== "retry" ? C.limon : color, transition: "all 0.2s", touchAction: "manipulation" }}>
+          style={{ flex: 2, border: "none", borderRadius: 14, padding: "14px 12px", cursor: micBlocked ? "default" : "pointer", color: "#fff", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, background: micBlocked ? C.grisB : listening ? C.magenta : canAdvance && result !== "retry" ? C.limon : color, transition: "all 0.2s", touchAction: "manipulation", opacity: micBlocked ? 0.5 : 1 }}>
           <span style={{ fontSize: 24 }}>{listening ? "⏹" : "◉"}</span>
           <span style={{ fontSize: 12, fontWeight: 900 }}>{listening ? "Listening…" : result ? "Try again" : "Speak now"}</span>
         </button>
@@ -277,12 +317,13 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
   const [karaokeLen, setKaraokeLen] = useState(0);
   const [celebrate, setCelebrate] = useState(false);
   const [celebrateMsg, setCelebrateMsg] = useState("");
+  const [blockMic, setBlockMic] = useState(0);
 
   useEffect(() => {
     if (onBackRequest) {
       onBackRequest.current = () => {
-        if (phase === "phrase") { setPhase("word"); setKaraokeIdx(-1); return true; }
-        if (phase === "word" && wordIdx > 0) { setWordIdx(wordIdx - 1); setPhase("phrase"); setKaraokeIdx(-1); return true; }
+        if (phase === "phrase") { setPhase("word"); setKaraokeIdx(-1); setBlockMic(0); return true; }
+        if (phase === "word" && wordIdx > 0) { setWordIdx(wordIdx - 1); setPhase("phrase"); setKaraokeIdx(-1); setBlockMic(0); return true; }
         return false;
       };
     }
@@ -294,15 +335,26 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
     setTimeout(() => setCelebrate(false), 1500);
   }
 
-  function handleWordPass() { setPhase("phrase"); setKaraokeIdx(-1); }
+  function handleWordPass() {
+    // Bloquear micrófono 400ms para evitar tap bleeding al cambiar de fase
+    setBlockMic(400);
+    setPhase("phrase");
+    setKaraokeIdx(-1);
+  }
 
   function handlePhrasePass() {
     setKaraokeIdx(-1);
+    setBlockMic(0);
     const msg = CELEBRATE_MESSAGES[wordIdx % CELEBRATE_MESSAGES.length];
     showCelebration(msg);
     setTimeout(() => {
-      if (wordIdx + 1 < sec.words.length) { setWordIdx(wordIdx + 1); setPhase("word"); }
-      else { setDone(true); }
+      if (wordIdx + 1 < sec.words.length) {
+        setWordIdx(wordIdx + 1);
+        setPhase("word");
+        setBlockMic(400);
+      } else {
+        setDone(true);
+      }
     }, 1600);
   }
 
@@ -347,12 +399,15 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
       <div style={{ height: 4, background: C.grisB, borderRadius: 2, overflow: "hidden", marginBottom: 20 }}>
         <div style={{ height: "100%", width: `${(wordIdx / sec.words.length) * 100}%`, background: sec.color, borderRadius: 2, transition: "width 0.4s" }} />
       </div>
+
+      {/* BLOQUE DE PALABRA */}
       <div style={cardStyle(sec.colorL, `${sec.color}30`)}>
         <div style={{ fontSize: 11, letterSpacing: 2, color: sec.colorD, fontWeight: 800, textTransform: "uppercase", marginBottom: 10 }}>Word</div>
         <div style={{ fontSize: "clamp(22px,5vw,28px)", fontWeight: 900, color: C.textH, letterSpacing: -0.3, marginBottom: 8 }}>{word.display}</div>
-        <div style={{ display: "inline-block", background: C.azulL, border: `1.5px solid ${C.azul}40`, borderRadius: 8, padding: "3px 12px", fontSize: 12, color: C.azulD, fontFamily: "'Space Mono',monospace", fontWeight: 700, marginBottom: 6 }}>◉ {word.pron}</div>
+        <div style={{ display: "inline-block", background: C.azulL, border: `1.5px solid ${C.azul}40`, borderRadius: 8, padding: "3px 12px", fontSize: 14, color: C.azulD, fontFamily: "'Space Mono',monospace", fontWeight: 700, marginBottom: 6 }}>◉ {word.pron}</div>
         <div style={{ fontSize: 14, color: C.textS, fontWeight: 600 }}>{word.en}</div>
       </div>
+
       {phase === "word" && (
         <PronExercise
           key={`word-${wordIdx}`}
@@ -361,8 +416,11 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
           onPass={handleWordPass}
           color={sec.color}
           passLabel="Now practice the phrase →"
+          blockMicMs={blockMic}
         />
       )}
+
+      {/* BLOQUE DE FRASE */}
       {phase === "phrase" && (
         <>
           <div style={cardStyle(C.grisS, C.grisB)}>
@@ -370,7 +428,7 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
             <div style={{ marginBottom: 8, lineHeight: 1.4 }}>
               <KaraokeText text={word.phrase.es} charIndex={karaokeIdx} charLength={karaokeLen} color={sec.color} />
             </div>
-            <div style={{ display: "inline-block", background: C.azulL, border: `1.5px solid ${C.azul}40`, borderRadius: 8, padding: "3px 12px", fontSize: 12, color: C.azulD, fontFamily: "'Space Mono',monospace", fontWeight: 700, marginBottom: 6 }}>◉ {word.phrase.pron}</div>
+            <div style={{ display: "inline-block", background: C.azulL, border: `1.5px solid ${C.azul}40`, borderRadius: 8, padding: "3px 12px", fontSize: 14, color: C.azulD, fontFamily: "'Space Mono',monospace", fontWeight: 700, marginBottom: 6 }}>◉ {word.phrase.pron}</div>
             <div style={{ fontSize: 14, color: C.textS, fontWeight: 600 }}>{word.phrase.en}</div>
           </div>
           <PronExercise
@@ -380,6 +438,7 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
             onPass={handlePhrasePass}
             color={sec.color}
             passLabel={wordIdx + 1 < sec.words.length ? "Next word →" : "Section complete →"}
+            blockMicMs={blockMic}
           />
         </>
       )}
@@ -581,7 +640,7 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
     <div>
       <Confetti show={celebrate} message="Quiz Complete!" />
       <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16, padding: "16px 18px", background: section.colorL, borderRadius: 16, border: `1.5px solid ${section.color}20` }}>
-        <div style={{ width: 48, height: 48, borderRadius: 14, background: section.color, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontWeight: 900, fontSize: 24 }}>?</div>
+        <div style={{ width: 48, height: 48, borderRadius: 14, background: section.color, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontWeight: 900, fontSize: 24, color: "#fff" }}>?</div>
         <div>
           <div style={{ fontSize: 18, fontWeight: 900, color: C.textH }}>Quick Quiz</div>
           <div style={{ fontSize: 12, color: section.colorD, fontWeight: 700 }}>{section.title} · Question {idx + 1} of {questions.length}</div>
