@@ -262,6 +262,7 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
         </button>
         <button type="button"
           onClick={handleMic}
+          onTouchEnd={(e) => { e.preventDefault(); handleMic(); }}
           style={{ flex: 2, border: "none", borderRadius: 14, padding: "14px 12px", cursor: micBlocked ? "default" : "pointer", color: "#fff", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, background: micBlocked ? C.grisB : listening ? C.magenta : canAdvance && result !== "retry" ? C.limon : color, transition: "all 0.2s", touchAction: "manipulation", opacity: micBlocked ? 0.5 : 1 }}>
           <span style={{ fontSize: 24 }}>{listening ? "⏹" : "◉"}</span>
           <span style={{ fontSize: 12, fontWeight: 900 }}>{listening ? "Listening…" : result ? "Try again" : "Speak now"}</span>
@@ -689,6 +690,7 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
           <div style={{ textAlign: "center", marginBottom: 12 }}>
             <button type="button"
               onClick={handleMic}
+              onTouchEnd={(e) => { e.preventDefault(); handleMic(); }}
               style={{ ...btn(listening ? C.magenta : pronResult === "perfect" || pronResult === "good" ? C.limon : section.color, { fontSize: 15, padding: "14px 32px", borderRadius: 50 }), touchAction: "manipulation" }}>
               {listening ? "⏹  Listening…" : pronResult ? "◉  Try again" : "◉  Tap to speak"}
             </button>
