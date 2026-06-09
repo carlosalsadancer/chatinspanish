@@ -101,7 +101,7 @@ export default function App() {
   const [savedSlide, setSavedSlide] = useState(0);
   const [startSlide, setStartSlide] = useState(0);
 
-  const LESSON_TOTAL = 20;
+  const LESSON_TOTAL = 8;
 
   // Check localStorage on mount
   useEffect(() => {
