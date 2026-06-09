@@ -3,14 +3,10 @@ import { C, btn } from "../tokens";
 import ChatLogo from "../components/ChatLogo";
 
 // ═══════════════════════════════════════════════════════════════
-// SVG ICONS — solo los que no se reemplazaron por emojis
+// SVG ICONS
 // ═══════════════════════════════════════════════════════════════
-const Banknote = ({size=24,color="#fff"}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>;
-const Bus      = ({size=24,color="#fff"}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M8 6v6M15 6v6M2 12h19.6M18 18h2a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h2"/><path d="M8 18h8"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9H4z"/></svg>;
-const Users    = ({size=24,color="#fff"}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>;
-const Lock     = ({size=24,color="#fff"}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>;
-const Check    = ({size=24,color="#fff",strokeWidth=2}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>;
-const Star     = ({size=24,color="#fff"}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>;
+const Check = ({size=24,color="#fff",strokeWidth=2}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>;
+const Star  = ({size=24,color="#fff"}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>;
 
 // ═══════════════════════════════════════════════════════════════
 // GOOGLE SHEETS URL
@@ -21,20 +17,20 @@ const SHEETS_URL = "https://script.google.com/macros/s/AKfycbzUiHHTyLbu-efTHCzP-
 // LESSON MAP — Basic Level
 // ═══════════════════════════════════════════════════════════════
 const LESSONS = [
-  { id: 1,  title: "At the Airport",   emoji: "✈️",  color: C.turquesa },
-  { id: 2,  title: "Money & Exchange", emoji: "💵",  color: C.azul     },
-  { id: 3,  title: "Getting Around",   emoji: "🚌",  color: C.limon    },
-  { id: 4,  title: "Meeting People",   emoji: "👥",  color: C.magenta  },
-  { id: 5,  title: "Coming Soon",      emoji: "🔒",  color: C.grisB    },
-  { id: 6,  title: "Coming Soon",      emoji: "🔒",  color: C.grisB    },
-  { id: 7,  title: "Coming Soon",      emoji: "🔒",  color: C.grisB    },
-  { id: 8,  title: "Coming Soon",      emoji: "🔒",  color: C.grisB    },
-  { id: 9,  title: "Coming Soon",      emoji: "🔒",  color: C.grisB    },
-  { id: 10, title: "Coming Soon",      emoji: "🔒",  color: C.grisB    },
+  { id: 1,  title: "At the Airport",   emoji: "✈️", color: C.turquesa },
+  { id: 2,  title: "Money & Exchange", emoji: "💵", color: C.azul     },
+  { id: 3,  title: "Getting Around",   emoji: "🚌", color: C.limon    },
+  { id: 4,  title: "Meeting People",   emoji: "👥", color: C.magenta  },
+  { id: 5,  title: "Coming Soon",      emoji: "🔒", color: C.grisB    },
+  { id: 6,  title: "Coming Soon",      emoji: "🔒", color: C.grisB    },
+  { id: 7,  title: "Coming Soon",      emoji: "🔒", color: C.grisB    },
+  { id: 8,  title: "Coming Soon",      emoji: "🔒", color: C.grisB    },
+  { id: 9,  title: "Coming Soon",      emoji: "🔒", color: C.grisB    },
+  { id: 10, title: "Coming Soon",      emoji: "🔒", color: C.grisB    },
 ];
 
 // ═══════════════════════════════════════════════════════════════
-// SECTION DATA — Airport only
+// SECTION DATA
 // ═══════════════════════════════════════════════════════════════
 const SECTION = {
   id: "airport", title: "At the Airport", subtitle: "En el Aeropuerto",
@@ -108,11 +104,9 @@ function useTTS() {
     const v = voices.find(v => v.lang.startsWith("es-MX")) || voices.find(v => v.lang.startsWith("es"));
     if (v) u.voice = v;
     if (onWordBoundary) {
-      // Sistema híbrido: intenta onboundary, fallback a timers si no funciona (Android/iOS)
       let boundaryFired = false;
       const words = text.split(" ");
       let timerFallback = null;
-
       u.onboundary = (e) => {
         if (e.name === "word") {
           boundaryFired = true;
@@ -120,8 +114,6 @@ function useTTS() {
           onWordBoundary(e.charIndex, e.charLength);
         }
       };
-
-      // Si después de 600ms no se disparó onboundary, usar timers
       timerFallback = setTimeout(() => {
         if (!boundaryFired) {
           const msPerWord = 380;
@@ -164,7 +156,7 @@ function useSpeechRec() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// CONFETTI — fuegos artificiales de abajo hacia arriba
+// CONFETTI
 // ═══════════════════════════════════════════════════════════════
 function Confetti({ show, message }) {
   const particles = Array.from({ length: 32 });
@@ -199,7 +191,7 @@ function Confetti({ show, message }) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// KARAOKE TEXT — sincronizado con onboundary + fallback timers
+// KARAOKE TEXT
 // ═══════════════════════════════════════════════════════════════
 function KaraokeText({ text, charIndex, charLength, color }) {
   if (charIndex < 0) {
@@ -226,9 +218,9 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
   const [result, setResult] = useState(null);
   const [micBlocked, setMicBlocked] = useState(blockMicMs > 0);
 
-  // Bloquear micrófono por blockMicMs para evitar tap bleeding en móvil
   useEffect(() => {
     if (blockMicMs > 0) {
+      setMicBlocked(true);
       const t = setTimeout(() => setMicBlocked(false), blockMicMs);
       return () => clearTimeout(t);
     }
@@ -262,7 +254,6 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
         </button>
         <button type="button"
           onClick={handleMic}
-          onTouchEnd={(e) => { e.preventDefault(); handleMic(); }}
           style={{ flex: 2, border: "none", borderRadius: 14, padding: "14px 12px", cursor: micBlocked ? "default" : "pointer", color: "#fff", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, background: micBlocked ? C.grisB : listening ? C.magenta : canAdvance && result !== "retry" ? C.limon : color, transition: "all 0.2s", touchAction: "manipulation", opacity: micBlocked ? 0.5 : 1 }}>
           <span style={{ fontSize: 24 }}>{listening ? "⏹" : "◉"}</span>
           <span style={{ fontSize: 12, fontWeight: 900 }}>{listening ? "Listening…" : result ? "Try again" : "Speak now"}</span>
@@ -337,7 +328,6 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
   }
 
   function handleWordPass() {
-    // Bloquear micrófono 400ms para evitar tap bleeding al cambiar de fase
     setBlockMic(400);
     setPhase("phrase");
     setKaraokeIdx(-1);
@@ -391,7 +381,7 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
     <div>
       <Confetti show={celebrate} message={celebrateMsg} />
       <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16, padding: "14px 16px", background: sec.colorL, borderRadius: 16, border: `1.5px solid ${sec.color}20` }}>
-        <div style={{ width: 44, height: 44, borderRadius: 12, background: sec.color, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 22 }}>✈️</div>
+        <div style={{ width: 44, height: 44, borderRadius: 12, background: sec.colorL, border: `1.5px solid ${sec.color}40`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 22 }}>✈️</div>
         <div>
           <div style={{ fontSize: 16, fontWeight: 900, color: C.textH }}>Speaking Practice</div>
           <div style={{ fontSize: 11, color: sec.colorD, fontWeight: 700 }}>{sec.title} · Word {wordIdx + 1} of {sec.words.length}</div>
@@ -400,15 +390,12 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
       <div style={{ height: 4, background: C.grisB, borderRadius: 2, overflow: "hidden", marginBottom: 20 }}>
         <div style={{ height: "100%", width: `${(wordIdx / sec.words.length) * 100}%`, background: sec.color, borderRadius: 2, transition: "width 0.4s" }} />
       </div>
-
-      {/* BLOQUE DE PALABRA */}
       <div style={cardStyle(sec.colorL, `${sec.color}30`)}>
         <div style={{ fontSize: 11, letterSpacing: 2, color: sec.colorD, fontWeight: 800, textTransform: "uppercase", marginBottom: 10 }}>Word</div>
         <div style={{ fontSize: "clamp(22px,5vw,28px)", fontWeight: 900, color: C.textH, letterSpacing: -0.3, marginBottom: 8 }}>{word.display}</div>
         <div style={{ display: "inline-block", background: C.azulL, border: `1.5px solid ${C.azul}40`, borderRadius: 8, padding: "3px 12px", fontSize: 14, color: C.azulD, fontFamily: "'Space Mono',monospace", fontWeight: 700, marginBottom: 6 }}>◉ {word.pron}</div>
         <div style={{ fontSize: 14, color: C.textS, fontWeight: 600 }}>{word.en}</div>
       </div>
-
       {phase === "word" && (
         <PronExercise
           key={`word-${wordIdx}`}
@@ -420,8 +407,6 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
           blockMicMs={blockMic}
         />
       )}
-
-      {/* BLOQUE DE FRASE */}
       {phase === "phrase" && (
         <>
           <div style={cardStyle(C.grisS, C.grisB)}>
@@ -540,8 +525,7 @@ function Memorama({ speak, onComplete }) {
               {show ? (
                 <div>
                   {isM && <div style={{ fontSize: 13, marginBottom: 2, color: section.colorD }}>✓</div>}
-                  <div style={{ fontSize: "clamp(10px,2.2vw,12px)", fontWeight: 800, color: isM ? section.colorD : card.type === "es" ? C.turquesaD : C.magentaD, lineHeight: 1.3 }}>{card.word}</div>
-                  <div style={{ fontSize: 9, color: C.textM, fontWeight: 600, marginTop: 3, textTransform: "uppercase", letterSpacing: 0.5 }}>{card.type === "es" ? "ES" : "EN"}</div>
+                  <div style={{ fontSize: "clamp(12px,2.8vw,15px)", fontWeight: 800, color: isM ? section.colorD : card.type === "es" ? C.turquesaD : C.magentaD, lineHeight: 1.3 }}>{card.word}</div>
                 </div>
               ) : (
                 <div style={{ fontSize: 26, color: C.textF }}>?</div>
@@ -681,16 +665,15 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
       </div>
       {sel !== null && (
         <>
-          <div style={{ background: isCorrect ? C.limonL : C.rojoL, border: `1.5px solid ${isCorrect ? C.limon+"60" : C.rojo+"60"}`, borderRadius: 14, padding: "16px 18px", marginBottom: 16 }}>
-            <div style={{ fontSize: 14, fontWeight: 900, color: isCorrect ? C.limonD : C.rojo, marginBottom: 8 }}>
+          <div style={{ background: C.limonL, border: `1.5px solid ${C.limon}60`, borderRadius: 14, padding: "16px 18px", marginBottom: 16 }}>
+            <div style={{ fontSize: 14, fontWeight: 900, color: C.limonD, marginBottom: 8 }}>
               {isCorrect ? "✓ Correct! Now say it out loud:" : "This is the correct answer, say it loud:"}
             </div>
-            <div style={{ fontSize: "clamp(14px,3vw,17px)", fontWeight: 900, color: C.textH, lineHeight: 1.3 }}>"{q.correct}"</div>
+            <div style={{ fontSize: "clamp(14px,3vw,17px)", fontWeight: 900, color: C.limonD, lineHeight: 1.3 }}>{q.correct}</div>
           </div>
           <div style={{ textAlign: "center", marginBottom: 12 }}>
             <button type="button"
               onClick={handleMic}
-              onTouchEnd={(e) => { e.preventDefault(); handleMic(); }}
               style={{ ...btn(listening ? C.magenta : pronResult === "perfect" || pronResult === "good" ? C.limon : section.color, { fontSize: 15, padding: "14px 32px", borderRadius: 50 }), touchAction: "manipulation" }}>
               {listening ? "⏹  Listening…" : pronResult ? "◉  Try again" : "◉  Tap to speak"}
             </button>
@@ -864,7 +847,7 @@ function LessonComplete({ onNext }) {
       <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.turquesaL, border: `1.5px solid ${C.turquesa}30`, borderRadius: 50, padding: "6px 16px", marginBottom: 20 }}>
         <span style={{ fontSize: 11, fontWeight: 800, color: C.turquesaD, letterSpacing: 1.5, textTransform: "uppercase" }}>Basic · Lesson 1</span>
       </div>
-      <div style={{ width: 72, height: 72, borderRadius: 22, background: C.limonL, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px", fontSize: 40 }}>✈️</div>
+      <div style={{ width: 72, height: 72, borderRadius: 22, background: C.turquesaL, border: `1.5px solid ${C.turquesa}40`, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px", fontSize: 40 }}>✈️</div>
       <h2 style={{ fontSize: "clamp(24px,6vw,32px)", fontWeight: 900, color: C.textH, letterSpacing: -1, marginBottom: 8 }}>Lesson 1 Complete!</h2>
       <p style={{ fontSize: 15, color: C.textS, fontWeight: 500, marginBottom: 24 }}>You just survived the Cancún airport — in Spanish!</p>
       <div style={{ background: C.turquesaL, border: `1.5px solid ${C.turquesa}30`, borderRadius: 16, padding: "20px", marginBottom: 24, textAlign: "left" }}>
@@ -900,32 +883,30 @@ function LessonComplete({ onNext }) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// JOURNEY BAR — emojis
+// JOURNEY BAR — solo lección activa desbloqueada, resto con 🔒
 // ═══════════════════════════════════════════════════════════════
 function JourneyBar({ completedLessons = [] }) {
   return (
-    <div style={{ marginBottom: 10 }}>
-      <div style={{ fontSize: 9, letterSpacing: 2, color: C.textM, fontWeight: 800, textTransform: "uppercase", marginBottom: 6, textAlign: "center" }}>Basic Level</div>
-      <div style={{ display: "flex", gap: 4, justifyContent: "center", flexWrap: "wrap" }}>
-        {LESSONS.map((lesson) => {
-          const isCompleted = completedLessons.includes(lesson.id);
-          const isLocked = lesson.id > 4;
-          return (
-            <div key={lesson.id} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }}>
-              <div style={{
-                width: 28, height: 28, borderRadius: 8,
-                background: isCompleted ? C.limon : isLocked ? C.grisS : lesson.color + "20",
-                border: `1.5px solid ${isCompleted ? C.limonD : isLocked ? C.grisB : lesson.color + "60"}`,
-                display: "flex", alignItems: "center", justifyContent: "center",
-                opacity: isLocked ? 0.5 : 1, fontSize: 14,
-              }}>
-                {lesson.emoji}
-              </div>
-              <div style={{ fontSize: 8, fontWeight: 700, color: isCompleted ? C.limonD : isLocked ? C.textF : C.textM }}>L{lesson.id}</div>
+    <div style={{ display: "flex", gap: 4, justifyContent: "center", flexWrap: "wrap" }}>
+      {LESSONS.map((lesson) => {
+        const isCompleted = completedLessons.includes(lesson.id);
+        const isActive = lesson.id === 1;
+        const isLocked = !isActive && !isCompleted;
+        return (
+          <div key={lesson.id} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }}>
+            <div style={{
+              width: 28, height: 28, borderRadius: 8,
+              background: isCompleted ? C.limon : isActive ? lesson.color + "20" : C.grisS,
+              border: `1.5px solid ${isCompleted ? C.limonD : isActive ? lesson.color + "60" : C.grisB}`,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              opacity: isLocked ? 0.5 : 1, fontSize: 14,
+            }}>
+              {isLocked ? "🔒" : lesson.emoji}
             </div>
-          );
-        })}
-      </div>
+            <div style={{ fontSize: 8, fontWeight: 700, color: isCompleted ? C.limonD : isLocked ? C.textF : C.textM }}>L{lesson.id}</div>
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -986,13 +967,12 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
       {/* HEADER */}
       <div style={{ background: "rgba(255,255,255,0.97)", backdropFilter: "blur(12px)", borderBottom: `1.5px solid ${C.grisB}`, padding: "12px 20px", position: "sticky", top: 0, zIndex: 50, boxShadow: "0 2px 12px rgba(0,0,0,0.05)" }}>
         <div style={{ maxWidth: 720, margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }} onClick={handleBack}>
+
+          {/* Fila 1: Logo + nombre + contador + back */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }} onClick={onBack}>
               <ChatLogo size={32} bg={C.magenta} />
-              <div>
-                <div style={{ fontSize: 16, fontWeight: 900, color: C.negro, letterSpacing: -0.5, lineHeight: 1 }}>Chat in Spanish</div>
-                <div style={{ fontSize: 10, letterSpacing: 2, color: C.textM, fontWeight: 700, textTransform: "uppercase" }}>Basic · Lesson 1 · Cancún</div>
-              </div>
+              <div style={{ fontSize: 16, fontWeight: 900, color: C.negro, letterSpacing: -0.5 }}>Chat in Spanish</div>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <span style={{ fontSize: 12, color: accentColor, fontWeight: 900, whiteSpace: "nowrap" }}>{slide + 1} / {TOTAL}</span>
@@ -1002,10 +982,20 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
                 style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, color: C.textS, padding: "8px 16px", borderRadius: 50, cursor: "pointer", fontSize: 13, fontWeight: 700, touchAction: "manipulation" }}>← Back</button>
             </div>
           </div>
+
+          {/* Fila 2: BASIC · LESSON 1 · CANCÚN */}
+          <div style={{ fontSize: 10, letterSpacing: 2, color: C.textM, fontWeight: 700, textTransform: "uppercase", marginBottom: 6, textAlign: "center" }}>
+            Basic · Lesson 1 · Cancún
+          </div>
+
+          {/* Fila 3: Barra de progreso */}
           <div style={{ height: 5, background: C.grisS, borderRadius: 3, overflow: "hidden", marginBottom: 8 }}>
             <div style={{ height: "100%", width: `${((slide + 1) / TOTAL) * 100}%`, background: `linear-gradient(90deg,${C.turquesa},${C.magenta})`, borderRadius: 3, transition: "width 0.4s" }} />
           </div>
+
+          {/* Fila 4: Journey Bar */}
           <JourneyBar completedLessons={completedLessons} />
+
         </div>
       </div>
 
@@ -1055,15 +1045,12 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
         {/* SLIDE 1 — VIDEO */}
         {slide === 1 && (
           <div style={{ animation: "fadeUp 0.4s ease", textAlign: "center" }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 12 }}>
-              <div style={{ width: 52, height: 52, borderRadius: 14, background: C.turquesa, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26, flexShrink: 0 }}>▶</div>
-              <div style={{ fontSize: "clamp(18px,4vw,24px)", fontWeight: 900, color: C.textH, letterSpacing: -0.5, lineHeight: 1.1 }}>Welcome to Cancún</div>
-            </div>
+            <div style={{ fontSize: "clamp(18px,4vw,24px)", fontWeight: 900, color: C.textH, letterSpacing: -0.5, lineHeight: 1.1, marginBottom: 12 }}>Welcome to Cancún</div>
             <p style={{ fontSize: 14, color: C.textS, lineHeight: 1.7, fontWeight: 500, marginBottom: 20 }}>
               We picked this video to give you a feel for Cancún before your first lesson.
             </p>
             <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, overflow: "hidden", borderRadius: 20, marginBottom: 20, boxShadow: `0 8px 32px ${C.turquesa}25` }}>
-              <iframe src="https://www.youtube.com/embed/FWEXKQ0BXIU" title="Cancún travel guide"
+              <iframe src="https://www.youtube.com/embed/nYIL6eAlHxA" title="Cancún travel guide"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen
                 style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none", borderRadius: 20 }} />
             </div>
@@ -1079,7 +1066,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
         {slide === 2 && (
           <div>
             <div style={{ display: "flex", gap: 14, alignItems: "center", justifyContent: "center", marginBottom: 24 }}>
-              <div style={{ width: 56, height: 56, borderRadius: 16, background: C.turquesa, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 28 }}>✈️</div>
+              <div style={{ width: 56, height: 56, borderRadius: 16, background: C.turquesaL, border: `1.5px solid ${C.turquesa}40`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 28 }}>✈️</div>
               <div>
                 <div style={{ display: "inline-block", background: C.turquesaL, color: C.turquesaD, fontSize: 11, fontWeight: 800, letterSpacing: 1.5, textTransform: "uppercase", padding: "4px 12px", borderRadius: 8, marginBottom: 6 }}>Basic · Lesson 1 · Free</div>
                 <div style={{ fontSize: "clamp(22px,5vw,28px)", fontWeight: 900, color: C.textH, letterSpacing: -0.8, lineHeight: 1.1 }}>You Just Landed!</div>
