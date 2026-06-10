@@ -924,11 +924,11 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
   function isQuizSlide()     { return slide === 5; }
 
   function goTo(n) {
-    if (n < 0 || n >= TOTAL || n > maxUnlocked) return;
-    setSlide(n);
-    if (onSlideChange) onSlideChange(n);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
+  if (n < 0 || n >= TOTAL) return;
+  setSlide(n);
+  if (onSlideChange) onSlideChange(n);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
   function unlock(n) { setMaxUnlocked(prev => Math.max(prev, n)); }
   function advance() { const next = slide + 1; unlock(next); goTo(next); }
 
