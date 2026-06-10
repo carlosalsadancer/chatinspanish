@@ -19,7 +19,11 @@ export function Header({ onStartFree }) {
           <button style={outlineBtn(C.negro)}>Log In</button>
           <button onClick={onStartFree} style={{ ...btn(C.negro), padding: "9px 20px", fontSize: 13 }}>Start Free</button>
         </div>
-        onClick={() => setMenuOpen(!menuOpen)} className="mobile-menu-btn" style={{ background: "none", border: "none", cursor: "pointer", padding: 8, touchAction: "manipulation" }} onPointerDown={(e) => e.stopPropagation()}
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="mobile-menu-btn"
+          style={{ background: "none", border: "none", cursor: "pointer", padding: 8, touchAction: "manipulation" }}
+          onPointerDown={(e) => e.stopPropagation()}>
           <div style={{ width: 22, height: 2, background: C.negro, marginBottom: 5, borderRadius: 2 }} />
           <div style={{ width: 22, height: 2, background: C.negro, marginBottom: 5, borderRadius: 2 }} />
           <div style={{ width: 22, height: 2, background: C.negro, borderRadius: 2 }} />
@@ -179,7 +183,7 @@ export function Garantia({ onStartFree }) {
           <p style={{ fontSize: 17, color: C.blanco, opacity: 0.9, lineHeight: 1.7, marginBottom: 32, fontWeight: 500 }}>If not — no pressure, no charge.</p>
           <button onClick={onStartFree} style={{ ...btn(C.negro, { fontSize: 15, padding: "14px 28px" }) }}>Start Free →</button>
         </div>
-        <div style={{ width: "45%", flexShrink: 0, borderRadius: 20, overflow: "hidden", aspectRatio: "4/3", boxShadow: "0 20px 60px rgba(0,0,0,0.25)" }} className="garantia-image">
+        <div style={{ width: "45%", flexShrink: 0, borderRadius: 20, overflow: "hidden", aspectRatio: "4/3", boxShadow: "0 20px 60px rgba(0,0,0,0.25)" }} className="garantia-inner">
           <img src="/img_phones.png" alt="Students learning Spanish with Chat in Spanish app" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
         </div>
       </div>
