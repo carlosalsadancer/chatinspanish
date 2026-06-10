@@ -4,28 +4,98 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#E0006E" />
 
+    <!-- CANONICAL -->
+    <link rel="canonical" href="https://www.chatinspanish.com/" />
+
+    <!-- SEO PRIMARY -->
+    <title>Chat in Spanish — Learn Spanish. Discover Mexico.</title>
     <meta
       name="description"
-      content="Chat in Spanish — The only Spanish course that listens back. Learn real Mexican Spanish on a virtual journey from Cancún to Oaxaca."
+      content="Learn Spanish through a virtual journey across Mexico. Real conversations, real places, real pronunciation feedback. Start free — no credit card required."
     />
     <meta
       name="keywords"
-      content="learn Spanish, Mexican Spanish, Spanish course, speak Spanish, Spanish lessons"
+      content="learn Spanish, learn Spanish online, Spanish for beginners, speak Spanish, Spanish lessons, Mexican Spanish, learn Spanish free, Spanish pronunciation, Spanish for travel, Spanish for Mexico, learn Spanish fast, conversational Spanish, Mexican Spanish online, Spanish course"
     />
 
-    <meta property="og:title" content="Chat in Spanish" />
+    <!-- OPEN GRAPH (Facebook, WhatsApp, LinkedIn) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Chat in Spanish" />
+    <meta property="og:title" content="Chat in Spanish — Learn Spanish. Discover Mexico." />
     <meta
       property="og:description"
-      content="The only Spanish course that listens back."
+      content="Learn Spanish through a virtual journey across Mexico. Real conversations, real places, real pronunciation feedback. Start free — no credit card required."
     />
-    <meta property="og:url" content="https://chatinspanish.com" />
+    <meta property="og:url" content="https://www.chatinspanish.com/" />
+    <meta property="og:image" content="https://www.chatinspanish.com/img_tacos.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Travelers enjoying tacos at an authentic Mexican taqueria" />
+    <meta property="og:locale" content="en_US" />
 
-    <title>
-      Chat in Spanish — The only Spanish course that listens back
-    </title>
+    <!-- TWITTER CARD -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Chat in Spanish — Learn Spanish. Discover Mexico." />
+    <meta
+      name="twitter:description"
+      content="Learn Spanish through a virtual journey across Mexico. Real conversations, real places, real pronunciation feedback. Start free."
+    />
+    <meta name="twitter:image" content="https://www.chatinspanish.com/img_tacos.png" />
+    <meta name="twitter:image:alt" content="Travelers enjoying tacos at an authentic Mexican taqueria" />
 
+    <!-- PWA -->
     <link rel="manifest" href="/manifest.json" />
+
+    <!-- SCHEMA MARKUP — Course + WebSite -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://www.chatinspanish.com/#website",
+          "url": "https://www.chatinspanish.com/",
+          "name": "Chat in Spanish",
+          "description": "Learn Spanish through a virtual journey across Mexico.",
+          "inLanguage": "en"
+        },
+        {
+          "@type": "Course",
+          "@id": "https://www.chatinspanish.com/#course",
+          "name": "Chat in Spanish",
+          "description": "Learn Spanish through a virtual journey across Mexico — real conversations, real places, real pronunciation feedback.",
+          "url": "https://www.chatinspanish.com/",
+          "inLanguage": "en",
+          "provider": {
+            "@type": "Organization",
+            "name": "Chat in Spanish",
+            "url": "https://www.chatinspanish.com/"
+          },
+          "offers": {
+            "@type": "Offer",
+            "price": "27",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "url": "https://www.chatinspanish.com/"
+          },
+          "hasCourseInstance": {
+            "@type": "CourseInstance",
+            "courseMode": "online",
+            "courseWorkload": "PT60H"
+          },
+          "educationalLevel": "Beginner",
+          "teaches": "Spanish language — conversational, pronunciation, real-life situations",
+          "about": {
+            "@type": "Thing",
+            "name": "Spanish Language"
+          },
+          "image": "https://www.chatinspanish.com/img_tacos.png"
+        }
+      ]
+    }
+    </script>
 
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-K4H43YB5KL"></script>
@@ -33,7 +103,6 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-K4H43YB5KL');
     </script>
   </head>
