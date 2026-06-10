@@ -19,7 +19,7 @@ export function Header({ onStartFree }) {
           <button style={outlineBtn(C.negro)}>Log In</button>
           <button onClick={onStartFree} style={{ ...btn(C.negro), padding: "9px 20px", fontSize: 13 }}>Start Free</button>
         </div>
-        onClick={() => setMenuOpen(!menuOpen)} className="mobile-menu-btn" style={{ background: "none", border: "none", cursor: "pointer", padding: 8, touchAction: "manipulation" }} onPointerDown={(e) => e.stopPropagation()}
+        <button onClick={() => setMenuOpen(!menuOpen)} className="mobile-menu-btn" style={{ background: "none", border: "none", cursor: "pointer", padding: 8, touchAction: "manipulation" }} onPointerDown={(e) => e.stopPropagation()}>
           <div style={{ width: 22, height: 2, background: C.negro, marginBottom: 5, borderRadius: 2 }} />
           <div style={{ width: 22, height: 2, background: C.negro, marginBottom: 5, borderRadius: 2 }} />
           <div style={{ width: 22, height: 2, background: C.negro, borderRadius: 2 }} />
