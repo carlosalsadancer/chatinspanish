@@ -1,9 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { C, btn, outlineBtn } from "../tokens";
 import ChatLogo from "./ChatLogo";
 
 export function Header({ onStartFree }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [menuEnabled, setMenuEnabled] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setMenuEnabled(true), 800);
+    return () => clearTimeout(t);
+  }, []);
+
   return (
     <header style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(255,255,255,0.97)", backdropFilter: "blur(12px)", borderBottom: `1.5px solid ${C.grisB}`, boxShadow: "0 2px 12px rgba(0,0,0,0.05)" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -19,7 +26,10 @@ export function Header({ onStartFree }) {
           <button style={outlineBtn(C.negro)}>Log In</button>
           <button onClick={onStartFree} style={{ ...btn(C.negro), padding: "9px 20px", fontSize: 13 }}>Start Free</button>
         </div>
-        <button onClick={() => setMenuOpen(!menuOpen)} className="mobile-menu-btn" style={{ background: "none", border: "none", cursor: "pointer", padding: 8, touchAction: "manipulation" }} onPointerDown={(e) => e.stopPropagation()}>
+        <button
+          onClick={() => menuEnabled && setMenuOpen(!menuOpen)}
+          className="mobile-menu-btn"
+          style={{ background: "none", border: "none", cursor: "pointer", padding: 8, touchAction: "manipulation" }}>
           <div style={{ width: 22, height: 2, background: C.negro, marginBottom: 5, borderRadius: 2 }} />
           <div style={{ width: 22, height: 2, background: C.negro, marginBottom: 5, borderRadius: 2 }} />
           <div style={{ width: 22, height: 2, background: C.negro, borderRadius: 2 }} />
