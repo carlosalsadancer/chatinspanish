@@ -24,12 +24,14 @@ function WelcomeBackModal({ slide, total, onContinue, onRestart }) {
           <button
             type="button"
             onClick={onContinue}
+            onPointerDown={(e) => { e.preventDefault(); onContinue(); }}
             style={{ ...btn(C.magenta, { fontSize: 15, padding: "14px", borderRadius: 12 }), touchAction: "manipulation" }}>
             Continue where I left off →
           </button>
           <button
             type="button"
             onClick={onRestart}
+            onPointerDown={(e) => { e.preventDefault(); onRestart(); }}
             style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, color: C.textS, padding: "13px", borderRadius: 12, cursor: "pointer", fontSize: 14, fontWeight: 600, touchAction: "manipulation" }}>
             Start over
           </button>
@@ -44,7 +46,6 @@ function WelcomeBackModal({ slide, total, onContinue, onRestart }) {
 // ═══════════════════════════════════════════════════════════════
 function HomeScreenModal({ onClose }) {
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-
   return (
     <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 999, display: "flex", alignItems: "flex-end", justifyContent: "center", padding: 16 }}>
       <div style={{ background: C.blanco, borderRadius: 20, padding: "32px 24px", maxWidth: 440, width: "100%", textAlign: "center", marginBottom: 16 }}>
@@ -53,7 +54,6 @@ function HomeScreenModal({ onClose }) {
         <p style={{ fontSize: 14, color: C.textS, lineHeight: 1.7, marginBottom: 20 }}>
           Add Chat in Spanish to your home screen so you can find it instantly.
         </p>
-
         {isIOS ? (
           <div style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 14, padding: "16px", marginBottom: 20, textAlign: "left" }}>
             <div style={{ fontSize: 13, color: C.textB, fontWeight: 600, lineHeight: 1.8 }}>
@@ -69,10 +69,10 @@ function HomeScreenModal({ onClose }) {
             </div>
           </div>
         )}
-
         <button
           type="button"
           onClick={onClose}
+          onPointerDown={(e) => { e.preventDefault(); onClose(); }}
           style={{ ...btn(C.negro, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 12 }), touchAction: "manipulation" }}>
           Got it →
         </button>
@@ -100,10 +100,10 @@ export default function App() {
   const [showHomeScreen, setShowHomeScreen] = useState(false);
   const [savedSlide, setSavedSlide] = useState(0);
   const [startSlide, setStartSlide] = useState(0);
+  const [landingKey, setLandingKey] = useState(0);
 
   const LESSON_TOTAL = 8;
 
-  // Check localStorage on mount
   useEffect(() => {
     const saved = localStorage.getItem("cis_lesson1_slide");
     if (saved && parseInt(saved) > 0) {
@@ -164,12 +164,12 @@ export default function App() {
   function goToLesson(slide = 0) {
     setStartSlide(slide);
     setView("lesson1");
-    // 🎯 GA EVENT 1 — lesson_start
     trackEvent("lesson_start", { lesson: "lesson_1", slide_from: slide });
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function goToLanding() {
+    setLandingKey(k => k + 1);
     setView("landing");
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -177,14 +177,12 @@ export default function App() {
   function handleSlideChange(slide) {
     localStorage.setItem("cis_lesson1_slide", slide.toString());
     setSavedSlide(slide);
-    // 🎯 GA EVENT 2 — slide_change
     trackEvent("slide_change", { lesson: "lesson_1", slide_number: slide });
   }
 
   function handleLessonComplete() {
     localStorage.removeItem("cis_lesson1_slide");
     setSavedSlide(0);
-    // 🎯 GA EVENT 3 — lesson_complete
     trackEvent("lesson_complete", { lesson: "lesson_1" });
     goToLanding();
   }
@@ -227,7 +225,7 @@ export default function App() {
 
       {view === "landing" && (
         <>
-          <Header onStartFree={handleStartFree} />
+          <Header key={landingKey} onStartFree={handleStartFree} />
           <LandingPage onStartFree={handleStartFree} />
         </>
       )}
