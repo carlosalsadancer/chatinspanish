@@ -919,16 +919,23 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
   const [slide, setSlide] = useState(initialSlide);
   const [maxUnlocked, setMaxUnlocked] = useState(Math.max(1, initialSlide));
   const exerciseBackRef = useRef(null);
+  const [backEnabled, setBackEnabled] = useState(false);
+
+  useEffect(() => {
+    setBackEnabled(false);
+    const t = setTimeout(() => setBackEnabled(true), 800);
+    return () => clearTimeout(t);
+  }, [slide]);
 
   function isExerciseSlide() { return slide === 3; }
   function isQuizSlide()     { return slide === 5; }
 
   function goTo(n) {
-  if (n < 0 || n >= TOTAL) return;
-  setSlide(n);
-  if (onSlideChange) onSlideChange(n);
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
+    if (n < 0 || n >= TOTAL) return;
+    setSlide(n);
+    if (onSlideChange) onSlideChange(n);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
   function unlock(n) { setMaxUnlocked(prev => Math.max(prev, n)); }
   function advance() { const next = slide + 1; unlock(next); goTo(next); }
 
@@ -977,8 +984,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <span style={{ fontSize: 12, color: accentColor, fontWeight: 900, whiteSpace: "nowrap" }}>{slide + 1} / {TOTAL}</span>
               <button type="button"
-                onClick={handleBack}
-                onPointerDown={(e) => { e.preventDefault(); handleBack(); }}
+                onClick={() => backEnabled && handleBack()}
                 style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, color: C.textS, padding: "8px 16px", borderRadius: 50, cursor: "pointer", fontSize: 13, fontWeight: 700, touchAction: "manipulation" }}>← Back</button>
             </div>
           </div>
