@@ -546,6 +546,7 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
   const section = SECTION;
   const questions = QUIZ_DATA;
   const [idx, setIdx] = useState(0);
+  const [shuffledOptions, setShuffledOptions] = useState(() => shuffle(questions[0].options));
   const [sel, setSel] = useState(null);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
@@ -571,7 +572,9 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
     setPronResult(sc >= 85 ? "perfect" : sc >= 60 ? "good" : "retry");
     setPronAttempts(a => a + 1);
   }, [transcript, listening]);
-
+useEffect(() => {
+    setShuffledOptions(shuffle(questions[idx].options));
+  }, [idx]);
   function select(opt) {
     if (sel !== null) return;
     setSel(opt);
@@ -643,7 +646,7 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
         <div style={{ fontSize: "clamp(14px,3vw,17px)", color: C.textH, lineHeight: 1.65, fontWeight: 700 }}>{q.q}</div>
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 16 }}>
-        {q.options.map((opt, i) => {
+        {shuffledOptions.map((opt, i) => {
           const isC = opt === q.correct, isS = opt === sel;
           let bg = "#fff", border = C.grisB, tc = C.textB, fw = 600;
           if (sel !== null) {
