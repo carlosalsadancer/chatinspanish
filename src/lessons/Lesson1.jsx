@@ -925,7 +925,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
   const accentColor = [3,4,5,6].includes(slide) ? SECTION.color : C.turquesa;
 
   return (
-    <div style={{ background: "#fff", minHeight: "100vh" }}>
+    <div style={{ background: "#fff", minHeight: "100vh", paddingBottom: 64 }}>
       <style>{`
         @keyframes confettiRise {
           0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
@@ -946,7 +946,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
       `}</style>
 
       {/* SLIDE CONTENT */}
-      <div style={{ maxWidth: 720, margin: "0 auto", padding: "28px 20px 100px", animation: "fadeUp 0.3s ease" }} key={slide}>
+      <div style={{ maxWidth: 720, margin: "0 auto", padding: "28px 20px 80px", animation: "fadeUp 0.3s ease" }} key={slide}>
 
         {/* SLIDE 0 — ONBOARDING */}
         {slide === 0 && (
@@ -1054,15 +1054,15 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
       </div>
 
       {/* FOOTER */}
-      <div style={{ background: "rgba(255,255,255,0.97)", backdropFilter: "blur(12px)", borderTop: `1.5px solid ${C.grisB}`, padding: "12px 20px", position: "sticky", bottom: 0, zIndex: 50, boxShadow: "0 -2px 12px rgba(0,0,0,0.05)" }}>
+      <div style={{ background: "rgba(255,255,255,0.97)", backdropFilter: "blur(12px)", borderTop: `1.5px solid ${C.grisB}`, padding: "12px 20px", position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 50, boxShadow: "0 -2px 12px rgba(0,0,0,0.05)" }}>
         <div style={{ maxWidth: 720, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <span style={{ fontSize: 13, fontWeight: 800, color: C.textS, letterSpacing: -0.2 }}>
+          <span style={{ fontSize: 13, fontWeight: 800, color: C.negro, letterSpacing: -0.2 }}>
             Basic - Lesson 1 of 10
           </span>
           <div style={{ position: "relative" }}>
             <button type="button"
               onClick={() => menuEnabled && setMenuOpen(!menuOpen)}
-              style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, color: C.textB, padding: "8px 18px", borderRadius: 50, cursor: "pointer", fontSize: 13, fontWeight: 800, touchAction: "manipulation" }}>
+              style={{ ...btn(C.magenta, { fontSize: 13, padding: "8px 18px", borderRadius: 50 }), touchAction: "manipulation" }}>
               Menu
             </button>
             {menuOpen && (
@@ -1102,5 +1102,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
         </div>
       )}
     </div>
+  );
+}
   );
 }
