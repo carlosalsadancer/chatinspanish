@@ -1104,5 +1104,3 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
     </div>
   );
 }
-  );
-}
