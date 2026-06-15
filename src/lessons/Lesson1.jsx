@@ -13,21 +13,6 @@ const Star  = ({size=24,color="#fff"}) => <svg width={size} height={size} viewBo
 // ═══════════════════════════════════════════════════════════════
 const SHEETS_URL = "https://script.google.com/macros/s/AKfycbzUiHHTyLbu-efTHCzP-GZfs51qEq9hDFmvqnFnAVQCJLXYXcwxRaLG_rTSXImbr0mnFQ/exec";
 
-// ═══════════════════════════════════════════════════════════════
-// LESSON MAP — Basic Level
-// ═══════════════════════════════════════════════════════════════
-const LESSONS = [
-  { id: 1,  title: "At the Airport",   emoji: "✈️", color: C.turquesa },
-  { id: 2,  title: "Money & Exchange", emoji: "💵", color: C.azul     },
-  { id: 3,  title: "Getting Around",   emoji: "🚌", color: C.limon    },
-  { id: 4,  title: "Meeting People",   emoji: "👥", color: C.magenta  },
-  { id: 5,  title: "Coming Soon",      emoji: "🔒", color: C.grisB    },
-  { id: 6,  title: "Coming Soon",      emoji: "🔒", color: C.grisB    },
-  { id: 7,  title: "Coming Soon",      emoji: "🔒", color: C.grisB    },
-  { id: 8,  title: "Coming Soon",      emoji: "🔒", color: C.grisB    },
-  { id: 9,  title: "Coming Soon",      emoji: "🔒", color: C.grisB    },
-  { id: 10, title: "Coming Soon",      emoji: "🔒", color: C.grisB    },
-];
 
 // ═══════════════════════════════════════════════════════════════
 // SECTION DATA
@@ -885,34 +870,7 @@ function LessonComplete({ onNext }) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-// JOURNEY BAR — solo lección activa desbloqueada, resto con 🔒
-// ═══════════════════════════════════════════════════════════════
-function JourneyBar({ completedLessons = [] }) {
-  return (
-    <div style={{ display: "flex", gap: 4, justifyContent: "center", flexWrap: "wrap" }}>
-      {LESSONS.map((lesson) => {
-        const isCompleted = completedLessons.includes(lesson.id);
-        const isActive = lesson.id === 1;
-        const isLocked = !isActive && !isCompleted;
-        return (
-          <div key={lesson.id} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }}>
-            <div style={{
-              width: 28, height: 28, borderRadius: 8,
-              background: isCompleted ? C.limon : isActive ? lesson.color + "20" : C.grisS,
-              border: `1.5px solid ${isCompleted ? C.limonD : isActive ? lesson.color + "60" : C.grisB}`,
-              display: "flex", alignItems: "center", justifyContent: "center",
-              opacity: isLocked ? 0.5 : 1, fontSize: 14,
-            }}>
-              {isLocked ? "🔒" : lesson.emoji}
-            </div>
-            <div style={{ fontSize: 8, fontWeight: 700, color: isCompleted ? C.limonD : isLocked ? C.textF : C.textM }}>L{lesson.id}</div>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
+
 
 // ═══════════════════════════════════════════════════════════════
 // MAIN LESSON COMPONENT
