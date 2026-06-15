@@ -923,12 +923,20 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
   const [maxUnlocked, setMaxUnlocked] = useState(Math.max(1, initialSlide));
   const exerciseBackRef = useRef(null);
   const [backEnabled, setBackEnabled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuEnabled, setMenuEnabled] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
 
   useEffect(() => {
     setBackEnabled(false);
     const t = setTimeout(() => setBackEnabled(true), 800);
     return () => clearTimeout(t);
   }, [slide]);
+
+  useEffect(() => {
+    const t = setTimeout(() => setMenuEnabled(true), 800);
+    return () => clearTimeout(t);
+  }, []);
 
   function isExerciseSlide() { return slide === 3; }
   function isQuizSlide()     { return slide === 5; }
@@ -949,6 +957,11 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
     }
     if (slide === 0) { onBack(); return; }
     goTo(slide - 1);
+  }
+
+  function handleRestart() {
+    localStorage.removeItem("cis_lesson1_slide");
+    goTo(0);
   }
 
   const accentColor = [3,4,5,6].includes(slide) ? SECTION.color : C.turquesa;
@@ -973,40 +986,6 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
           to   { transform: scaleY(2); }
         }
       `}</style>
-
-      {/* HEADER */}
-      <div style={{ background: "rgba(255,255,255,0.97)", backdropFilter: "blur(12px)", borderBottom: `1.5px solid ${C.grisB}`, padding: "12px 20px", position: "sticky", top: 0, zIndex: 50, boxShadow: "0 2px 12px rgba(0,0,0,0.05)" }}>
-        <div style={{ maxWidth: 720, margin: "0 auto" }}>
-
-          {/* Fila 1: Logo + nombre + contador + back */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }} onClick={onBack}>
-              <ChatLogo size={32} bg={C.magenta} />
-              <div style={{ fontSize: 16, fontWeight: 900, color: C.negro, letterSpacing: -0.5 }}>Chat in Spanish</div>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <span style={{ fontSize: 12, color: accentColor, fontWeight: 900, whiteSpace: "nowrap" }}>{slide + 1} / {TOTAL}</span>
-              <button type="button"
-                onClick={() => backEnabled && handleBack()}
-                style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, color: C.textS, padding: "8px 16px", borderRadius: 50, cursor: "pointer", fontSize: 13, fontWeight: 700, touchAction: "manipulation" }}>← Back</button>
-            </div>
-          </div>
-
-          {/* Fila 2: BASIC · LESSON 1 · CANCÚN */}
-          <div style={{ fontSize: 10, letterSpacing: 2, color: C.textM, fontWeight: 700, textTransform: "uppercase", marginBottom: 6, textAlign: "center" }}>
-            Basic · Lesson 1 · Cancún
-          </div>
-
-          {/* Fila 3: Barra de progreso */}
-          <div style={{ height: 5, background: C.grisS, borderRadius: 3, overflow: "hidden", marginBottom: 8 }}>
-            <div style={{ height: "100%", width: `${((slide + 1) / TOTAL) * 100}%`, background: `linear-gradient(90deg,${C.turquesa},${C.magenta})`, borderRadius: 3, transition: "width 0.4s" }} />
-          </div>
-
-          {/* Fila 4: Journey Bar */}
-          <JourneyBar completedLessons={completedLessons} />
-
-        </div>
-      </div>
 
       {/* SLIDE CONTENT */}
       <div style={{ maxWidth: 720, margin: "0 auto", padding: "28px 20px 100px", animation: "fadeUp 0.3s ease" }} key={slide}>
@@ -1115,6 +1094,55 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
         {slide === 7 && <LessonComplete onNext={onComplete || onBack} />}
 
       </div>
+
+      {/* FOOTER */}
+      <div style={{ background: "rgba(255,255,255,0.97)", backdropFilter: "blur(12px)", borderTop: `1.5px solid ${C.grisB}`, padding: "12px 20px", position: "sticky", bottom: 0, zIndex: 50, boxShadow: "0 -2px 12px rgba(0,0,0,0.05)" }}>
+        <div style={{ maxWidth: 720, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <span style={{ fontSize: 13, fontWeight: 800, color: C.textS, letterSpacing: -0.2 }}>
+            Basic - Lesson 1 of 10
+          </span>
+          <div style={{ position: "relative" }}>
+            <button type="button"
+              onClick={() => menuEnabled && setMenuOpen(!menuOpen)}
+              style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, color: C.textB, padding: "8px 18px", borderRadius: 50, cursor: "pointer", fontSize: 13, fontWeight: 800, touchAction: "manipulation" }}>
+              Menu
+            </button>
+            {menuOpen && (
+              <div style={{ position: "absolute", bottom: "calc(100% + 8px)", right: 0, background: "#fff", border: `1.5px solid ${C.grisB}`, borderRadius: 14, boxShadow: "0 8px 24px rgba(0,0,0,0.12)", minWidth: 200, overflow: "hidden", zIndex: 60 }}>
+                <button type="button"
+                  onClick={() => { setMenuOpen(false); handleRestart(); }}
+                  style={{ width: "100%", textAlign: "left", padding: "14px 18px", border: "none", background: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, color: C.textB, touchAction: "manipulation", borderBottom: `1px solid ${C.grisB}` }}>
+                  Restart Lesson 1
+                </button>
+                <button type="button"
+                  onClick={() => { setMenuOpen(false); setShowHelp(true); }}
+                  style={{ width: "100%", textAlign: "left", padding: "14px 18px", border: "none", background: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, color: C.textB, touchAction: "manipulation" }}>
+                  Need Help?
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* NEED HELP MODAL */}
+      {showHelp && (
+        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }} onClick={() => setShowHelp(false)}>
+          <div style={{ background: "#fff", borderRadius: 20, padding: "28px 24px", maxWidth: 440, width: "100%" }} onClick={(e) => e.stopPropagation()}>
+            <div style={{ fontSize: 18, fontWeight: 900, color: C.textH, marginBottom: 16 }}>Need Help?</div>
+            <div style={{ fontSize: 14, color: C.textS, lineHeight: 1.7, marginBottom: 12 }}>
+              <strong style={{ color: C.textH }}>iPhone:</strong> Voice recognition works best in <strong>Chrome</strong>, not Safari. Tap the microphone button once and wait for it to listen.
+            </div>
+            <div style={{ fontSize: 14, color: C.textS, lineHeight: 1.7, marginBottom: 20 }}>
+              <strong style={{ color: C.textH }}>Android:</strong> If buttons don't respond right away, wait a second after the screen changes before tapping again.
+            </div>
+            <button type="button" onClick={() => setShowHelp(false)}
+              style={{ ...btn(C.magenta, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 12 }), touchAction: "manipulation" }}>
+              Got it
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
