@@ -878,26 +878,15 @@ function LessonComplete({ onNext }) {
 export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onComplete, completedLessons = [] }) {
   const { speak } = useTTS();
   const [slide, setSlide] = useState(initialSlide);
-  const [maxUnlocked, setMaxUnlocked] = useState(Math.max(1, initialSlide));
   const exerciseBackRef = useRef(null);
-  const [backEnabled, setBackEnabled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuEnabled, setMenuEnabled] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
 
   useEffect(() => {
-    setBackEnabled(false);
-    const t = setTimeout(() => setBackEnabled(true), 800);
-    return () => clearTimeout(t);
-  }, [slide]);
-
-  useEffect(() => {
     const t = setTimeout(() => setMenuEnabled(true), 800);
     return () => clearTimeout(t);
   }, []);
-
-  function isExerciseSlide() { return slide === 3; }
-  function isQuizSlide()     { return slide === 5; }
 
   function goTo(n) {
     if (n < 0 || n >= TOTAL) return;
@@ -905,24 +894,13 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
     if (onSlideChange) onSlideChange(n);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
-  function unlock(n) { setMaxUnlocked(prev => Math.max(prev, n)); }
-  function advance() { const next = slide + 1; unlock(next); goTo(next); }
 
-  function handleBack() {
-    if ((isExerciseSlide() || isQuizSlide()) && exerciseBackRef.current) {
-      const handled = exerciseBackRef.current();
-      if (handled) return;
-    }
-    if (slide === 0) { onBack(); return; }
-    goTo(slide - 1);
-  }
+  function advance() { goTo(slide + 1); }
 
   function handleRestart() {
     localStorage.removeItem("cis_lesson1_slide");
     goTo(0);
   }
-
-  const accentColor = [3,4,5,6].includes(slide) ? SECTION.color : C.turquesa;
 
   return (
     <div style={{ background: "#fff", minHeight: "100vh", paddingBottom: 64 }}>
@@ -948,7 +926,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
       {/* SLIDE CONTENT */}
       <div style={{ maxWidth: 720, margin: "0 auto", padding: "28px 20px 80px", animation: "fadeUp 0.3s ease" }} key={slide}>
 
-        {/* SLIDE 0 — ONBOARDING */}
+        {/* PANTALLA 1 — ONBOARDING */}
         {slide === 0 && (
           <div style={{ textAlign: "center" }}>
             <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}><ChatLogo size={80} bg={C.magenta} /></div>
@@ -980,15 +958,15 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
               Allow microphone access when prompted. Works best in Chrome.
             </div>
             <button type="button"
-              onClick={() => { unlock(1); goTo(1); }}
-              onPointerDown={(e) => { e.preventDefault(); unlock(1); goTo(1); }}
+              onClick={() => goTo(1)}
+              onPointerDown={(e) => { e.preventDefault(); goTo(1); }}
               style={{ ...btn(C.magenta, { fontSize: 15, padding: "16px 44px", borderRadius: 50, boxShadow: `0 6px 24px ${C.magenta}40` }), touchAction: "manipulation", display: "inline-block" }}>
               Let's Start! →
             </button>
           </div>
         )}
 
-        {/* SLIDE 1 — VIDEO */}
+        {/* PANTALLA 2 — VIDEO */}
         {slide === 1 && (
           <div style={{ animation: "fadeUp 0.4s ease", textAlign: "center" }}>
             <div style={{ fontSize: "clamp(18px,4vw,24px)", fontWeight: 900, color: C.textH, letterSpacing: -0.5, lineHeight: 1.1, marginBottom: 12 }}>Welcome to Cancún</div>
@@ -1008,7 +986,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
           </div>
         )}
 
-        {/* SLIDE 2 — STORY */}
+        {/* PANTALLA 3 — STORY */}
         {slide === 2 && (
           <div>
             <div style={{ display: "flex", gap: 14, alignItems: "center", justifyContent: "center", marginBottom: 24 }}>
