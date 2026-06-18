@@ -875,7 +875,7 @@ function LessonComplete({ onNext }) {
 // ═══════════════════════════════════════════════════════════════
 // MAIN LESSON COMPONENT
 // ═══════════════════════════════════════════════════════════════
-export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onComplete, completedLessons = [] }) {
+export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onComplete }) {
   const { speak } = useTTS();
   const [slide, setSlide] = useState(initialSlide);
   const exerciseBackRef = useRef(null);
