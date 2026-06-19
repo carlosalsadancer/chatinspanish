@@ -875,6 +875,22 @@ function LessonComplete({ onNext }) {
 // ═══════════════════════════════════════════════════════════════
 // MAIN LESSON COMPONENT
 // ═══════════════════════════════════════════════════════════════
+const LEAVE_CONTENT = {
+  screen:   { q: "Leave this screen?",   d: "Your progress is saved. Come back anytime to pick up right here.",                          stay: "Keep Going",      leave: "Leave Screen" },
+  exercise: { q: "Leave this exercise?", d: "You'll restart this exercise from the beginning next time. Keep going to lock it in!",       stay: "Keep Practicing", leave: "Leave Exercise" },
+  game:     { q: "Leave this game?",     d: "You'll need to start the memory game over next time. Almost there — keep going!",            stay: "Keep Playing",    leave: "Leave Game" },
+  quiz:     { q: "Leave this quiz?",     d: "You'll restart the quiz from the beginning next time. You're doing great — keep going!",     stay: "Keep Going",      leave: "Leave Quiz" },
+  survey:   { q: "Leave this survey?",   d: "Your spot is saved, but you'll need to fill out the survey again next time.",                stay: "Keep Going",      leave: "Leave Survey" },
+};
+
+function getLeaveGroup(slide) {
+  if (slide === 3) return "exercise";
+  if (slide === 4) return "game";
+  if (slide === 5) return "quiz";
+  if (slide === 6) return "survey";
+  return "screen";
+}
+
 export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onComplete }) {
   const { speak } = useTTS();
   const [slide, setSlide] = useState(initialSlide);
@@ -903,6 +919,10 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
     goTo(0);
   }
 
+  const leaveGroup = getLeaveGroup(slide);
+  const leaveContent = LEAVE_CONTENT[leaveGroup];
+  const showCloseButton = slide !== 7;
+
   return (
     <div style={{ background: "#fff", minHeight: "100vh", paddingBottom: 64 }}>
       <style>{`
@@ -925,14 +945,16 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
       `}</style>
 
       {/* CLOSE BUTTON */}
-      <div style={{ position: "fixed", top: 16, left: 16, zIndex: 55 }}>
-        <button type="button"
-          onClick={() => setShowLeave(true)}
-          aria-label="Leave lesson"
-          style={{ width: 36, height: 36, borderRadius: "50%", background: C.grisS, border: `1.5px solid ${C.grisB}`, color: C.textS, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 18, fontWeight: 700, touchAction: "manipulation" }}>
-          ✕
-        </button>
-      </div>
+      {showCloseButton && (
+        <div style={{ position: "fixed", top: 16, left: 16, zIndex: 55 }}>
+          <button type="button"
+            onClick={() => setShowLeave(true)}
+            aria-label="Leave"
+            style={{ width: 36, height: 36, borderRadius: "50%", background: C.grisS, border: `1.5px solid ${C.grisB}`, color: C.textS, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 18, fontWeight: 700, touchAction: "manipulation" }}>
+            ✕
+          </button>
+        </div>
+      )}
 
       {/* SLIDE CONTENT */}
       <div style={{ maxWidth: 720, margin: "0 auto", padding: "64px 20px 80px", animation: "fadeUp 0.3s ease" }} key={slide}>
@@ -1091,22 +1113,22 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
         </div>
       )}
 
-      {/* LEAVE LESSON MODAL */}
+      {/* LEAVE MODAL */}
       {showLeave && (
         <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }} onClick={() => setShowLeave(false)}>
           <div style={{ background: "#fff", borderRadius: 20, padding: "28px 24px", maxWidth: 440, width: "100%", textAlign: "center" }} onClick={(e) => e.stopPropagation()}>
-            <div style={{ fontSize: 18, fontWeight: 900, color: C.textH, marginBottom: 12 }}>Leave this lesson?</div>
+            <div style={{ fontSize: 18, fontWeight: 900, color: C.textH, marginBottom: 12 }}>{leaveContent.q}</div>
             <div style={{ fontSize: 14, color: C.textS, lineHeight: 1.7, marginBottom: 24 }}>
-              Your progress is saved — you can pick up right where you left off.
+              {leaveContent.d}
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               <button type="button" onClick={() => setShowLeave(false)}
                 style={{ ...btn(C.magenta, { fontSize: 15, padding: "14px", borderRadius: 12 }), touchAction: "manipulation" }}>
-                Keep Learning
+                {leaveContent.stay}
               </button>
               <button type="button" onClick={onBack}
                 style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, color: C.textS, padding: "13px", borderRadius: 12, cursor: "pointer", fontSize: 14, fontWeight: 600, touchAction: "manipulation" }}>
-                Leave Lesson
+                {leaveContent.leave}
               </button>
             </div>
           </div>
