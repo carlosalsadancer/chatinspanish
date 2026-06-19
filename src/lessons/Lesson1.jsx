@@ -294,7 +294,7 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
   const [karaokeLen, setKaraokeLen] = useState(0);
   const [celebrate, setCelebrate] = useState(false);
   const [celebrateMsg, setCelebrateMsg] = useState("");
-  const [blockMic, setBlockMic] = useState(500);
+  const [blockMic, setBlockMic] = useState(100);
 
   useEffect(() => {
     if (onBackRequest) {
