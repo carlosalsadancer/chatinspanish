@@ -836,15 +836,11 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
       {/* SLIDE CONTENT */}
       <div style={{ maxWidth: 720, margin: "0 auto", padding: "64px 20px 80px", animation: "fadeUp 0.3s ease" }} key={slide}>
 
-        {/* PANTALLA 1 — ONBOARDING */}
+{/* PANTALLA 1 — ONBOARDING */}
         {slide === 0 && (
           <div style={{ textAlign: "center" }}>
             <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}><ChatLogo size={80} bg={C.magenta} /></div>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.turquesaL, border: `1.5px solid ${C.turquesa}30`, borderRadius: 50, padding: "6px 16px", marginBottom: 16 }}>
-              <span style={{ fontSize: 11, fontWeight: 800, color: C.turquesaD, letterSpacing: 1.5, textTransform: "uppercase" }}>Basic Level · Lesson 1</span>
-            </div>
-            <h2 style={{ fontSize: "clamp(26px,6vw,34px)", fontWeight: 900, color: C.textH, letterSpacing: -1, marginBottom: 12 }}>At the Airport</h2>
-            <p style={{ fontSize: 15, color: C.textS, lineHeight: 1.75, fontWeight: 500, marginBottom: 28 }}>Here's what you'll do in this lesson:</p>
+            <h2 style={{ fontSize: "clamp(26px,6vw,34px)", fontWeight: 900, color: C.textH, letterSpacing: -1, marginBottom: 28 }}>These are the steps to learn with us:</h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 32 }}>
               {[
                 { num: "01", color: C.turquesa, title: "Watch",    desc: "A travel video of Cancún to get you inspired." },
