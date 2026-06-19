@@ -882,6 +882,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuEnabled, setMenuEnabled] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
+  const [showLeave, setShowLeave] = useState(false);
 
   useEffect(() => {
     const t = setTimeout(() => setMenuEnabled(true), 800);
@@ -923,8 +924,18 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
         }
       `}</style>
 
+      {/* CLOSE BUTTON */}
+      <div style={{ position: "fixed", top: 16, left: 16, zIndex: 55 }}>
+        <button type="button"
+          onClick={() => setShowLeave(true)}
+          aria-label="Leave lesson"
+          style={{ width: 36, height: 36, borderRadius: "50%", background: C.grisS, border: `1.5px solid ${C.grisB}`, color: C.textS, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 18, fontWeight: 700, touchAction: "manipulation" }}>
+          ✕
+        </button>
+      </div>
+
       {/* SLIDE CONTENT */}
-      <div style={{ maxWidth: 720, margin: "0 auto", padding: "28px 20px 80px", animation: "fadeUp 0.3s ease" }} key={slide}>
+      <div style={{ maxWidth: 720, margin: "0 auto", padding: "64px 20px 80px", animation: "fadeUp 0.3s ease" }} key={slide}>
 
         {/* PANTALLA 1 — ONBOARDING */}
         {slide === 0 && (
@@ -1076,6 +1087,28 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
               style={{ ...btn(C.magenta, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 12 }), touchAction: "manipulation" }}>
               Got it
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* LEAVE LESSON MODAL */}
+      {showLeave && (
+        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }} onClick={() => setShowLeave(false)}>
+          <div style={{ background: "#fff", borderRadius: 20, padding: "28px 24px", maxWidth: 440, width: "100%", textAlign: "center" }} onClick={(e) => e.stopPropagation()}>
+            <div style={{ fontSize: 18, fontWeight: 900, color: C.textH, marginBottom: 12 }}>Leave this lesson?</div>
+            <div style={{ fontSize: 14, color: C.textS, lineHeight: 1.7, marginBottom: 24 }}>
+              Your progress is saved — you can pick up right where you left off.
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              <button type="button" onClick={() => setShowLeave(false)}
+                style={{ ...btn(C.magenta, { fontSize: 15, padding: "14px", borderRadius: 12 }), touchAction: "manipulation" }}>
+                Keep Learning
+              </button>
+              <button type="button" onClick={onBack}
+                style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, color: C.textS, padding: "13px", borderRadius: 12, cursor: "pointer", fontSize: 14, fontWeight: 600, touchAction: "manipulation" }}>
+                Leave Lesson
+              </button>
+            </div>
           </div>
         </div>
       )}
