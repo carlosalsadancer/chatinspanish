@@ -9,12 +9,6 @@ const Check = ({size=24,color="#fff",strokeWidth=2}) => <svg width={size} height
 const Star  = ({size=24,color="#fff"}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>;
 
 // ═══════════════════════════════════════════════════════════════
-// GOOGLE SHEETS URL
-// ═══════════════════════════════════════════════════════════════
-const SHEETS_URL = "https://script.google.com/macros/s/AKfycbzUiHHTyLbu-efTHCzP-GZfs51qEq9hDFmvqnFnAVQCJLXYXcwxRaLG_rTSXImbr0mnFQ/exec";
-
-
-// ═══════════════════════════════════════════════════════════════
 // SECTION DATA
 // ═══════════════════════════════════════════════════════════════
 const SECTION = {
@@ -54,7 +48,7 @@ const QUIZ_DATA = [
 
 // ═══════════════════════════════════════════════════════════════
 // SLIDE MAP
-const TOTAL = 8;
+const TOTAL = 7;
 
 // ═══════════════════════════════════════════════════════════════
 // HELPERS
@@ -707,121 +701,6 @@ useEffect(() => {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// BLOCK SURVEY
-// ═══════════════════════════════════════════════════════════════
-function BlockSurvey({ onComplete }) {
-  const section = SECTION;
-  const [answers, setAnswers] = useState({ email: "", continueNext: 0, pronunciation: 0, memorama: 0, instructions: 0, voiceRecognition: "", comments: "" });
-  const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-
-  async function handleSubmit() {
-    setSubmitting(true);
-    try {
-      await fetch(SHEETS_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...answers, block: section.id }) });
-      if (typeof window.gtag === "function") {
-        window.gtag("event", "survey_submit", { block: section.id, block_number: 1, has_email: answers.email.trim() !== "" });
-      }
-    } catch(e) { console.log("Submit error:", e); }
-    setSubmitted(true); setSubmitting(false);
-  }
-
-  if (submitted) return (
-    <div style={{ textAlign: "center", padding: "40px 0", animation: "fadeUp 0.4s ease" }}>
-      <div style={{ width: 64, height: 64, borderRadius: 20, background: C.limonL, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
-        <Check size={32} color={C.limonD} strokeWidth={3} />
-      </div>
-      <div style={{ fontSize: 22, fontWeight: 900, color: C.textH, marginBottom: 12 }}>Thank you!</div>
-      <div style={{ fontSize: 14, color: C.textS, fontWeight: 500, lineHeight: 1.7, marginBottom: 32 }}>Your feedback goes directly to the course creator.</div>
-      <div style={{ textAlign: "center" }}>
-        <button type="button" onClick={onComplete}
-          onPointerDown={(e) => { e.preventDefault(); onComplete(); }}
-          style={{ ...btn(C.magenta, { fontSize: 15, padding: "15px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
-          Continue →
-        </button>
-      </div>
-    </div>
-  );
-
-  function ScoreRow({ label, field }) {
-    return (
-      <div style={{ marginBottom: 24 }}>
-        <div style={{ fontSize: 14, fontWeight: 700, color: C.textH, marginBottom: 10 }}>{label}</div>
-        <div style={{ display: "flex", gap: 6, justifyContent: "center", flexWrap: "wrap" }}>
-          {[1,2,3,4,5,6,7,8,9,10].map(n => (
-            <button type="button" key={n}
-              onClick={() => setAnswers(p => ({ ...p, [field]: n }))}
-              onPointerDown={(e) => { e.preventDefault(); setAnswers(p => ({ ...p, [field]: n })); }}
-              style={{ width: 36, height: 36, borderRadius: "50%", border: `1.5px solid ${answers[field] === n ? section.color : C.grisB}`, background: answers[field] === n ? section.color : C.grisS, color: answers[field] === n ? "#fff" : C.textS, fontSize: 13, fontWeight: 700, cursor: "pointer", transition: "all 0.15s", touchAction: "manipulation" }}>
-              {n}
-            </button>
-          ))}
-        </div>
-        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, color: C.textM, marginTop: 4 }}>
-          <span>Not at all</span><span>Definitely</span>
-        </div>
-      </div>
-    );
-  }
-
-  const allDone = answers.continueNext > 0 && answers.pronunciation > 0 && answers.memorama > 0 && answers.instructions > 0 && answers.voiceRecognition !== "";
-
-  return (
-    <div style={{ animation: "fadeUp 0.3s ease" }}>
-      <div style={{ background: section.color, borderRadius: 20, padding: "24px", marginBottom: 28, textAlign: "center" }}>
-        <div style={{ fontSize: 11, letterSpacing: 2, color: "#fff", fontWeight: 800, textTransform: "uppercase", opacity: 0.8, marginBottom: 8 }}>Basic · Lesson 1 — Feedback</div>
-        <div style={{ fontSize: 20, fontWeight: 900, color: "#fff", marginBottom: 8 }}>You're one of our first testers!</div>
-        <div style={{ fontSize: 13, color: "#fff", opacity: 0.9, lineHeight: 1.6 }}>Chat in Spanish is in development. Your feedback shapes the final product. 2 minutes — every answer counts.</div>
-      </div>
-      <div style={{ marginBottom: 24 }}>
-        <div style={{ fontSize: 14, fontWeight: 700, color: C.textH, marginBottom: 6 }}>Your email <span style={{ fontSize: 12, color: C.textM, fontWeight: 500 }}>(optional)</span></div>
-        <div style={{ fontSize: 14, color: C.textS, fontWeight: 500, marginBottom: 10 }}>We'll notify you when the full course is ready — and send you a special launch discount.</div>
-        <input type="email" value={answers.email} onChange={e => setAnswers(p => ({ ...p, email: e.target.value }))} placeholder="email@example.com"
-          style={{ width: "100%", padding: "12px 14px", borderRadius: 12, border: `1.5px solid ${C.grisB}`, fontSize: 16, color: C.textH, fontFamily: "'Plus Jakarta Sans', sans-serif", outline: "none", background: C.grisS, boxSizing: "border-box" }} />
-      </div>
-      <ScoreRow label="1. How likely are you to continue to Lesson 2?" field="continueNext" />
-      <ScoreRow label="2. How useful was the pronunciation practice?" field="pronunciation" />
-      <ScoreRow label="3. How fun was the Memorama game?" field="memorama" />
-      <ScoreRow label="4. How clear were the instructions?" field="instructions" />
-      <div style={{ marginBottom: 24 }}>
-        <div style={{ fontSize: 14, fontWeight: 700, color: C.textH, marginBottom: 10 }}>5. Did the voice recognition work correctly?</div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          {["Yes, perfectly", "Sometimes", "No, it didn't work"].map(opt => (
-            <button type="button" key={opt}
-              onClick={() => setAnswers(p => ({ ...p, voiceRecognition: opt }))}
-              onPointerDown={(e) => { e.preventDefault(); setAnswers(p => ({ ...p, voiceRecognition: opt })); }}
-              style={{ padding: "12px 16px", borderRadius: 12, border: `1.5px solid ${answers.voiceRecognition === opt ? section.color : C.grisB}`, background: answers.voiceRecognition === opt ? section.colorL : C.grisS, color: answers.voiceRecognition === opt ? section.colorD : C.textS, fontSize: 14, fontWeight: 700, cursor: "pointer", textAlign: "left", transition: "all 0.15s", touchAction: "manipulation" }}>
-              {answers.voiceRecognition === opt ? "◉ " : "○ "}{opt}
-            </button>
-          ))}
-        </div>
-      </div>
-      <div style={{ marginBottom: 28 }}>
-        <div style={{ fontSize: 14, fontWeight: 700, color: C.textH, marginBottom: 10 }}>6. What would you change or improve? <span style={{ fontSize: 12, color: C.textM, fontWeight: 500 }}>(optional)</span></div>
-        <textarea value={answers.comments} onChange={e => setAnswers(p => ({ ...p, comments: e.target.value }))} placeholder="Your ideas go directly to the course creator..."
-          style={{ width: "100%", minHeight: 90, padding: "12px 14px", borderRadius: 12, border: `1.5px solid ${C.grisB}`, fontSize: 13, color: C.textH, fontFamily: "'Plus Jakarta Sans', sans-serif", resize: "vertical", outline: "none", background: C.grisS }} />
-      </div>
-      <div style={{ textAlign: "center" }}>
-        <button type="button" onClick={handleSubmit}
-          onPointerDown={(e) => { e.preventDefault(); if (allDone && !submitting) handleSubmit(); }}
-          disabled={!allDone || submitting}
-          style={{ ...btn(allDone ? section.color : C.grisB, { fontSize: 15, padding: "16px 40px", borderRadius: 50 }), opacity: allDone ? 1 : 0.5, cursor: allDone ? "pointer" : "not-allowed", touchAction: "manipulation" }}>
-          {submitting ? "Sending..." : "Submit Feedback →"}
-        </button>
-      </div>
-      <div style={{ textAlign: "center", marginTop: 10, fontSize: 14, color: C.textM }}>Thank you — your response goes directly to the course creator.</div>
-      <div style={{ textAlign: "center", marginTop: 16 }}>
-        <button type="button" onClick={onComplete}
-          onPointerDown={(e) => { e.preventDefault(); onComplete(); }}
-          style={{ background: "none", border: "none", color: C.textM, fontSize: 13, cursor: "pointer", textDecoration: "underline", touchAction: "manipulation" }}>
-          Skip survey
-        </button>
-      </div>
-    </div>
-  );
-}
-
-// ═══════════════════════════════════════════════════════════════
 // LESSON COMPLETE
 // ═══════════════════════════════════════════════════════════════
 function LessonComplete({ onNext }) {
@@ -880,14 +759,12 @@ const LEAVE_CONTENT = {
   exercise: { q: "Leave this exercise?", d: "You'll restart this exercise from the beginning next time. Keep going to lock it in!",       stay: "Keep Practicing", leave: "Leave Exercise" },
   game:     { q: "Leave this game?",     d: "You'll need to start the memory game over next time. Almost there — keep going!",            stay: "Keep Playing",    leave: "Leave Game" },
   quiz:     { q: "Leave this quiz?",     d: "You'll restart the quiz from the beginning next time. You're doing great — keep going!",     stay: "Keep Going",      leave: "Leave Quiz" },
-  survey:   { q: "Leave this survey?",   d: "Your spot is saved, but you'll need to fill out the survey again next time.",                stay: "Keep Going",      leave: "Leave Survey" },
-};
+  };
 
 function getLeaveGroup(slide) {
   if (slide === 3) return "exercise";
   if (slide === 4) return "game";
   if (slide === 5) return "quiz";
-  if (slide === 6) return "survey";
   return "screen";
 }
 
@@ -921,7 +798,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
 
   const leaveGroup = getLeaveGroup(slide);
   const leaveContent = LEAVE_CONTENT[leaveGroup];
-  const showCloseButton = slide !== 7;
+  const showCloseButton = slide !== 6;
 
   return (
     <div style={{ background: "#fff", minHeight: "100vh", paddingBottom: 64 }}>
@@ -1059,8 +936,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
         {slide === 3 && <ExerciseSlide speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
         {slide === 4 && <Memorama speak={speak} onComplete={advance} />}
         {slide === 5 && <SectionQuiz speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
-        {slide === 6 && <BlockSurvey onComplete={advance} />}
-        {slide === 7 && <LessonComplete onNext={onComplete || onBack} />}
+        {slide === 6 && <LessonComplete onNext={onComplete || onBack} />}
 
       </div>
 
