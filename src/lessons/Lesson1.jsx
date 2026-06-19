@@ -843,8 +843,8 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
             <h2 style={{ fontSize: "clamp(26px,6vw,34px)", fontWeight: 900, color: C.textH, letterSpacing: -1, marginBottom: 28 }}>These are the steps to learn with us:</h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 32 }}>
               {[
-                { num: "01", color: C.turquesa, title: "Watch",    desc: "A travel video of Cancún to get you inspired." },
-                { num: "02", color: C.magenta,  title: "Story",    desc: "You just landed at Cancún airport. Your journey begins." },
+                { num: "01", color: C.turquesa, title: "Watch",    desc: "Discover Mexico while you learn Spanish." },
+                { num: "02", color: C.magenta,  title: "Story",    desc: "You're dropped into a real situation. Your journey begins." },
                 { num: "03", color: C.azul,     title: "Speak",    desc: "8 words — listen, repeat, get graded." },
                 { num: "04", color: C.morado,   title: "Phrases",  desc: "Each word comes with a real phrase — practice both." },
                 { num: "05", color: C.limonD,   title: "Memorama", desc: "Match Spanish and English cards to lock words in memory." },
