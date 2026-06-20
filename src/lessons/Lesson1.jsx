@@ -725,6 +725,7 @@ export function FinalQuiz({ speak, onComplete }) {
   const [attempts, setAttempts] = useState(0);
   const [done, setDone] = useState(false);
   const [celebrate, setCelebrate] = useState(false);
+  const [counted, setCounted] = useState(false);
 
   const { transcript, listening, supported, start, stop, setTranscript } = useSpeechRec();
   const [result, setResult] = useState(null);
@@ -751,7 +752,10 @@ export function FinalQuiz({ speak, onComplete }) {
   }
 
   function nextSituation() {
-    if (result === "perfect" || result === "good") setScore(s => s + 1);
+    if ((result === "perfect" || result === "good") && !counted) {
+      setScore(s => s + 1);
+      setCounted(true);
+    }
     if (idx + 1 >= order.length) {
       setCelebrate(true);
       setTimeout(() => { setCelebrate(false); setDone(true); }, 1600);
@@ -761,6 +765,7 @@ export function FinalQuiz({ speak, onComplete }) {
     setAttempts(0);
     setResult(null);
     setTranscript("");
+    setCounted(false);
   }
 
   const canAdvance = result === "perfect" || result === "good" || attempts >= 2;
