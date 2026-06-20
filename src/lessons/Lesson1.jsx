@@ -703,7 +703,169 @@ useEffect(() => {
     </div>
   );
 }
+// ═══════════════════════════════════════════════════════════════
+// FINAL QUIZ (pure production, no visual hints)
+// ═══════════════════════════════════════════════════════════════
+function FinalQuiz({ speak, onComplete }) {
+  const section = SECTION;
+  const situations = [
+    { en: "You just landed and need WiFi. What do you ask, in Spanish?", correct: "¿Hay internet gratis en el aeropuerto?" },
+    { en: "You need to find immigration. What do you ask, in Spanish?", correct: "¿Dónde está la zona de migración?" },
+    { en: "You're not sure which line to join. What do you ask, in Spanish?", correct: "Perdón, ¿esta es la fila para extranjeros?" },
+    { en: "The officer asks for your ID document. What do you say, in Spanish?", correct: "Hola, aquí está mi pasaporte." },
+    { en: "The officer asks for proof you're leaving Mexico. What do you say, in Spanish?", correct: "Tengo mi boleto de regreso aquí." },
+    { en: "You need to find your suitcase. What do you ask, in Spanish?", correct: "¿Dónde recojo mi maleta?" },
+    { en: "You need to find the way out. What do you ask, in Spanish?", correct: "¿Por dónde es la salida?" },
+    { en: "You want to take the ADO bus. What do you ask, in Spanish?", correct: "¿Dónde compro el boleto de autobús ADO?" },
+  ];
+  const [order] = useState(() => shuffle([0,1,2,3,4,5,6,7]));
+  const [phase, setPhase] = useState("intro");
+  const [idx, setIdx] = useState(0);
+  const [score, setScore] = useState(0);
+  const [attempts, setAttempts] = useState(0);
+  const [done, setDone] = useState(false);
+  const [celebrate, setCelebrate] = useState(false);
 
+  const { transcript, listening, supported, start, stop, setTranscript } = useSpeechRec();
+  const [result, setResult] = useState(null);
+
+  useEffect(() => {
+    if (!transcript || listening) return;
+    const q = situations[order[idx]];
+    const sc = scoreMatch(transcript, q.correct);
+    setResult(sc >= 85 ? "perfect" : sc >= 60 ? "good" : "retry");
+    setAttempts(a => a + 1);
+  }, [transcript, listening]);
+
+  function handleListen() {
+    const synth = window.speechSynthesis;
+    synth.cancel();
+    const u = new SpeechSynthesisUtterance(situations[order[idx]].en);
+    u.lang = "en-US"; u.rate = 0.95;
+    synth.speak(u);
+  }
+
+  function handleMic() {
+    if (listening) { stop(); return; }
+    setResult(null); setTranscript(""); start();
+  }
+
+  function nextSituation() {
+    if (result === "perfect" || result === "good") setScore(s => s + 1);
+    if (idx + 1 >= order.length) {
+      setCelebrate(true);
+      setTimeout(() => { setCelebrate(false); setDone(true); }, 1600);
+      return;
+    }
+    setIdx(i => i + 1);
+    setAttempts(0);
+    setResult(null);
+    setTranscript("");
+  }
+
+  const canAdvance = result === "perfect" || result === "good" || attempts >= 2;
+
+  if (phase === "intro") {
+    return (
+      <div>
+        <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 24, padding: "16px 18px", background: C.azulL, borderRadius: 16, border: `1.5px solid ${C.azul}20` }}>
+          <div style={{ width: 48, height: 48, borderRadius: 14, background: C.azul, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 22 }}>🎤</div>
+          <div>
+            <div style={{ fontSize: 18, fontWeight: 900, color: C.textH }}>Final Challenge</div>
+            <div style={{ fontSize: 12, color: C.azulD, fontWeight: 700 }}>{section.title} · Quiz</div>
+          </div>
+        </div>
+        <p style={{ fontSize: 15, color: C.textS, lineHeight: 1.7, marginBottom: 24 }}>
+          Listen to the situation in English. Then say the Spanish phrase from memory — no text, no hints. Just you and your Spanish.
+        </p>
+        <div style={{ textAlign: "center" }}>
+          <button type="button" onClick={() => setPhase("quiz")}
+            onPointerDown={(e) => { e.preventDefault(); setPhase("quiz"); }}
+            style={{ ...btn(C.magenta, { fontSize: 15, padding: "16px 44px", borderRadius: 50 }), touchAction: "manipulation" }}>
+            Start →
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (done) {
+    const pct = Math.round((score / order.length) * 100);
+    return (
+      <div style={{ textAlign: "center", padding: "40px 0", animation: "fadeUp 0.4s ease" }}>
+        <div style={{ width: 64, height: 64, borderRadius: 20, background: C.limonL, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
+          <Check size={32} color={C.limonD} strokeWidth={3} />
+        </div>
+        <div style={{ fontSize: "clamp(48px,12vw,64px)", fontWeight: 900, color: C.azul, lineHeight: 1, marginBottom: 8, letterSpacing: -2 }}>{score}/{order.length}</div>
+        <div style={{ fontSize: 20, color: C.textH, fontWeight: 800, marginBottom: 8 }}>{pct >= 75 ? "Excellent!" : pct >= 50 ? "Well done!" : "Keep going!"}</div>
+        <div style={{ fontSize: 14, color: C.textS, fontWeight: 500, lineHeight: 1.7, marginBottom: 32 }}>{pct >= 75 ? "You can really speak this!" : "Practice makes perfect — you've got this."}</div>
+        <div style={{ textAlign: "center" }}>
+          <button type="button" onClick={onComplete}
+            onPointerDown={(e) => { e.preventDefault(); onComplete(); }}
+            style={{ ...btn(C.magenta, { fontSize: 15, padding: "15px 36px", borderRadius: 50 }), touchAction: "manipulation" }}>
+            Continue →
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const q = situations[order[idx]];
+
+  return (
+    <div>
+      <Confetti show={celebrate} message="Quiz Complete!" />
+      <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: C.textM, fontWeight: 700, marginBottom: 8 }}>
+        <span>{idx + 1} / {order.length}</span>
+        <span style={{ color: C.azul, fontWeight: 900 }}>Score: {score}</span>
+      </div>
+      <div style={{ height: 5, background: C.grisS, borderRadius: 3, overflow: "hidden", marginBottom: 20 }}>
+        <div style={{ height: "100%", width: `${(idx / order.length) * 100}%`, background: C.azul, borderRadius: 3, transition: "width 0.4s" }} />
+      </div>
+      <div style={{ background: C.grisS, borderRadius: 16, padding: "20px", marginBottom: 20, textAlign: "center" }}>
+        <button type="button" onClick={handleListen}
+          style={{ background: C.azul, border: "none", width: 64, height: 64, borderRadius: "50%", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px", touchAction: "manipulation" }}>
+          <span style={{ fontSize: 26, color: "#fff" }}>♪</span>
+        </button>
+        <div style={{ fontSize: 13, color: C.textM }}>Tap to hear the situation</div>
+      </div>
+      {result && transcript && (
+        <div style={{ background: result === "perfect" ? C.limonL : result === "good" ? C.azulL : C.rojoL, border: `1.5px solid ${result === "perfect" ? C.limon : result === "good" ? C.azul : C.rojo}40`, borderRadius: 12, padding: "12px 16px", marginBottom: 12, textAlign: "center" }}>
+          <div style={{ fontSize: 14, fontWeight: 900, color: result === "perfect" ? C.limonD : result === "good" ? C.azulD : C.rojo, marginBottom: 4 }}>
+            {result === "perfect" ? "Perfect!" : result === "good" ? "Good job!" : "Try again!"}
+          </div>
+          <div style={{ fontSize: 13, color: C.textS }}>
+            {result === "retry" ? <>I heard: <strong>"{transcript}"</strong></> : "Native speakers will understand you!"}
+          </div>
+        </div>
+      )}
+      {attempts >= 2 && result === "retry" && (
+        <div style={{ background: C.grisS, borderRadius: 12, padding: "14px 16px", marginBottom: 16 }}>
+          <div style={{ fontSize: 11, color: C.textM, marginBottom: 6 }}>The phrase was:</div>
+          <div style={{ fontSize: 15, fontWeight: 800, color: C.textH }}>{q.correct}</div>
+        </div>
+      )}
+      <button type="button" onClick={handleMic}
+        style={{ width: "100%", border: "none", borderRadius: 50, padding: "16px", fontSize: 15, fontWeight: 900, color: "#fff", cursor: "pointer", marginBottom: 12, background: listening ? C.magenta : (result === "perfect" || result === "good") ? C.limon : C.azul, touchAction: "manipulation" }}>
+        {listening ? "⏹ Listening…" : result ? "◉ Try again" : "◉ Tap to speak"}
+      </button>
+      {!supported && (
+        <div style={{ background: C.grisS, borderRadius: 10, padding: "10px 14px", marginBottom: 10, fontSize: 13, color: C.textS, textAlign: "center" }}>
+          Voice recognition works best in Chrome.
+        </div>
+      )}
+      {(canAdvance || !supported) && (
+        <div style={{ textAlign: "center" }}>
+          <button type="button" onClick={nextSituation}
+            onPointerDown={(e) => { e.preventDefault(); nextSituation(); }}
+            style={{ ...btn(result === "perfect" ? C.limon : C.azul, { fontSize: 15, padding: "14px 32px", borderRadius: 50 }), touchAction: "manipulation" }}>
+            {idx + 1 >= order.length ? "See Results →" : "Next Situation →"}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
 // ═══════════════════════════════════════════════════════════════
 // LESSON COMPLETE
 // ═══════════════════════════════════════════════════════════════
