@@ -104,10 +104,10 @@ export function ElProblema() {
 
 export function SolucionMetodo({ onStartFree }) {
   const steps = [
-    { num: "1", icon: "▶", title: "Watch", desc: "See the city on YouTube before you study it", color: C.magenta },
+    { num: "1", icon: "▶", title: "Watch", desc: "See the city before you study it", color: C.magenta },
     { num: "2", icon: "◉", title: "Speak", desc: "Listen to every word and phrase, say it out loud — get graded instantly", color: C.turquesaD },
-    { num: "3", icon: "◈", title: "Play", desc: "Memorama memory game to lock words in memory", color: C.morado },
-    { num: "4", icon: "?", title: "Quiz", desc: "Real-life situations — use what you just learned", color: C.magenta },
+    { num: "3", icon: "◈", title: "Practice", desc: "Real-life situations — choose the right phrase", color: C.morado },
+    { num: "4", icon: "?", title: "Quiz", desc: "No hints — speak from memory and prove you've got it", color: C.magenta },
   ];
   return (
     <section id="how-it-works" style={{ background: C.turquesa, padding: "80px 24px" }}>
@@ -142,7 +142,7 @@ export function Pricing({ onStartFree }) {
   const items = [
     { text: "60 lessons", sub: null },
     { text: "21 YouTube travel videos", sub: "discover Mexico while you learn" },
-    { text: "Memorama every lesson", sub: null },
+    { text: "Real-life situation quizzes", sub: null },
     { text: "3 levels:", sub: "Basic · Intermediate · Advanced" },
     { text: "Voice recognition feedback", sub: null },
     { text: "Native Mexican Spanish audio", sub: null },
@@ -172,7 +172,7 @@ export function Pricing({ onStartFree }) {
             ))}
           </div>
           <div style={{ height: 1, background: C.grisB, marginBottom: 24 }} />
-          <button onClick={onStartFree} style={{ ...btn(C.negro, { width: "100%", fontSize: 16, padding: "16px", borderRadius: 50 }) }}>Get Full Access →</button>
+          <button onClick={onStartFree} style={{ ...btn(C.negro, { width: "100%", fontSize: 16, padding: "16px", borderRadius: 50 }) }}>Start Free →</button>
         </div>
       </div>
     </section>
