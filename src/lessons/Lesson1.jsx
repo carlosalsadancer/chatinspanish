@@ -992,7 +992,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
         {slide === 3 && <ExerciseSlide speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
         {slide === 4 && <SectionQuiz speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
         {slide === 5 && <FinalQuiz speak={speak} onComplete={advance} />}
-        {slide === 6 && <LessonComplete
+        {slide === 6 && <LessonComplete onNext={onComplete || onBack} />}
 
       </div>
 
