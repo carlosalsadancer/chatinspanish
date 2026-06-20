@@ -3,6 +3,7 @@ import { GLOBAL_CSS, C, btn } from "./tokens";
 import { Header, ChromeModal } from "./components/LandingPage";
 import LandingPage from "./components/LandingPage";
 import Lesson1 from "./lessons/Lesson1";
+import { FinalQuiz } from "./lessons/Lesson1";
 
 // ═══════════════════════════════════════════════════════════════
 // WELCOME BACK MODAL
@@ -94,6 +95,8 @@ function trackEvent(name, params = {}) {
 // ROOT APP
 // ═══════════════════════════════════════════════════════════════
 export default function App() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const testQuiz2 = urlParams.get('test') === 'quiz2';
   const [view, setView] = useState("landing");
   const [showChromeModal, setShowChromeModal] = useState(false);
   const [showWelcomeBack, setShowWelcomeBack] = useState(false);
@@ -223,7 +226,13 @@ export default function App() {
         />
       )}
 
-      {view === "landing" && (
+      {testQuiz2 && (
+        <div style={{ maxWidth: 720, margin: "0 auto", padding: "40px 20px" }}>
+          <FinalQuiz speak={() => {}} onComplete={() => alert("Quiz complete!")} />
+        </div>
+      )}
+
+      {!testQuiz2 && view === "landing" && (
         <>
           <Header key={landingKey} onStartFree={handleStartFree} />
           <LandingPage onStartFree={handleStartFree} />
