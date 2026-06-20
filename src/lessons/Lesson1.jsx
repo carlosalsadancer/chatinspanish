@@ -78,7 +78,8 @@ function useTTS() {
     if (!synth.current) return;
     synth.current.cancel(); setSpeaking(true);
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = "es-MX"; u.rate = 0.78; u.pitch = 1.05;
+    const isQuestion = text.includes('¿') || text.trim().endsWith('?');
+    u.lang = "es-MX"; u.rate = 0.78; u.pitch = isQuestion ? 1.15 : 1.05;
     const voices = synth.current.getVoices();
     const v = voices.find(v => v.lang.startsWith("es-MX")) || voices.find(v => v.lang.startsWith("es"));
     if (v) u.voice = v;
