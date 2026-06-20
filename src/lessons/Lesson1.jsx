@@ -528,6 +528,7 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
   const [idx, setIdx] = useState(0);
   const [shuffledOptions, setShuffledOptions] = useState(() => shuffle(questions[0].options));
   const [sel, setSel] = useState(null);
+  const [selBlocked, setSelBlocked] = useState(false);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
   const [celebrate, setCelebrate] = useState(false);
@@ -554,13 +555,15 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
   }, [transcript, listening]);
 useEffect(() => {
     setShuffledOptions(shuffle(questions[idx].options));
+    setSelBlocked(true);
+    const t = setTimeout(() => setSelBlocked(false), 400);
+    return () => clearTimeout(t);
   }, [idx]);
   function select(opt) {
-    if (sel !== null) return;
+    if (sel !== null || selBlocked) return;
     setSel(opt);
     if (opt === questions[idx].correct) setScore(s => s + 1);
   }
-
   function handleMic() {
     if (listening) { stop(); return; }
     setPronResult(null); setTranscript(""); start();
