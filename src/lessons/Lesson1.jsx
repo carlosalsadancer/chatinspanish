@@ -48,7 +48,7 @@ const QUIZ_DATA = [
 
 // ═══════════════════════════════════════════════════════════════
 // SLIDE MAP
-const TOTAL = 6;
+const TOTAL = 7;
 
 // ═══════════════════════════════════════════════════════════════
 // HELPERS
@@ -826,6 +826,7 @@ const LEAVE_CONTENT = {
 function getLeaveGroup(slide) {
   if (slide === 3) return "exercise";
   if (slide === 4) return "quiz";
+  if (slide === 5) return "quiz";
   return "screen";
 }
 
@@ -859,7 +860,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
 
   const leaveGroup = getLeaveGroup(slide);
   const leaveContent = LEAVE_CONTENT[leaveGroup];
-  const showCloseButton = slide !== 5;
+  const showCloseButton = slide !== 6;
 
   return (
     <div style={{ background: "#fff", minHeight: "100vh", paddingBottom: 64 }}>
@@ -990,7 +991,8 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
 
         {slide === 3 && <ExerciseSlide speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
         {slide === 4 && <SectionQuiz speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
-        {slide === 5 && <LessonComplete onNext={onComplete || onBack} />}
+        {slide === 5 && <FinalQuiz speak={speak} onComplete={advance} />}
+        {slide === 6 && <LessonComplete
 
       </div>
 
