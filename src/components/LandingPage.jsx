@@ -184,7 +184,7 @@ export function Garantia({ onStartFree }) {
     <section style={{ background: C.magenta, padding: "80px 24px" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", gap: 48 }} className="garantia-inner">
         <div style={{ flex: 1, minWidth: 0 }}>
-          <h2 style={{ fontSize: "clamp(24px,3vw,38px)", fontWeight: 900, color: C.blanco, letterSpacing: -0.8, lineHeight: 1.2, marginBottom: 20 }}>Try Chat in Spanish free with 3 full lessons.</h2>
+          <h2 style={{ fontSize: "clamp(24px,3vw,38px)", fontWeight: 900, color: C.blanco, letterSpacing: -0.8, lineHeight: 1.2, marginBottom: 20 }}>Try Chat in Spanish free with our first lesson.</h2>
           <p style={{ fontSize: 17, color: C.blanco, opacity: 0.9, lineHeight: 1.7, marginBottom: 16, fontWeight: 500 }}>If you love it, unlock everything for $27 USD.</p>
           <p style={{ fontSize: 17, color: C.blanco, opacity: 0.9, lineHeight: 1.7, marginBottom: 32, fontWeight: 500 }}>If not — no pressure, no charge.</p>
           <button onClick={onStartFree} style={{ ...btn(C.negro, { fontSize: 15, padding: "14px 28px" }) }}>Start Free →</button>
