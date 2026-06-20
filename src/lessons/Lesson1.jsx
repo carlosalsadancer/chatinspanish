@@ -909,8 +909,8 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
                 { num: "02", color: C.magenta,  title: "Story",    desc: "You're dropped into a real situation. Your journey begins." },
                 { num: "03", color: C.azul,     title: "Speak",    desc: "8 words — listen, repeat, get graded." },
                 { num: "04", color: C.morado,   title: "Phrases",  desc: "Each word comes with a real phrase — practice both." },
-                { num: "05", color: C.limonD,   title: "Memorama", desc: "Match Spanish and English cards to lock words in memory." },
-                { num: "06", color: C.magentaD, title: "Quiz",     desc: "Real-life situations — choose the right phrase, then say it." },
+                { num: "05", color: C.limonD,   title: "Practice", desc: "Real-life situations — choose the right phrase, then say it." },
+                { num: "06", color: C.magentaD, title: "Quiz",     desc: "No hints — listen and speak the phrase from memory." },
               ].map((s, i) => (
                 <div key={i} style={{ display: "flex", gap: 14, background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 16, padding: "16px 18px", alignItems: "center", textAlign: "left" }}>
                   <div style={{ width: 44, height: 44, borderRadius: 12, background: s.color, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: "#fff", fontSize: 13, fontWeight: 900 }}>{s.num}</div>
