@@ -48,7 +48,7 @@ const QUIZ_DATA = [
 
 // ═══════════════════════════════════════════════════════════════
 // SLIDE MAP
-const TOTAL = 7;
+const TOTAL = 6;
 
 // ═══════════════════════════════════════════════════════════════
 // HELPERS
@@ -412,112 +412,6 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-// MEMORAMA
-// ═══════════════════════════════════════════════════════════════
-function Memorama({ speak, onComplete }) {
-  const section = SECTION;
-  const pairs = section.words.slice(0, 6).map(w => ({ es: w.display, en: w.en }));
-  const [cards] = useState(() => {
-    const all = [];
-    pairs.forEach((v, i) => {
-      all.push({ id: `es-${i}`, type: "es", word: v.es, pairId: i });
-      all.push({ id: `en-${i}`, type: "en", word: v.en, pairId: i });
-    });
-    return shuffle(all);
-  });
-  const [flipped, setFlipped] = useState([]);
-  const [matched, setMatched] = useState([]);
-  const [checking, setChecking] = useState(false);
-  const [moves, setMoves] = useState(0);
-  const [done, setDone] = useState(false);
-  const [celebrate, setCelebrate] = useState(false);
-
-  function flip(card) {
-    if (checking || matched.includes(card.pairId) || flipped.includes(card.id) || flipped.length === 2) return;
-    const nf = [...flipped, card.id];
-    setFlipped(nf);
-    if (card.type === "es") speak(card.word);
-    if (nf.length === 2) {
-      setMoves(m => m + 1); setChecking(true);
-      const [a, b] = nf.map(id => cards.find(c => c.id === id));
-      if (a.pairId === b.pairId) {
-        setTimeout(() => {
-          const nm = [...matched, a.pairId];
-          setMatched(nm); setFlipped([]); setChecking(false);
-          if (nm.length === pairs.length) {
-            setCelebrate(true);
-            setTimeout(() => { setCelebrate(false); setDone(true); }, 1600);
-          }
-        }, 700);
-      } else {
-        setTimeout(() => { setFlipped([]); setChecking(false); }, 1100);
-      }
-    }
-  }
-
-  if (done) return (
-    <div style={{ textAlign: "center", padding: "48px 0", animation: "fadeUp 0.4s ease" }}>
-      <div style={{ width: 64, height: 64, borderRadius: 20, background: C.limonL, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
-        <Check size={32} color={C.limonD} strokeWidth={3} />
-      </div>
-      <div style={{ fontSize: 24, fontWeight: 900, color: C.textH, marginBottom: 8 }}>Memorama Complete!</div>
-      <div style={{ fontSize: 15, color: C.textS, fontWeight: 500, marginBottom: 8 }}>You matched all {pairs.length} pairs in <strong style={{ color: section.color }}>{moves} moves</strong></div>
-      <div style={{ fontSize: 14, color: C.textM, marginBottom: 32 }}>{moves <= pairs.length + 2 ? "Excellent memory!" : moves <= pairs.length + 5 ? "Good job!" : "Keep practicing!"}</div>
-      <div style={{ textAlign: "center" }}>
-        <button type="button" onClick={onComplete}
-          onPointerDown={(e) => { e.preventDefault(); onComplete(); }}
-          style={{ ...btn(C.magenta, { fontSize: 15, padding: "15px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
-          Continue →
-        </button>
-      </div>
-    </div>
-  );
-
-  return (
-    <div style={{ animation: "fadeUp 0.3s ease" }}>
-      <Confetti show={celebrate} message="Memorama Complete!" />
-      <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16, padding: "16px 18px", background: section.colorL, borderRadius: 16, border: `1.5px solid ${section.color}20` }}>
-        <div style={{ width: 48, height: 48, borderRadius: 14, background: section.color, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-          <Star size={24} color="#fff" />
-        </div>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 18, fontWeight: 900, color: C.textH }}>Memorama</div>
-          <div style={{ fontSize: 12, color: section.colorD, fontWeight: 700 }}>{section.title} · Match Spanish ↔ English</div>
-        </div>
-        <div style={{ textAlign: "right" }}>
-          <div style={{ fontSize: 22, fontWeight: 900, color: section.color }}>{matched.length}/{pairs.length}</div>
-          <div style={{ fontSize: 11, color: C.textM, fontWeight: 600 }}>{moves} moves</div>
-        </div>
-      </div>
-      <div style={{ height: 6, background: C.grisB, borderRadius: 3, overflow: "hidden", marginBottom: 16 }}>
-        <div style={{ height: "100%", width: `${(matched.length / pairs.length) * 100}%`, background: `linear-gradient(90deg,${section.color},${section.colorD})`, borderRadius: 3, transition: "width 0.4s" }} />
-      </div>
-      <div style={{ fontSize: 14, color: C.textM, fontWeight: 600, marginBottom: 16 }}>Tap two cards to find matching pairs — Spanish ↔ English</div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10, marginBottom: 16 }}>
-        {cards.map(card => {
-          const isF = flipped.includes(card.id), isM = matched.includes(card.pairId), show = isF || isM;
-          return (
-            <div key={card.id}
-              onClick={() => flip(card)}
-              onPointerDown={(e) => { e.preventDefault(); flip(card); }}
-              style={{ height: 84, borderRadius: 14, cursor: isM ? "default" : "pointer", transition: "all 0.2s", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "8px 6px", background: isM ? section.colorL : show ? (card.type === "es" ? C.turquesaL : C.magentaL) : C.grisS, border: `1.5px solid ${isM ? section.color + "60" : show ? (card.type === "es" ? C.turquesa : C.magenta) + "50" : C.grisB}`, transform: show ? "scale(1.03)" : "scale(1)", touchAction: "manipulation" }}>
-              {show ? (
-                <div>
-                  {isM && <div style={{ fontSize: 13, marginBottom: 2, color: section.colorD }}>✓</div>}
-                  <div style={{ fontSize: "clamp(12px,2.8vw,15px)", fontWeight: 800, color: isM ? section.colorD : card.type === "es" ? C.turquesaD : C.magentaD, lineHeight: 1.3 }}>{card.word}</div>
-                </div>
-              ) : (
-                <div style={{ fontSize: 26, color: C.textF }}>?</div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-      <div style={{ background: section.colorL, border: `1.5px solid ${section.color}30`, borderRadius: 12, padding: "10px 14px", fontSize: 14, color: section.colorD, fontWeight: 600 }}>Spanish cards play audio when flipped — listen carefully!</div>
-    </div>
-  );
-}
 
 // ═══════════════════════════════════════════════════════════════
 // SECTION QUIZ
@@ -926,14 +820,12 @@ function LessonComplete({ onNext }) {
 const LEAVE_CONTENT = {
   screen:   { q: "Leave this screen?",   d: "Your progress is saved. Come back anytime to pick up right here.",                          stay: "Keep Going",      leave: "Leave Screen" },
   exercise: { q: "Leave this exercise?", d: "You'll restart this exercise from the beginning next time. Keep going to lock it in!",       stay: "Keep Practicing", leave: "Leave Exercise" },
-  game:     { q: "Leave this game?",     d: "You'll need to start the memory game over next time. Almost there — keep going!",            stay: "Keep Playing",    leave: "Leave Game" },
   quiz:     { q: "Leave this quiz?",     d: "You'll restart the quiz from the beginning next time. You're doing great — keep going!",     stay: "Keep Going",      leave: "Leave Quiz" },
   };
 
 function getLeaveGroup(slide) {
   if (slide === 3) return "exercise";
-  if (slide === 4) return "game";
-  if (slide === 5) return "quiz";
+  if (slide === 4) return "quiz";
   return "screen";
 }
 
@@ -967,7 +859,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
 
   const leaveGroup = getLeaveGroup(slide);
   const leaveContent = LEAVE_CONTENT[leaveGroup];
-  const showCloseButton = slide !== 6;
+  const showCloseButton = slide !== 5;
 
   return (
     <div style={{ background: "#fff", minHeight: "100vh", paddingBottom: 64 }}>
@@ -1097,9 +989,8 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
         )}
 
         {slide === 3 && <ExerciseSlide speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
-        {slide === 4 && <Memorama speak={speak} onComplete={advance} />}
-        {slide === 5 && <SectionQuiz speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
-        {slide === 6 && <LessonComplete onNext={onComplete || onBack} />}
+        {slide === 4 && <SectionQuiz speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
+        {slide === 5 && <LessonComplete onNext={onComplete || onBack} />}
 
       </div>
 
