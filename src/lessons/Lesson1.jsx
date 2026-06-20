@@ -706,7 +706,7 @@ useEffect(() => {
 // ═══════════════════════════════════════════════════════════════
 // FINAL QUIZ (pure production, no visual hints)
 // ═══════════════════════════════════════════════════════════════
-function FinalQuiz({ speak, onComplete }) {
+export function FinalQuiz({ speak, onComplete }) {
   const section = SECTION;
   const situations = [
     { en: "You just landed and need WiFi. What do you ask, in Spanish?", correct: "¿Hay internet gratis en el aeropuerto?" },
