@@ -795,7 +795,7 @@ function LessonComplete({ onNext }) {
         {[
           { label: "Words learned",     value: "8", color: C.turquesa },
           { label: "Phrases practiced", value: "8", color: C.magenta  },
-          { label: "Quiz questions",    value: "8", color: C.azul     },
+          { label: "Situations mastered", value: "8", color: C.azul     },
         ].map((s, i) => (
           <div key={i} style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 16, padding: "16px 12px", textAlign: "center" }}>
             <div style={{ fontSize: 26, fontWeight: 900, color: s.color, marginBottom: 4 }}>{s.value}</div>
