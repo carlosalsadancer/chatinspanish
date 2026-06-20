@@ -507,7 +507,7 @@ useEffect(() => {
       <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16, padding: "16px 18px", background: section.colorL, borderRadius: 16, border: `1.5px solid ${section.color}20` }}>
         <div style={{ width: 48, height: 48, borderRadius: 14, background: section.color, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontWeight: 900, fontSize: 24, color: "#fff" }}>?</div>
         <div>
-          <div style={{ fontSize: 18, fontWeight: 900, color: C.textH }}>Quick Quiz</div>
+          <div style={{ fontSize: 18, fontWeight: 900, color: C.textH }}>Practice</div>
           <div style={{ fontSize: 12, color: section.colorD, fontWeight: 700 }}>{section.title} · Question {idx + 1} of {questions.length}</div>
         </div>
       </div>
