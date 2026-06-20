@@ -715,9 +715,7 @@ function LessonComplete({ onNext }) {
   return (
     <div style={{ textAlign: "center", padding: "40px 0", animation: "fadeUp 0.4s ease" }}>
       <Confetti show={celebrate} message="Lesson 1 Complete!" />
-      <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.turquesaL, border: `1.5px solid ${C.turquesa}30`, borderRadius: 50, padding: "6px 16px", marginBottom: 20 }}>
-        <span style={{ fontSize: 11, fontWeight: 800, color: C.turquesaD, letterSpacing: 1.5, textTransform: "uppercase" }}>Basic · Lesson 1</span>
-      </div>
+      
       <div style={{ width: 72, height: 72, borderRadius: 22, background: C.turquesaL, border: `1.5px solid ${C.turquesa}40`, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px", fontSize: 40 }}>✈️</div>
       <h2 style={{ fontSize: "clamp(24px,6vw,32px)", fontWeight: 900, color: C.textH, letterSpacing: -1, marginBottom: 8 }}>Lesson 1 Complete!</h2>
       <p style={{ fontSize: 15, color: C.textS, fontWeight: 500, marginBottom: 24 }}>You just survived the Cancún airport — in Spanish!</p>
