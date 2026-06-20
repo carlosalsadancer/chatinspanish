@@ -83,7 +83,7 @@ export function ElProblema() {
     <section style={{ background: C.blanco, padding: "80px 24px" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <h2 style={{ fontSize: "clamp(26px,3vw,36px)", fontWeight: 900, color: C.negro, textAlign: "center", letterSpacing: -0.8, marginBottom: 12 }}>Sound familiar?</h2>
-        <p style={{ fontSize: 16, color: C.textS, textAlign: "center", marginBottom: 48, fontWeight: 500 }}>You're not alone. Most Spanish learners face the same 3 problems.</p>
+        <p style={{ fontSize: 16, color: C.textS, textAlign: "center", marginBottom: 48, fontWeight: 500 }}>Most Spanish learners face the same 3 problems.</p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 24, marginBottom: 40 }}>
           {problems.map((p, i) => (
             <div key={i} style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 16, overflow: "hidden" }}>
