@@ -846,6 +846,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
   const [menuEnabled, setMenuEnabled] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const [showLeave, setShowLeave] = useState(false);
+  const [navBlocked, setNavBlocked] = useState(false);
   const [showExplore, setShowExplore] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState(null);
 
@@ -857,21 +858,19 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
   function goTo(n) {
     if (n < 0 || n >= TOTAL) return;
     setSlide(n);
+    setNavBlocked(true);
+    setTimeout(() => setNavBlocked(false), 500);
     if (onSlideChange) onSlideChange(n);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
-
   function advance() { goTo(slide + 1); }
-
   function handleRestart() {
     localStorage.removeItem("cis_lesson1_slide");
     goTo(0);
   }
-
   const leaveGroup = getLeaveGroup(slide);
   const leaveContent = LEAVE_CONTENT[leaveGroup];
   const showCloseButton = slide !== 5;
-
   return (
     <div style={{ background: "#fff", minHeight: "100vh", paddingBottom: 64 }}>
       <style>{`
@@ -892,7 +891,6 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
           to   { transform: scaleY(2); }
         }
       `}</style>
-
       {/* CLOSE BUTTON */}
       {showCloseButton && (
         <div style={{ position: "fixed", top: 16, left: 16, zIndex: 55 }}>
@@ -939,8 +937,8 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
               Allow microphone access when prompted. Works best in Chrome.
             </div>
             <button type="button"
-              onClick={() => goTo(1)}
-              onPointerDown={(e) => { e.preventDefault(); goTo(1); }}
+              onClick={() => !navBlocked && goTo(1)}
+              onPointerDown={(e) => { e.preventDefault(); }}
               style={{ ...btn(C.magenta, { fontSize: 15, padding: "16px 44px", borderRadius: 50, boxShadow: `0 6px 24px ${C.magenta}40` }), touchAction: "manipulation", display: "inline-block" }}>
               Let's Start! →
             </button>
@@ -973,8 +971,8 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
               ))}
             </div>
             <div style={{ textAlign: "center" }}>
-              <button type="button" onClick={advance}
-                onPointerDown={(e) => { e.preventDefault(); advance(); }}
+              <button type="button" onClick={() => !navBlocked && advance()}
+                onPointerDown={(e) => { e.preventDefault(); }}
                 style={{ ...btn(C.magenta, { fontSize: 15, padding: "14px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
                 Start →
               </button>
