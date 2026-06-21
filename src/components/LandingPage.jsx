@@ -104,10 +104,9 @@ export function ElProblema() {
 
 export function SolucionMetodo({ onStartFree }) {
   const steps = [
-    { num: "1", icon: "▶", title: "Watch", desc: "See the city before you study it", color: C.magenta },
-    { num: "2", icon: "◉", title: "Speak", desc: "Listen to every word and phrase, say it out loud — get graded instantly", color: C.turquesaD },
-    { num: "3", icon: "◈", title: "Practice", desc: "Real-life situations — choose the right phrase", color: C.morado },
-    { num: "4", icon: "?", title: "Quiz", desc: "No hints — speak from memory and prove you've got it", color: C.magenta },
+    { num: "1", icon: "◉", title: "Speak", desc: "Listen to every word and phrase, say it out loud — get graded instantly", color: C.turquesaD },
+    { num: "2", icon: "◈", title: "Practice", desc: "Real-life situations — choose the right phrase", color: C.morado },
+    { num: "3", icon: "?", title: "Quiz", desc: "No hints — speak from memory and prove you've got it", color: C.magenta },
   ];
   return (
     <section id="how-it-works" style={{ background: C.turquesa, padding: "80px 24px" }}>
@@ -117,7 +116,7 @@ export function SolucionMetodo({ onStartFree }) {
         <p style={{ fontSize: 16, color: C.blanco, opacity: 0.9, textAlign: "center", marginBottom: 48, fontWeight: 500 }}>Real Mexican Spanish. Real places. Real pronunciation feedback.</p>
         <div style={{ height: 1, background: "rgba(255,255,255,0.3)", marginBottom: 48 }} />
         <h3 style={{ fontSize: 22, fontWeight: 800, color: C.blanco, textAlign: "center", marginBottom: 8 }}>How Chat in Spanish works</h3>
-        <p style={{ fontSize: 14, color: C.blanco, opacity: 0.8, textAlign: "center", marginBottom: 40 }}>4 simple steps from zero to speaking real Spanish</p>
+        <p style={{ fontSize: 14, color: C.blanco, opacity: 0.8, textAlign: "center", marginBottom: 40 }}>3 simple steps from zero to speaking real Spanish</p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 20, marginBottom: 48 }}>
           {steps.map((s, i) => (
             <div key={i} style={{ background: C.blanco, borderRadius: 16, padding: "28px 20px", position: "relative", overflow: "hidden", textAlign: "center" }}>
@@ -137,11 +136,10 @@ export function SolucionMetodo({ onStartFree }) {
     </section>
   );
 }
-
 export function Pricing({ onStartFree }) {
   const items = [
     { text: "60 lessons", sub: null },
-    { text: "21 YouTube travel videos", sub: "discover Mexico while you learn" },
+    { text: "Real travel videos", sub: "explore Mexico at your own pace" },
     { text: "Real-life situation quizzes", sub: null },
     { text: "3 levels:", sub: "Basic · Intermediate · Advanced" },
     { text: "Voice recognition feedback", sub: null },
@@ -178,7 +176,6 @@ export function Pricing({ onStartFree }) {
     </section>
   );
 }
-
 export function Garantia({ onStartFree }) {
   return (
     <section style={{ background: C.magenta, padding: "80px 24px" }}>
@@ -202,7 +199,7 @@ export function FAQ() {
   const faqs = [
     { q: "Do I need to have any Spanish knowledge to start?", a: "No, just motivation to learn a new language." },
     { q: "Is this a subscription?", a: "No. One single payment of $27 USD gives you 6 months full access." },
-    { q: "What if I don't like it?", a: "Try 3 full lessons completely free. No credit card needed to start." },
+    { q: "What if I don't like it?", a: "Try our first lesson completely free. No credit card needed to start." },
     { q: "What level of Spanish will I reach?", a: "By the end you'll handle real conversations in Mexico — ordering food, asking directions, making friends." },
     { q: "Does it work on iPhone (iOS)?", a: "Yes — download Chrome on your iPhone for the full experience including voice recognition." },
     { q: "Does it work on Android?", a: "Yes — works perfectly on Chrome for Android. Full voice recognition experience out of the box." },
