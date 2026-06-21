@@ -818,7 +818,7 @@ function LessonComplete({ onNext }) {
 // EXPLORE VIDEOS DATA
 // ═══════════════════════════════════════════════════════════════
 const EXPLORE_VIDEOS = [
-  { city: "Cancún", videoId: "nYIL6eAlHxA", available: true },
+  { city: "Cancún", videoId: "nYIL6eAlHxA" },
 ];
 
 // ═══════════════════════════════════════════════════════════════
@@ -1043,7 +1043,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
         </div>
       )}
 
-      {/* EXPLORE MEXICO MODAL */}
+     {/* EXPLORE MEXICO MODAL */}
       {showExplore && (
         <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }} onClick={() => setShowExplore(false)}>
           <div style={{ background: "#fff", borderRadius: 20, padding: "28px 24px", maxWidth: 480, width: "100%", maxHeight: "85vh", overflowY: "auto" }} onClick={(e) => e.stopPropagation()}>
@@ -1054,13 +1054,12 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
                 <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
                   {EXPLORE_VIDEOS.map((v, i) => (
                     <button type="button" key={i}
-                      onClick={() => v.available && setSelectedVideo(v)}
-                      disabled={!v.available}
-                      style={{ width: "100%", textAlign: "left", padding: "14px 16px", borderRadius: 12, border: `1.5px solid ${C.grisB}`, background: v.available ? C.grisS : "#fff", cursor: v.available ? "pointer" : "default", display: "flex", alignItems: "center", gap: 12, touchAction: "manipulation", opacity: v.available ? 1 : 0.5 }}>
-                      <span style={{ fontSize: 20 }}>{v.available ? "🎬" : "🔒"}</span>
+                      onClick={() => setSelectedVideo(v)}
+                      style={{ width: "100%", textAlign: "left", padding: "14px 16px", borderRadius: 12, border: `1.5px solid ${C.grisB}`, background: C.grisS, cursor: "pointer", display: "flex", alignItems: "center", gap: 12, touchAction: "manipulation" }}>
+                      <span style={{ fontSize: 20 }}>🎬</span>
                       <div>
                         <div style={{ fontSize: 14, fontWeight: 800, color: C.textH }}>{v.city}</div>
-                        <div style={{ fontSize: 12, color: C.textM }}>{v.available ? "Watch travel video" : "Coming soon"}</div>
+                        <div style={{ fontSize: 12, color: C.textM }}>Watch travel video</div>
                       </div>
                     </button>
                   ))}
@@ -1087,7 +1086,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
           </div>
         </div>
       )}
-
+      
       {/* LEAVE MODAL */}
       {showLeave && (
         <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }} onClick={() => setShowLeave(false)}>
