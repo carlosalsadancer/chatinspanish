@@ -48,7 +48,7 @@ const QUIZ_DATA = [
 
 // ═══════════════════════════════════════════════════════════════
 // SLIDE MAP
-const TOTAL = 7;
+const TOTAL = 6;
 
 // ═══════════════════════════════════════════════════════════════
 // HELPERS
@@ -825,9 +825,9 @@ const LEAVE_CONTENT = {
   };
 
 function getLeaveGroup(slide) {
-  if (slide === 3) return "exercise";
-  if (slide === 4) return "practice";
-  if (slide === 5) return "quiz";
+  if (slide === 2) return "exercise";
+  if (slide === 3) return "practice";
+  if (slide === 4) return "quiz";
   return "screen";
 }
 
@@ -861,7 +861,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
 
   const leaveGroup = getLeaveGroup(slide);
   const leaveContent = LEAVE_CONTENT[leaveGroup];
-  const showCloseButton = slide !== 6;
+  const showCloseButton = slide !== 5;
 
   return (
     <div style={{ background: "#fff", minHeight: "100vh", paddingBottom: 64 }}>
@@ -896,7 +896,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
         </div>
       )}
 
-      {/* SLIDE CONTENT */}
+     {/* SLIDE CONTENT */}
       <div style={{ maxWidth: 720, margin: "0 auto", padding: "64px 20px 80px", animation: "fadeUp 0.3s ease" }} key={slide}>
 
 {/* PANTALLA 1 — ONBOARDING */}
@@ -906,12 +906,11 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
             <h2 style={{ fontSize: "clamp(26px,6vw,34px)", fontWeight: 900, color: C.textH, letterSpacing: -1, marginBottom: 28 }}>These are the steps to learn with us:</h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 32 }}>
               {[
-                { num: "01", color: C.turquesa, title: "Watch",    desc: "Discover Mexico while you learn Spanish." },
-                { num: "02", color: C.magenta,  title: "Story",    desc: "You're dropped into a real situation. Your journey begins." },
-                { num: "03", color: C.azul,     title: "Speak",    desc: "8 words — listen, repeat, get graded." },
-                { num: "04", color: C.morado,   title: "Phrases",  desc: "Each word comes with a real phrase — practice both." },
-                { num: "05", color: C.limonD,   title: "Practice", desc: "Real-life situations — choose the right phrase, then say it." },
-                { num: "06", color: C.magentaD, title: "Quiz",     desc: "No hints — listen and speak the phrase from memory." },
+                { num: "01", color: C.turquesa, title: "Story",    desc: "You're dropped into a real situation. Your journey begins." },
+                { num: "02", color: C.azul,     title: "Speak",    desc: "8 words — listen, repeat, get graded." },
+                { num: "03", color: C.morado,   title: "Phrases",  desc: "Each word comes with a real phrase — practice both." },
+                { num: "04", color: C.limonD,   title: "Practice", desc: "Real-life situations — choose the right phrase, then say it." },
+                { num: "05", color: C.magentaD, title: "Quiz",     desc: "No hints — listen and speak the phrase from memory." },
               ].map((s, i) => (
                 <div key={i} style={{ display: "flex", gap: 14, background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 16, padding: "16px 18px", alignItems: "center", textAlign: "left" }}>
                   <div style={{ width: 44, height: 44, borderRadius: 12, background: s.color, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: "#fff", fontSize: 13, fontWeight: 900 }}>{s.num}</div>
@@ -921,6 +920,10 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
                   </div>
                 </div>
               ))}
+            </div>
+            <div style={{ background: C.turquesaL, border: `1.5px solid ${C.turquesa}30`, borderRadius: 14, padding: "14px 18px", marginBottom: 14, fontSize: 13, color: C.turquesaD, fontWeight: 600, display: "flex", alignItems: "center", gap: 10, textAlign: "left" }}>
+              <span style={{ flexShrink: 0, fontSize: 18 }}>💡</span>
+              Want to see the city first? Check out "Explore Mexico" in the menu for travel videos of every destination.
             </div>
             <div style={{ background: C.turquesaL, border: `1.5px solid ${C.turquesa}30`, borderRadius: 14, padding: "14px 18px", marginBottom: 28, fontSize: 13, color: C.turquesaD, fontWeight: 600, display: "flex", alignItems: "center", gap: 10, textAlign: "left" }}>
               <span style={{ flexShrink: 0, fontSize: 18 }}>🎤</span>
@@ -935,28 +938,8 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
           </div>
         )}
 
-        {/* PANTALLA 2 — VIDEO */}
+        {/* PANTALLA 2 — STORY */}
         {slide === 1 && (
-          <div style={{ animation: "fadeUp 0.4s ease", textAlign: "center" }}>
-            <div style={{ fontSize: "clamp(18px,4vw,24px)", fontWeight: 900, color: C.textH, letterSpacing: -0.5, lineHeight: 1.1, marginBottom: 12 }}>Welcome to Cancún</div>
-            <p style={{ fontSize: 14, color: C.textS, lineHeight: 1.7, fontWeight: 500, marginBottom: 20 }}>
-              We picked this video to give you a feel for Cancún before your first lesson.
-            </p>
-            <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, overflow: "hidden", borderRadius: 20, marginBottom: 20, boxShadow: `0 8px 32px ${C.turquesa}25` }}>
-              <iframe src="https://www.youtube.com/embed/nYIL6eAlHxA" title="Cancún travel guide"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen
-                style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none", borderRadius: 20 }} />
-            </div>
-            <button type="button" onClick={advance}
-              onPointerDown={(e) => { e.preventDefault(); advance(); }}
-              style={{ ...btn(C.magenta, { fontSize: 15, padding: "14px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
-              Continue →
-            </button>
-          </div>
-        )}
-
-        {/* PANTALLA 3 — STORY */}
-        {slide === 2 && (
           <div>
             <div style={{ display: "flex", gap: 14, alignItems: "center", justifyContent: "center", marginBottom: 24 }}>
               <div style={{ width: 56, height: 56, borderRadius: 16, background: C.turquesaL, border: `1.5px solid ${C.turquesa}40`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 28 }}>✈️</div>
@@ -990,10 +973,10 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
           </div>
         )}
 
-        {slide === 3 && <ExerciseSlide speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
-        {slide === 4 && <SectionQuiz speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
-        {slide === 5 && <FinalQuiz speak={speak} onComplete={advance} />}
-        {slide === 6 && <LessonComplete onNext={onComplete || onBack} />}
+        {slide === 2 && <ExerciseSlide speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
+        {slide === 3 && <SectionQuiz speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
+        {slide === 4 && <FinalQuiz speak={speak} onComplete={advance} />}
+        {slide === 5 && <LessonComplete onNext={onComplete || onBack} />}
 
       </div>
 
