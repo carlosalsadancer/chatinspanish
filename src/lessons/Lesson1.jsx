@@ -820,12 +820,13 @@ function LessonComplete({ onNext }) {
 const LEAVE_CONTENT = {
   screen:   { q: "Leave this screen?",   d: "Your progress is saved. Come back anytime to pick up right here.",                          stay: "Keep Going",      leave: "Leave Screen" },
   exercise: { q: "Leave this exercise?", d: "You'll restart this exercise from the beginning next time. Keep going to lock it in!",       stay: "Keep Practicing", leave: "Leave Exercise" },
+  practice: { q: "Leave this practice?", d: "You'll restart this practice from the beginning next time. You're doing great — keep going!", stay: "Keep Going", leave: "Leave Practice" },
   quiz:     { q: "Leave this quiz?",     d: "You'll restart the quiz from the beginning next time. You're doing great — keep going!",     stay: "Keep Going",      leave: "Leave Quiz" },
   };
 
 function getLeaveGroup(slide) {
   if (slide === 3) return "exercise";
-  if (slide === 4) return "quiz";
+  if (slide === 4) return "practice";
   if (slide === 5) return "quiz";
   return "screen";
 }
