@@ -815,6 +815,13 @@ function LessonComplete({ onNext }) {
 
 
 // ═══════════════════════════════════════════════════════════════
+// EXPLORE VIDEOS DATA
+// ═══════════════════════════════════════════════════════════════
+const EXPLORE_VIDEOS = [
+  { city: "Cancún", videoId: "nYIL6eAlHxA", available: true },
+];
+
+// ═══════════════════════════════════════════════════════════════
 // MAIN LESSON COMPONENT
 // ═══════════════════════════════════════════════════════════════
 const LEAVE_CONTENT = {
@@ -839,6 +846,8 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
   const [menuEnabled, setMenuEnabled] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const [showLeave, setShowLeave] = useState(false);
+  const [showExplore, setShowExplore] = useState(false);
+  const [selectedVideo, setSelectedVideo] = useState(null);
 
   useEffect(() => {
     const t = setTimeout(() => setMenuEnabled(true), 800);
@@ -896,7 +905,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
         </div>
       )}
 
-     {/* SLIDE CONTENT */}
+      {/* SLIDE CONTENT */}
       <div style={{ maxWidth: 720, margin: "0 auto", padding: "64px 20px 80px", animation: "fadeUp 0.3s ease" }} key={slide}>
 
 {/* PANTALLA 1 — ONBOARDING */}
@@ -995,6 +1004,11 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
             {menuOpen && (
               <div style={{ position: "absolute", bottom: "calc(100% + 8px)", right: 0, background: "#fff", border: `1.5px solid ${C.grisB}`, borderRadius: 14, boxShadow: "0 8px 24px rgba(0,0,0,0.12)", minWidth: 200, overflow: "hidden", zIndex: 60 }}>
                 <button type="button"
+                  onClick={() => { setMenuOpen(false); setShowExplore(true); setSelectedVideo(null); }}
+                  style={{ width: "100%", textAlign: "left", padding: "14px 18px", border: "none", background: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, color: C.textB, touchAction: "manipulation", borderBottom: `1px solid ${C.grisB}` }}>
+                  Explore Mexico
+                </button>
+                <button type="button"
                   onClick={() => { setMenuOpen(false); handleRestart(); }}
                   style={{ width: "100%", textAlign: "left", padding: "14px 18px", border: "none", background: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, color: C.textB, touchAction: "manipulation", borderBottom: `1px solid ${C.grisB}` }}>
                   Restart Lesson 1
@@ -1025,6 +1039,51 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
               style={{ ...btn(C.magenta, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 12 }), touchAction: "manipulation" }}>
               Got it
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* EXPLORE MEXICO MODAL */}
+      {showExplore && (
+        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }} onClick={() => setShowExplore(false)}>
+          <div style={{ background: "#fff", borderRadius: 20, padding: "28px 24px", maxWidth: 480, width: "100%", maxHeight: "85vh", overflowY: "auto" }} onClick={(e) => e.stopPropagation()}>
+            {!selectedVideo ? (
+              <>
+                <div style={{ fontSize: 18, fontWeight: 900, color: C.textH, marginBottom: 6 }}>Explore Mexico</div>
+                <div style={{ fontSize: 13, color: C.textS, marginBottom: 20 }}>See the places before you visit them.</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
+                  {EXPLORE_VIDEOS.map((v, i) => (
+                    <button type="button" key={i}
+                      onClick={() => v.available && setSelectedVideo(v)}
+                      disabled={!v.available}
+                      style={{ width: "100%", textAlign: "left", padding: "14px 16px", borderRadius: 12, border: `1.5px solid ${C.grisB}`, background: v.available ? C.grisS : "#fff", cursor: v.available ? "pointer" : "default", display: "flex", alignItems: "center", gap: 12, touchAction: "manipulation", opacity: v.available ? 1 : 0.5 }}>
+                      <span style={{ fontSize: 20 }}>{v.available ? "🎬" : "🔒"}</span>
+                      <div>
+                        <div style={{ fontSize: 14, fontWeight: 800, color: C.textH }}>{v.city}</div>
+                        <div style={{ fontSize: 12, color: C.textM }}>{v.available ? "Watch travel video" : "Coming soon"}</div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+                <button type="button" onClick={() => setShowExplore(false)}
+                  style={{ ...btn(C.magenta, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 12 }), touchAction: "manipulation" }}>
+                  Got it
+                </button>
+              </>
+            ) : (
+              <>
+                <div style={{ fontSize: 18, fontWeight: 900, color: C.textH, marginBottom: 16 }}>{selectedVideo.city}</div>
+                <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, overflow: "hidden", borderRadius: 16, marginBottom: 20 }}>
+                  <iframe src={`https://www.youtube.com/embed/${selectedVideo.videoId}`} title={selectedVideo.city}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen
+                    style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none", borderRadius: 16 }} />
+                </div>
+                <button type="button" onClick={() => setSelectedVideo(null)}
+                  style={{ width: "100%", background: C.grisS, border: `1.5px solid ${C.grisB}`, color: C.textS, padding: "13px", borderRadius: 12, cursor: "pointer", fontSize: 14, fontWeight: 600, touchAction: "manipulation" }}>
+                  ← Back to list
+                </button>
+              </>
+            )}
           </div>
         </div>
       )}
