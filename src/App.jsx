@@ -112,12 +112,19 @@ export default function App() {
 
   // Detectar sesión activa al cargar — cuando Supabase redirige tras magic link
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) {
-        handleAuthSuccess();
-      }
-    });
-  }, []);
+  supabase.auth.getSession().then(async ({ data: { session } }) => {
+    if (session?.user) {
+      const userId = session.user.id;
+      await supabase
+        .from("progress")
+        .upsert(
+          { user_id: userId, lesson_number: 1, completed: true, slide: 5 },
+          { onConflict: "user_id,lesson_number" }
+        );
+      handleAuthSuccess();
+    }
+  });
+}, []);
 
   useEffect(() => {
     const saved = localStorage.getItem("cis_lesson1_slide");
