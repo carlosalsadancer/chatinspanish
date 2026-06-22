@@ -4,6 +4,7 @@ import { Header, ChromeModal } from "./components/LandingPage";
 import LandingPage from "./components/LandingPage";
 import Lesson1 from "./lessons/Lesson1";
 import { FinalQuiz } from "./lessons/Lesson1";
+import AuthScreen from "./components/AuthScreen";
 
 // ═══════════════════════════════════════════════════════════════
 // WELCOME BACK MODAL
@@ -97,7 +98,7 @@ function trackEvent(name, params = {}) {
 export default function App() {
   const urlParams = new URLSearchParams(window.location.search);
   const testQuiz2 = urlParams.get('test') === 'quiz2';
-  const [view, setView] = useState("landing");
+  const [view, setView] = useState("landing"); // "landing" | "lesson1" | "auth" | "lesson2"
   const [showChromeModal, setShowChromeModal] = useState(false);
   const [showWelcomeBack, setShowWelcomeBack] = useState(false);
   const [showHomeScreen, setShowHomeScreen] = useState(false);
@@ -187,7 +188,14 @@ export default function App() {
     localStorage.removeItem("cis_lesson1_slide");
     setSavedSlide(0);
     trackEvent("lesson_complete", { lesson: "lesson_1" });
-    goToLanding();
+    setView("auth");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function handleAuthSuccess() {
+    trackEvent("auth_complete", { method: "otp_email" });
+    setView("lesson2");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   return (
@@ -246,6 +254,16 @@ export default function App() {
           onSlideChange={handleSlideChange}
           onComplete={handleLessonComplete}
         />
+      )}
+
+      {view === "auth" && (
+        <AuthScreen onSuccess={handleAuthSuccess} />
+      )}
+
+      {view === "lesson2" && (
+        <div style={{ maxWidth: 720, margin: "0 auto", padding: "80px 20px", textAlign: "center" }}>
+          <p style={{ fontSize: 20, fontWeight: 900, color: C.textH }}>Lesson 2 coming soon!</p>
+        </div>
       )}
     </>
   );
