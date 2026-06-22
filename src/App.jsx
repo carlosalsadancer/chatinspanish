@@ -5,6 +5,7 @@ import LandingPage from "./components/LandingPage";
 import Lesson1 from "./lessons/Lesson1";
 import { FinalQuiz } from "./lessons/Lesson1";
 import AuthScreen from "./components/AuthScreen";
+import { supabase } from "./supabase";
 
 // ═══════════════════════════════════════════════════════════════
 // WELCOME BACK MODAL
@@ -109,6 +110,15 @@ export default function App() {
 
   const LESSON_TOTAL = 8;
 
+  // Detectar sesión activa al cargar — cuando Supabase redirige tras magic link
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        handleAuthSuccess();
+      }
+    });
+  }, []);
+
   useEffect(() => {
     const saved = localStorage.getItem("cis_lesson1_slide");
     if (saved && parseInt(saved) > 0) {
@@ -194,7 +204,7 @@ export default function App() {
   }
 
   function handleAuthSuccess() {
-    trackEvent("auth_complete", { method: "otp_email" });
+    trackEvent("auth_complete", { method: "magic_link" });
     setView("lesson2");
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
