@@ -98,7 +98,8 @@ function trackEvent(name, params = {}) {
 export default function App() {
   const urlParams = new URLSearchParams(window.location.search);
   const testQuiz2 = urlParams.get('test') === 'quiz2';
-  const [view, setView] = useState("landing"); // "landing" | "lesson1" | "auth" | "lesson2"
+  const testAuth  = urlParams.get('test') === 'auth';
+  const [view, setView] = useState("landing");
   const [showChromeModal, setShowChromeModal] = useState(false);
   const [showWelcomeBack, setShowWelcomeBack] = useState(false);
   const [showHomeScreen, setShowHomeScreen] = useState(false);
@@ -240,7 +241,11 @@ export default function App() {
         </div>
       )}
 
-      {!testQuiz2 && view === "landing" && (
+      {testAuth && (
+        <AuthScreen onSuccess={() => alert("Auth complete! User registered.")} />
+      )}
+
+      {!testQuiz2 && !testAuth && view === "landing" && (
         <>
           <Header key={landingKey} onStartFree={handleStartFree} />
           <LandingPage onStartFree={handleStartFree} />
