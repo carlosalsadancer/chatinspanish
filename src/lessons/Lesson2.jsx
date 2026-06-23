@@ -14,7 +14,16 @@ const EXPLORE_VIDEOS = [
   { city: "Cancún",       videoId: "nYIL6eAlHxA" },
   { city: "Isla Mujeres", videoId: "r6DDu_7mc5E" },
 ];
-
+const CHEAT_SHEET_L1 = [
+  { display: "internet",   phrase: { es: "¿Hay internet gratis en el aeropuerto?",     en: "Is there free internet at the airport?" } },
+  { display: "migración",  phrase: { es: "¿Dónde está la zona de migración?",           en: "Where is the immigration area?" } },
+  { display: "fila",       phrase: { es: "Perdón, ¿esta es la fila para extranjeros?",  en: "Excuse me, is this the line for foreigners?" } },
+  { display: "pasaporte",  phrase: { es: "Hola, aquí está mi pasaporte.",               en: "Hello, here is my passport." } },
+  { display: "boleto",     phrase: { es: "Tengo mi boleto de regreso aquí.",             en: "I have my return ticket here." } },
+  { display: "maleta",     phrase: { es: "¿Dónde recojo mi maleta?",                    en: "Where do I pick up my suitcase?" } },
+  { display: "salida",     phrase: { es: "¿Por dónde es la salida?",                    en: "Which way is the exit?" } },
+  { display: "autobús",    phrase: { es: "¿Dónde compro el boleto de autobús ADO?",     en: "Where do I buy the ADO bus ticket?" } },
+];
 // ═══════════════════════════════════════════════════════════════
 // SECTION DATA
 // ═══════════════════════════════════════════════════════════════
@@ -711,7 +720,7 @@ function getLeaveGroup(slide) {
 // ═══════════════════════════════════════════════════════════════
 // MAIN LESSON 2 COMPONENT
 // ═══════════════════════════════════════════════════════════════
-export default function Lesson2({ onBack, initialSlide = 0, onSlideChange, onComplete, userId }) {
+  export default function Lesson2({ onBack, initialSlide = 0, onSlideChange, onComplete, userId, lesson1Completed = false }) {
   const { speak } = useTTS();
   const [slide, setSlide] = useState(initialSlide);
   const exerciseBackRef = useRef(null);
@@ -722,7 +731,7 @@ export default function Lesson2({ onBack, initialSlide = 0, onSlideChange, onCom
   const [showExplore, setShowExplore] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [navBlocked, setNavBlocked] = useState(false);
-
+  const [showCheatSheet, setShowCheatSheet] = useState(false);
   useEffect(() => {
     const t = setTimeout(() => setMenuEnabled(true), 800);
     return () => clearTimeout(t);
@@ -832,7 +841,12 @@ export default function Lesson2({ onBack, initialSlide = 0, onSlideChange, onCom
                   style={{ width: "100%", textAlign: "left", padding: "14px 18px", border: "none", background: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, color: C.textB, touchAction: "manipulation", borderBottom: `1px solid ${C.grisB}` }}>
                   Explore Mexico
                 </button>
-                
+                {lesson1Completed && (
+  <button type="button" onClick={() => { setMenuOpen(false); setShowCheatSheet(true); }}
+    style={{ width: "100%", textAlign: "left", padding: "14px 18px", border: "none", background: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, color: C.textB, touchAction: "manipulation", borderBottom: `1px solid ${C.grisB}` }}>
+    Cheat Sheet - L1
+  </button>
+)}
                 <button type="button" onClick={() => { setMenuOpen(false); setShowHelp(true); }}
                   style={{ width: "100%", textAlign: "left", padding: "14px 18px", border: "none", background: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, color: C.textB, touchAction: "manipulation" }}>
                   Need Help?
@@ -842,7 +856,36 @@ export default function Lesson2({ onBack, initialSlide = 0, onSlideChange, onCom
           </div>
         </div>
       </div>
-
+{/* CHEAT SHEET L1 MODAL */}
+{showCheatSheet && (
+  <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }} onClick={() => setShowCheatSheet(false)}>
+    <div style={{ background: "#fff", borderRadius: 20, padding: "28px 24px", maxWidth: 480, width: "100%", maxHeight: "85vh", overflowY: "auto" }} onClick={(e) => e.stopPropagation()}>
+      <div style={{ fontSize: 18, fontWeight: 900, color: C.textH, marginBottom: 4 }}>Cheat Sheet - L1</div>
+      <div style={{ fontSize: 13, color: C.textS, marginBottom: 20 }}>At the Airport · Cancún</div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+        {CHEAT_SHEET_L1.map((word, i) => (
+          <div key={i} style={{ padding: "12px 0", borderBottom: `1px solid ${C.grisB}` }}>
+            <div style={{ fontSize: 15, fontWeight: 900, color: C.textH, marginBottom: 4 }}>{word.display}</div>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: C.turquesaD }}>{word.phrase.es}</div>
+              <button type="button" onClick={() => speak(word.phrase.es)}
+                style={{ background: C.turquesaL, border: "none", borderRadius: "50%", width: 32, height: 32, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, touchAction: "manipulation" }}>
+                <span style={{ fontSize: 16 }}>♪</span>
+              </button>
+            </div>
+            <div style={{ fontSize: 12, color: C.textS }}>{word.phrase.en}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{ marginTop: 20 }}>
+        <button type="button" onClick={() => setShowCheatSheet(false)}
+          style={{ ...btn(C.magenta, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 12 }), touchAction: "manipulation" }}>
+          Got it
+        </button>
+      </div>
+    </div>
+  </div>
+)}
       {/* NEED HELP MODAL */}
       {showHelp && (
         <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }} onClick={() => setShowHelp(false)}>
