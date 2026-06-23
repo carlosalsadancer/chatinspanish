@@ -1,12 +1,19 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { C, btn } from "../tokens";
 import { supabase } from "../supabase";
-import ChatLogo from "../components/ChatLogo";
 
 // ═══════════════════════════════════════════════════════════════
 // SVG ICONS
 // ═══════════════════════════════════════════════════════════════
 const Check = ({size=24,color="#fff",strokeWidth=2}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>;
+
+// ═══════════════════════════════════════════════════════════════
+// EXPLORE VIDEOS
+// ═══════════════════════════════════════════════════════════════
+const EXPLORE_VIDEOS = [
+  { city: "Cancún",       videoId: "nYIL6eAlHxA" },
+  { city: "Isla Mujeres", videoId: "r6DDu_7mc5E" },
+];
 
 // ═══════════════════════════════════════════════════════════════
 // SECTION DATA
@@ -21,14 +28,14 @@ const SECTION = {
     "Ask for your change",
   ],
   words: [
-    { es: "los pesos",           display: "pesos",          pron: "PEH-sos",               en: "pesos",           phrase: { es: "¿Dónde puedo conseguir pesos?",              pron: "DON-deh PWEH-doh kon-seh-GHEER PEH-sos",                    en: "Where can I get pesos?" } },
-    { es: "la casa de cambio",   display: "casa de cambio", pron: "KAH-sah deh KAM-byoh",  en: "exchange office", phrase: { es: "¿Dónde está la casa de cambio más cercana?",   pron: "DON-deh es-TAH lah KAH-sah deh KAM-byoh mas ser-KAH-nah",  en: "Where is the nearest exchange office?" } },
-    { es: "el cajero",           display: "cajero",         pron: "kah-HEH-roh",            en: "ATM",             phrase: { es: "¿Hay un cajero cerca?",                       pron: "hay oon kah-HEH-roh SER-kah",                               en: "Is there an ATM nearby?" } },
-    { es: "¿Cuánto cuesta?",     display: "¿Cuánto cuesta?",pron: "KWAHN-toh KWES-tah",     en: "How much is it?", phrase: { es: "¿Cuánto cuesta esto?",                        pron: "KWAHN-toh KWES-tah ES-toh",                                 en: "How much is this?" } },
-    { es: "la cuenta",           display: "cuenta",         pron: "KWEN-tah",               en: "the bill",        phrase: { es: "¿Me puede traer la cuenta, por favor?",       pron: "meh PWEH-deh trah-EHR lah KWEN-tah por fah-VOR",           en: "Can you bring me the bill, please?" } },
-    { es: "el efectivo",         display: "efectivo",       pron: "eh-fek-TEE-boh",         en: "cash",            phrase: { es: "¿Puedo pagar en efectivo?",                   pron: "PWEH-doh pah-GAR en eh-fek-TEE-boh",                        en: "Can I pay in cash?" } },
-    { es: "la tarjeta",          display: "tarjeta",        pron: "tar-HEH-tah",            en: "card",            phrase: { es: "¿Aceptan tarjeta?",                           pron: "ah-SEP-tan tar-HEH-tah",                                    en: "Do you accept card?" } },
-    { es: "el cambio",           display: "cambio",         pron: "KAM-byoh",               en: "change",          phrase: { es: "¿Me puede dar mi cambio, por favor?",         pron: "meh PWEH-deh dar mee KAM-byoh por fah-VOR",                 en: "Can you give me my change, please?" } },
+    { es: "los pesos",           display: "pesos",           pron: "PEH-sos",              en: "pesos",           phrase: { es: "¿Dónde puedo conseguir pesos?",             pron: "DON-deh PWEH-doh kon-seh-GHEER PEH-sos",                   en: "Where can I get pesos?" } },
+    { es: "la casa de cambio",   display: "casa de cambio",  pron: "KAH-sah deh KAM-byoh", en: "exchange office", phrase: { es: "¿Dónde está la casa de cambio más cercana?",  pron: "DON-deh es-TAH lah KAH-sah deh KAM-byoh mas ser-KAH-nah", en: "Where is the nearest exchange office?" } },
+    { es: "el cajero",           display: "cajero",          pron: "kah-HEH-roh",           en: "ATM",             phrase: { es: "¿Hay un cajero cerca?",                      pron: "hay oon kah-HEH-roh SER-kah",                              en: "Is there an ATM nearby?" } },
+    { es: "¿Cuánto cuesta?",     display: "¿Cuánto cuesta?", pron: "KWAHN-toh KWES-tah",    en: "How much is it?", phrase: { es: "¿Cuánto cuesta esto?",                       pron: "KWAHN-toh KWES-tah ES-toh",                                en: "How much is this?" } },
+    { es: "la cuenta",           display: "cuenta",          pron: "KWEN-tah",              en: "the bill",        phrase: { es: "¿Me puede traer la cuenta, por favor?",      pron: "meh PWEH-deh trah-EHR lah KWEN-tah por fah-VOR",          en: "Can you bring me the bill, please?" } },
+    { es: "el efectivo",         display: "efectivo",        pron: "eh-fek-TEE-boh",        en: "cash",            phrase: { es: "¿Puedo pagar en efectivo?",                  pron: "PWEH-doh pah-GAR en eh-fek-TEE-boh",                       en: "Can I pay in cash?" } },
+    { es: "la tarjeta",          display: "tarjeta",         pron: "tar-HEH-tah",           en: "card",            phrase: { es: "¿Aceptan tarjeta?",                          pron: "ah-SEP-tan tar-HEH-tah",                                   en: "Do you accept card?" } },
+    { es: "el cambio",           display: "cambio",          pron: "KAM-byoh",              en: "change",          phrase: { es: "¿Me puede dar mi cambio, por favor?",        pron: "meh PWEH-deh dar mee KAM-byoh por fah-VOR",                en: "Can you give me my change, please?" } },
   ],
 };
 
@@ -36,20 +43,18 @@ const SECTION = {
 // QUIZ DATA
 // ═══════════════════════════════════════════════════════════════
 const QUIZ_DATA = [
-  { scene: "Just arrived — need local currency",  q: "You need Mexican pesos. What do you ask?",                correct: "¿Dónde puedo conseguir pesos?",             options: ["¿Dónde puedo conseguir pesos?", "¿Aceptan tarjeta?", "¿Cuánto cuesta esto?", "¿Hay un cajero cerca?"] },
-  { scene: "Looking for exchange office",          q: "You want to exchange your dollars. What do you ask?",    correct: "¿Dónde está la casa de cambio más cercana?", options: ["¿Dónde está la casa de cambio más cercana?", "¿Dónde puedo conseguir pesos?", "¿Puedo pagar en efectivo?", "¿Me puede dar mi cambio?"] },
-  { scene: "Need cash",                            q: "You need to find an ATM. What do you ask?",              correct: "¿Hay un cajero cerca?",                      options: ["¿Hay un cajero cerca?", "¿Dónde está la casa de cambio?", "¿Aceptan tarjeta?", "¿Cuánto cuesta esto?"] },
-  { scene: "Market stall",                         q: "You want to know the price of a souvenir. What do you ask?", correct: "¿Cuánto cuesta esto?",                  options: ["¿Cuánto cuesta esto?", "¿Me puede dar mi cambio?", "¿Puedo pagar en efectivo?", "¿Hay un cajero cerca?"] },
-  { scene: "Restaurant — end of meal",             q: "You want to pay. What do you ask the waiter?",           correct: "¿Me puede traer la cuenta, por favor?",      options: ["¿Me puede traer la cuenta, por favor?", "¿Cuánto cuesta esto?", "¿Aceptan tarjeta?", "¿Me puede dar mi cambio?"] },
-  { scene: "Small taco stand",                     q: "You want to know if you can pay in cash. What do you ask?", correct: "¿Puedo pagar en efectivo?",              options: ["¿Puedo pagar en efectivo?", "¿Aceptan tarjeta?", "¿Me puede traer la cuenta?", "¿Dónde está el cajero?"] },
-  { scene: "Restaurant — paying",                  q: "You want to pay with your card. What do you ask?",       correct: "¿Aceptan tarjeta?",                          options: ["¿Aceptan tarjeta?", "¿Puedo pagar en efectivo?", "¿Me puede traer la cuenta?", "¿Cuánto cuesta esto?"] },
-  { scene: "Paying at a store",                    q: "The cashier owes you change. What do you ask?",          correct: "¿Me puede dar mi cambio, por favor?",        options: ["¿Me puede dar mi cambio, por favor?", "¿Cuánto cuesta esto?", "¿Aceptan tarjeta?", "¿Me puede traer la cuenta?"] },
+  { scene: "Just arrived — need local currency",  q: "You need Mexican pesos. What do you ask?",                     correct: "¿Dónde puedo conseguir pesos?",             options: ["¿Dónde puedo conseguir pesos?", "¿Aceptan tarjeta?", "¿Cuánto cuesta esto?", "¿Hay un cajero cerca?"] },
+  { scene: "Looking for exchange office",          q: "You want to exchange your dollars. What do you ask?",         correct: "¿Dónde está la casa de cambio más cercana?", options: ["¿Dónde está la casa de cambio más cercana?", "¿Dónde puedo conseguir pesos?", "¿Puedo pagar en efectivo?", "¿Me puede dar mi cambio?"] },
+  { scene: "Need cash",                            q: "You need to find an ATM. What do you ask?",                   correct: "¿Hay un cajero cerca?",                      options: ["¿Hay un cajero cerca?", "¿Dónde está la casa de cambio?", "¿Aceptan tarjeta?", "¿Cuánto cuesta esto?"] },
+  { scene: "Market stall",                         q: "You want to know the price of a souvenir. What do you ask?",  correct: "¿Cuánto cuesta esto?",                       options: ["¿Cuánto cuesta esto?", "¿Me puede dar mi cambio?", "¿Puedo pagar en efectivo?", "¿Hay un cajero cerca?"] },
+  { scene: "Restaurant — end of meal",             q: "You want to pay. What do you ask the waiter?",                correct: "¿Me puede traer la cuenta, por favor?",      options: ["¿Me puede traer la cuenta, por favor?", "¿Cuánto cuesta esto?", "¿Aceptan tarjeta?", "¿Me puede dar mi cambio?"] },
+  { scene: "Small taco stand",                     q: "You want to know if you can pay in cash. What do you ask?",   correct: "¿Puedo pagar en efectivo?",                  options: ["¿Puedo pagar en efectivo?", "¿Aceptan tarjeta?", "¿Me puede traer la cuenta?", "¿Dónde está el cajero?"] },
+  { scene: "Restaurant — paying",                  q: "You want to pay with your card. What do you ask?",            correct: "¿Aceptan tarjeta?",                          options: ["¿Aceptan tarjeta?", "¿Puedo pagar en efectivo?", "¿Me puede traer la cuenta?", "¿Cuánto cuesta esto?"] },
+  { scene: "Paying at a store",                    q: "The cashier owes you change. What do you ask?",               correct: "¿Me puede dar mi cambio, por favor?",        options: ["¿Me puede dar mi cambio, por favor?", "¿Cuánto cuesta esto?", "¿Aceptan tarjeta?", "¿Me puede traer la cuenta?"] },
 ];
 
-// ═══════════════════════════════════════════════════════════════
-// SLIDE MAP
+// TOTAL = 5: 0=Story | 1=ExerciseSlide | 2=SectionQuiz | 3=FinalQuiz | 4=LessonComplete
 const TOTAL = 5;
-// 0: Story | 1: ExerciseSlide | 2: SectionQuiz | 3: FinalQuiz | 4: LessonComplete
 
 // ═══════════════════════════════════════════════════════════════
 // HELPERS
@@ -151,19 +156,10 @@ function Confetti({ show, message }) {
         const size = 6 + Math.random() * 8;
         const col = colors[Math.floor(Math.random() * colors.length)];
         return (
-          <div key={i} style={{
-            position: "absolute", bottom: "-10px", left: `${x}%`,
-            width: size, height: size, borderRadius: Math.random() > 0.5 ? "50%" : 2,
-            background: col, opacity: 0.9,
-            animation: `confettiRise ${0.8 + Math.random() * 0.8}s ease-out ${delay}s forwards`,
-          }} />
+          <div key={i} style={{ position: "absolute", bottom: "-10px", left: `${x}%`, width: size, height: size, borderRadius: Math.random() > 0.5 ? "50%" : 2, background: col, opacity: 0.9, animation: `confettiRise ${0.8 + Math.random() * 0.8}s ease-out ${delay}s forwards` }} />
         );
       })}
-      <div style={{
-        background: C.magenta, borderRadius: 20, padding: "20px 36px",
-        textAlign: "center", boxShadow: `0 8px 32px ${C.magenta}60`,
-        animation: "celebPop 0.3s cubic-bezier(0.34,1.56,0.64,1)",
-      }}>
+      <div style={{ background: C.magenta, borderRadius: 20, padding: "20px 36px", textAlign: "center", boxShadow: `0 8px 32px ${C.magenta}60`, animation: "celebPop 0.3s cubic-bezier(0.34,1.56,0.64,1)" }}>
         <Check size={32} color="#fff" strokeWidth={3} style={{ marginBottom: 8 }} />
         <div style={{ fontSize: 22, fontWeight: 900, color: "#fff", letterSpacing: -0.5 }}>{message}</div>
       </div>
@@ -175,17 +171,13 @@ function Confetti({ show, message }) {
 // KARAOKE TEXT
 // ═══════════════════════════════════════════════════════════════
 function KaraokeText({ text, charIndex, charLength, color }) {
-  if (charIndex < 0) {
-    return <span style={{ fontSize: "clamp(22px,5vw,28px)", fontWeight: 900, color: C.textH, lineHeight: 1.3 }}>{text}</span>;
-  }
+  if (charIndex < 0) return <span style={{ fontSize: "clamp(22px,5vw,28px)", fontWeight: 900, color: C.textH, lineHeight: 1.3 }}>{text}</span>;
   const before = text.slice(0, charIndex);
   const current = text.slice(charIndex, charIndex + charLength);
   const after = text.slice(charIndex + charLength);
   return (
     <span style={{ fontSize: "clamp(22px,5vw,28px)", fontWeight: 900, color: C.textH, lineHeight: 1.3 }}>
-      {before}
-      <span style={{ background: color, color: "#fff", borderRadius: 4, padding: "0 2px" }}>{current}</span>
-      {after}
+      {before}<span style={{ background: color, color: "#fff", borderRadius: 4, padding: "0 2px" }}>{current}</span>{after}
     </span>
   );
 }
@@ -200,11 +192,7 @@ function PronExercise({ answer, onListenPress, onPass, color = C.magenta, passLa
   const [micBlocked, setMicBlocked] = useState(blockMicMs > 0);
 
   useEffect(() => {
-    if (blockMicMs > 0) {
-      setMicBlocked(true);
-      const t = setTimeout(() => setMicBlocked(false), blockMicMs);
-      return () => clearTimeout(t);
-    }
+    if (blockMicMs > 0) { setMicBlocked(true); const t = setTimeout(() => setMicBlocked(false), blockMicMs); return () => clearTimeout(t); }
   }, [blockMicMs]);
 
   useEffect(() => {
@@ -410,11 +398,7 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
     return () => clearTimeout(t);
   }, [idx]);
 
-  function select(opt) {
-    if (sel !== null || selBlocked) return;
-    setSel(opt);
-    if (opt === questions[idx].correct) setScore(s => s + 1);
-  }
+  function select(opt) { if (sel !== null || selBlocked) return; setSel(opt); if (opt === questions[idx].correct) setScore(s => s + 1); }
   function handleMic() { if (listening) { stop(); return; } setPronResult(null); setTranscript(""); start(); }
   function nextQuestion() {
     if (idx + 1 >= questions.length) { setCelebrate(true); setTimeout(() => { setCelebrate(false); setDone(true); }, 1600); return; }
@@ -536,14 +520,14 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
 // ═══════════════════════════════════════════════════════════════
 function FinalQuiz({ speak, onComplete }) {
   const situations = [
-    { en: "You need Mexican pesos. What do you ask, in Spanish?",           correct: "¿Dónde puedo conseguir pesos?" },
-    { en: "You want to exchange your dollars. What do you ask, in Spanish?",correct: "¿Dónde está la casa de cambio más cercana?" },
-    { en: "You need to find an ATM. What do you ask, in Spanish?",          correct: "¿Hay un cajero cerca?" },
-    { en: "You want to know the price of a souvenir. What do you ask, in Spanish?", correct: "¿Cuánto cuesta esto?" },
-    { en: "You want to pay at a restaurant. What do you ask, in Spanish?",  correct: "¿Me puede traer la cuenta, por favor?" },
-    { en: "You want to know if you can pay in cash. What do you ask, in Spanish?", correct: "¿Puedo pagar en efectivo?" },
-    { en: "You want to pay with your card. What do you ask, in Spanish?",   correct: "¿Aceptan tarjeta?" },
-    { en: "The cashier owes you change. What do you ask, in Spanish?",      correct: "¿Me puede dar mi cambio, por favor?" },
+    { en: "You need Mexican pesos. What do you ask, in Spanish?",                    correct: "¿Dónde puedo conseguir pesos?" },
+    { en: "You want to exchange your dollars. What do you ask, in Spanish?",         correct: "¿Dónde está la casa de cambio más cercana?" },
+    { en: "You need to find an ATM. What do you ask, in Spanish?",                   correct: "¿Hay un cajero cerca?" },
+    { en: "You want to know the price of a souvenir. What do you ask, in Spanish?",  correct: "¿Cuánto cuesta esto?" },
+    { en: "You want to pay at a restaurant. What do you ask, in Spanish?",           correct: "¿Me puede traer la cuenta, por favor?" },
+    { en: "You want to know if you can pay in cash. What do you ask, in Spanish?",   correct: "¿Puedo pagar en efectivo?" },
+    { en: "You want to pay with your card. What do you ask, in Spanish?",            correct: "¿Aceptan tarjeta?" },
+    { en: "The cashier owes you change. What do you ask, in Spanish?",               correct: "¿Me puede dar mi cambio, por favor?" },
   ];
   const [order] = useState(() => shuffle([0,1,2,3,4,5,6,7]));
   const [phase, setPhase] = useState("intro");
@@ -564,11 +548,7 @@ function FinalQuiz({ speak, onComplete }) {
     setAttempts(a => a + 1);
   }, [transcript, listening]);
 
-  function handleListen() {
-    const synth = window.speechSynthesis; synth.cancel();
-    const u = new SpeechSynthesisUtterance(situations[order[idx]].en);
-    u.lang = "en-US"; u.rate = 0.95; synth.speak(u);
-  }
+  function handleListen() { const synth = window.speechSynthesis; synth.cancel(); const u = new SpeechSynthesisUtterance(situations[order[idx]].en); u.lang = "en-US"; u.rate = 0.95; synth.speak(u); }
   function handleMic() { if (listening) { stop(); return; } setResult(null); setTranscript(""); start(); }
   function nextSituation() {
     if ((result === "perfect" || result === "good") && !counted) { setScore(s => s + 1); setCounted(true); }
@@ -674,7 +654,6 @@ function LessonComplete({ onNext }) {
   const section = SECTION;
   const [celebrate, setCelebrate] = useState(true);
   useEffect(() => { setTimeout(() => setCelebrate(false), 2000); }, []);
-
   return (
     <div style={{ textAlign: "center", padding: "40px 0", animation: "fadeUp 0.4s ease" }}>
       <Confetti show={celebrate} message="Lesson 2 Complete!" />
@@ -694,9 +673,9 @@ function LessonComplete({ onNext }) {
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 12, marginBottom: 32 }}>
         {[
-          { label: "Words learned",      value: "8", color: C.magenta },
-          { label: "Phrases practiced",  value: "8", color: C.turquesa },
-          { label: "Situations mastered",value: "8", color: C.azul },
+          { label: "Words learned",       value: "8", color: C.magenta },
+          { label: "Phrases practiced",   value: "8", color: C.turquesa },
+          { label: "Situations mastered", value: "8", color: C.azul },
         ].map((s, i) => (
           <div key={i} style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 16, padding: "16px 12px", textAlign: "center" }}>
             <div style={{ fontSize: 26, fontWeight: 900, color: s.color, marginBottom: 4 }}>{s.value}</div>
@@ -716,10 +695,10 @@ function LessonComplete({ onNext }) {
 // LEAVE CONTENT
 // ═══════════════════════════════════════════════════════════════
 const LEAVE_CONTENT = {
-  screen:   { q: "Leave this screen?",    d: "Your progress is saved. Come back anytime to pick up right here.",                          stay: "Keep Going",      leave: "Leave Screen" },
-  exercise: { q: "Leave this exercise?",  d: "You'll restart this exercise from the beginning next time. Keep going to lock it in!",       stay: "Keep Practicing", leave: "Leave Exercise" },
-  practice: { q: "Leave this practice?",  d: "You'll restart this practice from the beginning next time. You're doing great — keep going!", stay: "Keep Going",      leave: "Leave Practice" },
-  quiz:     { q: "Leave this quiz?",      d: "You'll restart the quiz from the beginning next time. You're doing great — keep going!",     stay: "Keep Going",      leave: "Leave Quiz" },
+  screen:   { q: "Leave this screen?",   d: "Your progress is saved. Come back anytime to pick up right here.",                          stay: "Keep Going",      leave: "Leave Screen" },
+  exercise: { q: "Leave this exercise?", d: "You'll restart this exercise from the beginning next time. Keep going to lock it in!",       stay: "Keep Practicing", leave: "Leave Exercise" },
+  practice: { q: "Leave this practice?", d: "You'll restart this practice from the beginning next time. You're doing great — keep going!", stay: "Keep Going",      leave: "Leave Practice" },
+  quiz:     { q: "Leave this quiz?",     d: "You'll restart the quiz from the beginning next time. You're doing great — keep going!",     stay: "Keep Going",      leave: "Leave Quiz" },
 };
 
 function getLeaveGroup(slide) {
@@ -740,9 +719,14 @@ export default function Lesson2({ onBack, initialSlide = 0, onSlideChange, onCom
   const [menuEnabled, setMenuEnabled] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const [showLeave, setShowLeave] = useState(false);
+  const [showExplore, setShowExplore] = useState(false);
+  const [selectedVideo, setSelectedVideo] = useState(null);
   const [navBlocked, setNavBlocked] = useState(false);
 
-  useEffect(() => { const t = setTimeout(() => setMenuEnabled(true), 800); return () => clearTimeout(t); }, []);
+  useEffect(() => {
+    const t = setTimeout(() => setMenuEnabled(true), 800);
+    return () => clearTimeout(t);
+  }, []);
 
   async function saveProgress(slideNum, completed = false) {
     if (!userId) return;
@@ -762,6 +746,10 @@ export default function Lesson2({ onBack, initialSlide = 0, onSlideChange, onCom
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
   function advance() { goTo(slide + 1); }
+
+  function handleRestart() {
+    goTo(0);
+  }
 
   async function handleLessonComplete() {
     await saveProgress(4, true);
@@ -844,6 +832,14 @@ export default function Lesson2({ onBack, initialSlide = 0, onSlideChange, onCom
             </button>
             {menuOpen && (
               <div style={{ position: "absolute", bottom: "calc(100% + 8px)", right: 0, background: "#fff", border: `1.5px solid ${C.grisB}`, borderRadius: 14, boxShadow: "0 8px 24px rgba(0,0,0,0.12)", minWidth: 200, overflow: "hidden", zIndex: 60 }}>
+                <button type="button" onClick={() => { setMenuOpen(false); setShowExplore(true); setSelectedVideo(null); }}
+                  style={{ width: "100%", textAlign: "left", padding: "14px 18px", border: "none", background: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, color: C.textB, touchAction: "manipulation", borderBottom: `1px solid ${C.grisB}` }}>
+                  Explore Mexico
+                </button>
+                <button type="button" onClick={() => { setMenuOpen(false); handleRestart(); }}
+                  style={{ width: "100%", textAlign: "left", padding: "14px 18px", border: "none", background: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, color: C.textB, touchAction: "manipulation", borderBottom: `1px solid ${C.grisB}` }}>
+                  Restart Lesson 2
+                </button>
                 <button type="button" onClick={() => { setMenuOpen(false); setShowHelp(true); }}
                   style={{ width: "100%", textAlign: "left", padding: "14px 18px", border: "none", background: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, color: C.textB, touchAction: "manipulation" }}>
                   Need Help?
@@ -860,7 +856,7 @@ export default function Lesson2({ onBack, initialSlide = 0, onSlideChange, onCom
           <div style={{ background: "#fff", borderRadius: 20, padding: "28px 24px", maxWidth: 440, width: "100%" }} onClick={(e) => e.stopPropagation()}>
             <div style={{ fontSize: 18, fontWeight: 900, color: C.textH, marginBottom: 16 }}>Need Help?</div>
             <div style={{ fontSize: 14, color: C.textS, lineHeight: 1.7, marginBottom: 12 }}>
-              <strong style={{ color: C.textH }}>iPhone:</strong> Voice recognition works best in <strong>Chrome</strong>, not Safari.
+              <strong style={{ color: C.textH }}>iPhone:</strong> Voice recognition works best in <strong>Chrome</strong>, not Safari. Tap the microphone button once and wait for it to listen.
             </div>
             <div style={{ fontSize: 14, color: C.textS, lineHeight: 1.7, marginBottom: 20 }}>
               <strong style={{ color: C.textH }}>Android:</strong> If buttons don't respond right away, wait a second after the screen changes before tapping again.
@@ -869,6 +865,49 @@ export default function Lesson2({ onBack, initialSlide = 0, onSlideChange, onCom
               style={{ ...btn(C.magenta, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 12 }), touchAction: "manipulation" }}>
               Got it
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* EXPLORE MEXICO MODAL */}
+      {showExplore && (
+        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }} onClick={() => setShowExplore(false)}>
+          <div style={{ background: "#fff", borderRadius: 20, padding: "28px 24px", maxWidth: 480, width: "100%", maxHeight: "85vh", overflowY: "auto" }} onClick={(e) => e.stopPropagation()}>
+            {!selectedVideo ? (
+              <>
+                <div style={{ fontSize: 18, fontWeight: 900, color: C.textH, marginBottom: 6 }}>Explore Mexico</div>
+                <div style={{ fontSize: 13, color: C.textS, marginBottom: 20 }}>See the places before you visit them.</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
+                  {EXPLORE_VIDEOS.map((v, i) => (
+                    <button type="button" key={i} onClick={() => setSelectedVideo(v)}
+                      style={{ width: "100%", textAlign: "left", padding: "14px 16px", borderRadius: 12, border: `1.5px solid ${C.grisB}`, background: C.grisS, cursor: "pointer", display: "flex", alignItems: "center", gap: 12, touchAction: "manipulation" }}>
+                      <span style={{ fontSize: 20 }}>🎬</span>
+                      <div>
+                        <div style={{ fontSize: 14, fontWeight: 800, color: C.textH }}>{v.city}</div>
+                        <div style={{ fontSize: 12, color: C.textM }}>Watch travel video</div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+                <button type="button" onClick={() => setShowExplore(false)}
+                  style={{ ...btn(C.magenta, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 12 }), touchAction: "manipulation" }}>
+                  Got it
+                </button>
+              </>
+            ) : (
+              <>
+                <div style={{ fontSize: 18, fontWeight: 900, color: C.textH, marginBottom: 16 }}>{selectedVideo.city}</div>
+                <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, overflow: "hidden", borderRadius: 16, marginBottom: 20 }}>
+                  <iframe src={`https://www.youtube.com/embed/${selectedVideo.videoId}`} title={selectedVideo.city}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen
+                    style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none", borderRadius: 16 }} />
+                </div>
+                <button type="button" onClick={() => setSelectedVideo(null)}
+                  style={{ width: "100%", background: C.grisS, border: `1.5px solid ${C.grisB}`, color: C.textS, padding: "13px", borderRadius: 12, cursor: "pointer", fontSize: 14, fontWeight: 600, touchAction: "manipulation" }}>
+                  ← Back to list
+                </button>
+              </>
+            )}
           </div>
         </div>
       )}
