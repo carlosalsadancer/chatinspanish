@@ -747,10 +747,6 @@ export default function Lesson2({ onBack, initialSlide = 0, onSlideChange, onCom
   }
   function advance() { goTo(slide + 1); }
 
-  function handleRestart() {
-    goTo(0);
-  }
-
   async function handleLessonComplete() {
     await saveProgress(4, true);
     if (onComplete) onComplete();
@@ -836,10 +832,7 @@ export default function Lesson2({ onBack, initialSlide = 0, onSlideChange, onCom
                   style={{ width: "100%", textAlign: "left", padding: "14px 18px", border: "none", background: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, color: C.textB, touchAction: "manipulation", borderBottom: `1px solid ${C.grisB}` }}>
                   Explore Mexico
                 </button>
-                <button type="button" onClick={() => { setMenuOpen(false); handleRestart(); }}
-                  style={{ width: "100%", textAlign: "left", padding: "14px 18px", border: "none", background: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, color: C.textB, touchAction: "manipulation", borderBottom: `1px solid ${C.grisB}` }}>
-                  Restart Lesson 2
-                </button>
+                
                 <button type="button" onClick={() => { setMenuOpen(false); setShowHelp(true); }}
                   style={{ width: "100%", textAlign: "left", padding: "14px 18px", border: "none", background: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, color: C.textB, touchAction: "manipulation" }}>
                   Need Help?
