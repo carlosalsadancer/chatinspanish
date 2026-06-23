@@ -110,21 +110,35 @@ export default function App() {
 
   const LESSON_TOTAL = 8;
 
-  // Detectar sesión activa al cargar — cuando Supabase redirige tras magic link
+  // ─── GUARDAR PROGRESS EN SUPABASE ───────────────────────────
+  async function saveLesson1Progress(userId) {
+    await supabase
+      .from("progress")
+      .upsert(
+        { user_id: userId, lesson_number: 1, completed: true, slide: 5 },
+        { onConflict: "user_id,lesson_number" }
+      );
+  }
+
+  // ─── DETECTAR SESIÓN — magic link redirect + sesión existente
   useEffect(() => {
-  supabase.auth.getSession().then(async ({ data: { session } }) => {
-    if (session?.user) {
-      const userId = session.user.id;
-      await supabase
-        .from("progress")
-        .upsert(
-          { user_id: userId, lesson_number: 1, completed: true, slide: 5 },
-          { onConflict: "user_id,lesson_number" }
-        );
-      handleAuthSuccess();
-    }
-  });
-}, []);
+    // Listener para magic link — captura SIGNED_IN cuando el usuario llega del correo
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === "SIGNED_IN" && session?.user) {
+        await saveLesson1Progress(session.user.id);
+        handleAuthSuccess();
+      }
+    });
+
+    // Verificar sesión existente al cargar (usuario que ya estaba logueado)
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        handleAuthSuccess();
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   useEffect(() => {
     const saved = localStorage.getItem("cis_lesson1_slide");
