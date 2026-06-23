@@ -5,6 +5,7 @@ import LandingPage from "./components/LandingPage";
 import Lesson1 from "./lessons/Lesson1";
 import { FinalQuiz } from "./lessons/Lesson1";
 import AuthScreen from "./components/AuthScreen";
+import Lesson2 from "./lessons/Lesson2";
 import { supabase } from "./supabase";
 
 // ═══════════════════════════════════════════════════════════════
@@ -24,17 +25,11 @@ function WelcomeBackModal({ slide, total, onContinue, onRestart }) {
           <div style={{ height: "100%", width: `${pct}%`, background: `linear-gradient(90deg,${C.turquesa},${C.magenta})`, borderRadius: 4 }} />
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          <button
-            type="button"
-            onClick={onContinue}
-            onPointerDown={(e) => { e.preventDefault(); onContinue(); }}
+          <button type="button" onClick={onContinue} onPointerDown={(e) => { e.preventDefault(); onContinue(); }}
             style={{ ...btn(C.magenta, { fontSize: 15, padding: "14px", borderRadius: 12 }), touchAction: "manipulation" }}>
             Continue where I left off →
           </button>
-          <button
-            type="button"
-            onClick={onRestart}
-            onPointerDown={(e) => { e.preventDefault(); onRestart(); }}
+          <button type="button" onClick={onRestart} onPointerDown={(e) => { e.preventDefault(); onRestart(); }}
             style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, color: C.textS, padding: "13px", borderRadius: 12, cursor: "pointer", fontSize: 14, fontWeight: 600, touchAction: "manipulation" }}>
             Start over
           </button>
@@ -72,10 +67,7 @@ function HomeScreenModal({ onClose }) {
             </div>
           </div>
         )}
-        <button
-          type="button"
-          onClick={onClose}
-          onPointerDown={(e) => { e.preventDefault(); onClose(); }}
+        <button type="button" onClick={onClose} onPointerDown={(e) => { e.preventDefault(); onClose(); }}
           style={{ ...btn(C.negro, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 12 }), touchAction: "manipulation" }}>
           Got it →
         </button>
@@ -107,32 +99,34 @@ export default function App() {
   const [savedSlide, setSavedSlide] = useState(0);
   const [startSlide, setStartSlide] = useState(0);
   const [landingKey, setLandingKey] = useState(0);
+  const [userId, setUserId] = useState(null);
+  const [lesson2Slide, setLesson2Slide] = useState(0);
 
   const LESSON_TOTAL = 8;
 
   // ─── GUARDAR PROGRESS EN SUPABASE ───────────────────────────
-  async function saveLesson1Progress(userId) {
+  async function saveLesson1Progress(uid) {
     await supabase
       .from("progress")
       .upsert(
-        { user_id: userId, lesson_number: 1, completed: true, slide: 5 },
+        { user_id: uid, lesson_number: 1, completed: true, slide: 5 },
         { onConflict: "user_id,lesson_number" }
       );
   }
 
-  // ─── DETECTAR SESIÓN — magic link redirect + sesión existente
+  // ─── DETECTAR SESIÓN ────────────────────────────────────────
   useEffect(() => {
-    // Listener para magic link — captura SIGNED_IN cuando el usuario llega del correo
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === "SIGNED_IN" && session?.user) {
+        setUserId(session.user.id);
         await saveLesson1Progress(session.user.id);
         handleAuthSuccess();
       }
     });
 
-    // Verificar sesión existente al cargar (usuario que ya estaba logueado)
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
+        setUserId(session.user.id);
         handleAuthSuccess();
       }
     });
@@ -147,54 +141,29 @@ export default function App() {
     }
   }, []);
 
-  function hasSeenHomeScreenPrompt() {
-    return localStorage.getItem("cis_home_prompt") === "true";
-  }
-
-  function markHomeScreenPromptSeen() {
-    localStorage.setItem("cis_home_prompt", "true");
-  }
+  function hasSeenHomeScreenPrompt() { return localStorage.getItem("cis_home_prompt") === "true"; }
+  function markHomeScreenPromptSeen() { localStorage.setItem("cis_home_prompt", "true"); }
 
   function isSafariIOS() {
     const ua = navigator.userAgent;
-    return (
-      /iPad|iPhone|iPod/.test(ua) &&
-      /Safari/.test(ua) &&
-      !/Chrome/.test(ua) &&
-      !/CriOS/.test(ua)
-    );
+    return /iPad|iPhone|iPod/.test(ua) && /Safari/.test(ua) && !/Chrome/.test(ua) && !/CriOS/.test(ua);
   }
 
-  function isMobile() {
-    return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-  }
+  function isMobile() { return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent); }
 
   function handleStartFree() {
-    if (isMobile() && !hasSeenHomeScreenPrompt()) {
-      setShowHomeScreen(true);
-      return;
-    }
-    if (isSafariIOS()) {
-      setShowChromeModal(true);
-      return;
-    }
-    if (savedSlide > 0) {
-      setShowWelcomeBack(true);
-      return;
-    }
+    if (isMobile() && !hasSeenHomeScreenPrompt()) { setShowHomeScreen(true); return; }
+    if (isSafariIOS()) { setShowChromeModal(true); return; }
+    if (savedSlide > 0) { setShowWelcomeBack(true); return; }
     goToLesson(0);
   }
 
   function handleHomeScreenClose() {
     markHomeScreenPromptSeen();
     setShowHomeScreen(false);
-    if (isSafariIOS()) {
-      setShowChromeModal(true);
-    } else if (savedSlide > 0) {
-      setShowWelcomeBack(true);
-    } else {
-      goToLesson(0);
-    }
+    if (isSafariIOS()) { setShowChromeModal(true); }
+    else if (savedSlide > 0) { setShowWelcomeBack(true); }
+    else { goToLesson(0); }
   }
 
   function goToLesson(slide = 0) {
@@ -230,13 +199,21 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  function handleLesson2SlideChange(slide) {
+    setLesson2Slide(slide);
+    trackEvent("slide_change", { lesson: "lesson_2", slide_number: slide });
+  }
+
+  function handleLesson2Complete() {
+    trackEvent("lesson_complete", { lesson: "lesson_2" });
+    goToLanding();
+  }
+
   return (
     <>
       <style>{GLOBAL_CSS}</style>
 
-      {showHomeScreen && (
-        <HomeScreenModal onClose={handleHomeScreenClose} />
-      )}
+      {showHomeScreen && <HomeScreenModal onClose={handleHomeScreenClose} />}
 
       {showChromeModal && (
         <ChromeModal
@@ -253,10 +230,7 @@ export default function App() {
         <WelcomeBackModal
           slide={savedSlide}
           total={LESSON_TOTAL}
-          onContinue={() => {
-            setShowWelcomeBack(false);
-            goToLesson(savedSlide);
-          }}
+          onContinue={() => { setShowWelcomeBack(false); goToLesson(savedSlide); }}
           onRestart={() => {
             localStorage.removeItem("cis_lesson1_slide");
             setSavedSlide(0);
@@ -297,9 +271,13 @@ export default function App() {
       )}
 
       {view === "lesson2" && (
-        <div style={{ maxWidth: 720, margin: "0 auto", padding: "80px 20px", textAlign: "center" }}>
-          <p style={{ fontSize: 20, fontWeight: 900, color: C.textH }}>Lesson 2 coming soon!</p>
-        </div>
+        <Lesson2
+          onBack={goToLanding}
+          initialSlide={lesson2Slide}
+          onSlideChange={handleLesson2SlideChange}
+          onComplete={handleLesson2Complete}
+          userId={userId}
+        />
       )}
     </>
   );
