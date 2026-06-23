@@ -101,6 +101,7 @@ export default function App() {
   const [landingKey, setLandingKey] = useState(0);
   const [userId, setUserId] = useState(null);
   const [lesson2Slide, setLesson2Slide] = useState(0);
+  const [lesson1Completed, setLesson1Completed] = useState(false);
 
   const LESSON_TOTAL = 8;
 
@@ -114,19 +115,32 @@ export default function App() {
       );
   }
 
+  // ─── CONSULTAR PROGRESO DE LESSON 1 ─────────────────────────
+  async function checkLesson1Completed(uid) {
+    const { data } = await supabase
+      .from("progress")
+      .select("completed")
+      .eq("user_id", uid)
+      .eq("lesson_number", 1)
+      .single();
+    if (data?.completed) setLesson1Completed(true);
+  }
+
   // ─── DETECTAR SESIÓN ────────────────────────────────────────
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === "SIGNED_IN" && session?.user) {
         setUserId(session.user.id);
         await saveLesson1Progress(session.user.id);
+        await checkLesson1Completed(session.user.id);
         handleAuthSuccess();
       }
     });
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (session?.user) {
         setUserId(session.user.id);
+        await checkLesson1Completed(session.user.id);
         handleAuthSuccess();
       }
     });
@@ -277,6 +291,7 @@ export default function App() {
           onSlideChange={handleLesson2SlideChange}
           onComplete={handleLesson2Complete}
           userId={userId}
+          lesson1Completed={lesson1Completed}
         />
       )}
     </>
