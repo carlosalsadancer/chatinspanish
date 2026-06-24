@@ -14,6 +14,7 @@ const EXPLORE_VIDEOS = [
   { city: "Cancún",       videoId: "nYIL6eAlHxA" },
   { city: "Isla Mujeres", videoId: "r6DDu_7mc5E" },
 ];
+
 const CHEAT_SHEET_L1 = [
   { display: "internet",   phrase: { es: "¿Hay internet gratis en el aeropuerto?",     en: "Is there free internet at the airport?" } },
   { display: "migración",  phrase: { es: "¿Dónde está la zona de migración?",           en: "Where is the immigration area?" } },
@@ -24,12 +25,13 @@ const CHEAT_SHEET_L1 = [
   { display: "salida",     phrase: { es: "¿Por dónde es la salida?",                    en: "Which way is the exit?" } },
   { display: "autobús",    phrase: { es: "¿Dónde compro el boleto de autobús ADO?",     en: "Where do I buy the ADO bus ticket?" } },
 ];
+
 // ═══════════════════════════════════════════════════════════════
 // SECTION DATA
 // ═══════════════════════════════════════════════════════════════
 const SECTION = {
   id: "money", title: "Money & Exchange", subtitle: "Dinero y Cambio",
-  color: C.magenta, colorL: C.magentaL, colorD: C.magentaD,
+  color: C.turquesa, colorL: C.turquesaL, colorD: C.turquesaD,
   skills: [
     "Find an exchange office or ATM",
     "Ask how much something costs",
@@ -37,14 +39,14 @@ const SECTION = {
     "Ask for your change",
   ],
   words: [
-    { es: "los pesos",           display: "pesos",           pron: "PEH-sos",              en: "pesos",           phrase: { es: "¿Dónde puedo conseguir pesos?",             pron: "DON-deh PWEH-doh kon-seh-GHEER PEH-sos",                   en: "Where can I get pesos?" } },
-    { es: "la casa de cambio",   display: "casa de cambio",  pron: "KAH-sah deh KAM-byoh", en: "exchange office", phrase: { es: "¿Dónde está la casa de cambio más cercana?",  pron: "DON-deh es-TAH lah KAH-sah deh KAM-byoh mas ser-KAH-nah", en: "Where is the nearest exchange office?" } },
-    { es: "el cajero",           display: "cajero",          pron: "kah-HEH-roh",           en: "ATM",             phrase: { es: "¿Hay un cajero cerca?",                      pron: "hay oon kah-HEH-roh SER-kah",                              en: "Is there an ATM nearby?" } },
-    { es: "el precio",           display: "precio",          pron: "PREH-syoh",             en: "price",           phrase: { es: "¿Cuál es el precio de esto?",                pron: "KWAL es el PREH-syoh deh ES-toh",                          en: "What is the price of this?" } },
-    { es: "la cuenta",           display: "cuenta",          pron: "KWEN-tah",              en: "the bill",        phrase: { es: "¿Me puede traer la cuenta, por favor?",      pron: "meh PWEH-deh trah-EHR lah KWEN-tah por fah-VOR",          en: "Can you bring me the bill, please?" } },
-    { es: "el efectivo",         display: "efectivo",        pron: "eh-fek-TEE-boh",        en: "cash",            phrase: { es: "¿Puedo pagar en efectivo?",                  pron: "PWEH-doh pah-GAR en eh-fek-TEE-boh",                       en: "Can I pay in cash?" } },
-    { es: "la tarjeta",          display: "tarjeta",         pron: "tar-HEH-tah",           en: "card",            phrase: { es: "¿Aceptan tarjeta?",                          pron: "ah-SEP-tan tar-HEH-tah",                                   en: "Do you accept card?" } },
-    { es: "el cambio",           display: "cambio",          pron: "KAM-byoh",              en: "change",          phrase: { es: "¿Me puede dar mi cambio, por favor?",        pron: "meh PWEH-deh dar mee KAM-byoh por fah-VOR",                en: "Can you give me my change, please?" } },
+    { es: "los pesos",         display: "pesos",          pron: "PEH-sos",              en: "pesos",           phrase: { es: "¿Dónde puedo conseguir pesos?",            pron: "DON-deh PWEH-doh kon-seh-GHEER PEH-sos",                   en: "Where can I get pesos?" } },
+    { es: "la casa de cambio", display: "casa de cambio", pron: "KAH-sah deh KAM-byoh", en: "exchange office", phrase: { es: "¿Dónde está la casa de cambio más cercana?", pron: "DON-deh es-TAH lah KAH-sah deh KAM-byoh mas ser-KAH-nah", en: "Where is the nearest exchange office?" } },
+    { es: "el cajero",         display: "cajero",         pron: "kah-HEH-roh",           en: "ATM",             phrase: { es: "¿Hay un cajero cerca?",                     pron: "hay oon kah-HEH-roh SER-kah",                              en: "Is there an ATM nearby?" } },
+    { es: "el precio",         display: "precio",         pron: "PREH-syoh",             en: "price",           phrase: { es: "¿Cuál es el precio de esto?",               pron: "KWAL es el PREH-syoh deh ES-toh",                          en: "What is the price of this?" } },
+    { es: "la cuenta",         display: "cuenta",         pron: "KWEN-tah",              en: "the bill",        phrase: { es: "¿Me puede traer la cuenta, por favor?",     pron: "meh PWEH-deh trah-EHR lah KWEN-tah por fah-VOR",          en: "Can you bring me the bill, please?" } },
+    { es: "el efectivo",       display: "efectivo",       pron: "eh-fek-TEE-boh",        en: "cash",            phrase: { es: "¿Puedo pagar en efectivo?",                 pron: "PWEH-doh pah-GAR en eh-fek-TEE-boh",                       en: "Can I pay in cash?" } },
+    { es: "la tarjeta",        display: "tarjeta",        pron: "tar-HEH-tah",           en: "card",            phrase: { es: "¿Aceptan tarjeta?",                         pron: "ah-SEP-tan tar-HEH-tah",                                   en: "Do you accept card?" } },
+    { es: "el cambio",         display: "cambio",         pron: "KAM-byoh",              en: "change",          phrase: { es: "¿Me puede dar mi cambio, por favor?",       pron: "meh PWEH-deh dar mee KAM-byoh por fah-VOR",                en: "Can you give me my change, please?" } },
   ],
 };
 
@@ -52,17 +54,16 @@ const SECTION = {
 // QUIZ DATA
 // ═══════════════════════════════════════════════════════════════
 const QUIZ_DATA = [
-  { scene: "Just arrived — need local currency",  q: "You need Mexican pesos. What do you ask?",                     correct: "¿Dónde puedo conseguir pesos?",             options: ["¿Dónde puedo conseguir pesos?", "¿Aceptan tarjeta?", "¿Cuánto cuesta esto?", "¿Hay un cajero cerca?"] },
-  { scene: "Looking for exchange office",          q: "You want to exchange your dollars. What do you ask?",         correct: "¿Dónde está la casa de cambio más cercana?", options: ["¿Dónde está la casa de cambio más cercana?", "¿Dónde puedo conseguir pesos?", "¿Puedo pagar en efectivo?", "¿Me puede dar mi cambio?"] },
-  { scene: "Need cash",                            q: "You need to find an ATM. What do you ask?",                   correct: "¿Hay un cajero cerca?",                      options: ["¿Hay un cajero cerca?", "¿Dónde está la casa de cambio?", "¿Aceptan tarjeta?", "¿Cuánto cuesta esto?"] },
-  { scene: "Market stall",                         q: "You want to know the price of a souvenir. What do you ask?",  correct: "¿Cuál es el precio de esto?",                options: ["¿Cuál es el precio de esto?", "¿Me puede dar mi cambio?", "¿Puedo pagar en efectivo?", "¿Hay un cajero cerca?"] },
-  { scene: "Restaurant — end of meal",             q: "You want to pay. What do you ask the waiter?",                correct: "¿Me puede traer la cuenta, por favor?",      options: ["¿Me puede traer la cuenta, por favor?", "¿Cuánto cuesta esto?", "¿Aceptan tarjeta?", "¿Me puede dar mi cambio?"] },
-  { scene: "Small taco stand",                     q: "You want to know if you can pay in cash. What do you ask?",   correct: "¿Puedo pagar en efectivo?",                  options: ["¿Puedo pagar en efectivo?", "¿Aceptan tarjeta?", "¿Me puede traer la cuenta?", "¿Dónde está el cajero?"] },
-  { scene: "Restaurant — paying",                  q: "You want to pay with your card. What do you ask?",            correct: "¿Aceptan tarjeta?",                          options: ["¿Aceptan tarjeta?", "¿Puedo pagar en efectivo?", "¿Me puede traer la cuenta?", "¿Cuánto cuesta esto?"] },
-  { scene: "Paying at a store",                    q: "The cashier owes you change. What do you ask?",               correct: "¿Me puede dar mi cambio, por favor?",        options: ["¿Me puede dar mi cambio, por favor?", "¿Cuánto cuesta esto?", "¿Aceptan tarjeta?", "¿Me puede traer la cuenta?"] },
+  { scene: "Just arrived — need local currency",  q: "You need Mexican pesos. What do you ask?",                    correct: "¿Dónde puedo conseguir pesos?",             options: ["¿Dónde puedo conseguir pesos?", "¿Aceptan tarjeta?", "¿Cuánto cuesta esto?", "¿Hay un cajero cerca?"] },
+  { scene: "Looking for exchange office",          q: "You want to exchange your dollars. What do you ask?",        correct: "¿Dónde está la casa de cambio más cercana?", options: ["¿Dónde está la casa de cambio más cercana?", "¿Dónde puedo conseguir pesos?", "¿Puedo pagar en efectivo?", "¿Me puede dar mi cambio?"] },
+  { scene: "Need cash",                            q: "You need to find an ATM. What do you ask?",                  correct: "¿Hay un cajero cerca?",                      options: ["¿Hay un cajero cerca?", "¿Dónde está la casa de cambio?", "¿Aceptan tarjeta?", "¿Cuánto cuesta esto?"] },
+  { scene: "Market stall",                         q: "You want to know the price of a souvenir. What do you ask?", correct: "¿Cuál es el precio de esto?",                options: ["¿Cuál es el precio de esto?", "¿Me puede dar mi cambio?", "¿Puedo pagar en efectivo?", "¿Hay un cajero cerca?"] },
+  { scene: "Restaurant — end of meal",             q: "You want to pay. What do you ask the waiter?",               correct: "¿Me puede traer la cuenta, por favor?",      options: ["¿Me puede traer la cuenta, por favor?", "¿Cuánto cuesta esto?", "¿Aceptan tarjeta?", "¿Me puede dar mi cambio?"] },
+  { scene: "Small taco stand",                     q: "You want to know if you can pay in cash. What do you ask?",  correct: "¿Puedo pagar en efectivo?",                  options: ["¿Puedo pagar en efectivo?", "¿Aceptan tarjeta?", "¿Me puede traer la cuenta?", "¿Dónde está el cajero?"] },
+  { scene: "Restaurant — paying",                  q: "You want to pay with your card. What do you ask?",           correct: "¿Aceptan tarjeta?",                          options: ["¿Aceptan tarjeta?", "¿Puedo pagar en efectivo?", "¿Me puede traer la cuenta?", "¿Cuánto cuesta esto?"] },
+  { scene: "Paying at a store",                    q: "The cashier owes you change. What do you ask?",              correct: "¿Me puede dar mi cambio, por favor?",        options: ["¿Me puede dar mi cambio, por favor?", "¿Cuánto cuesta esto?", "¿Aceptan tarjeta?", "¿Me puede traer la cuenta?"] },
 ];
 
-// TOTAL = 5: 0=Story | 1=ExerciseSlide | 2=SectionQuiz | 3=FinalQuiz | 4=LessonComplete
 const TOTAL = 5;
 
 // ═══════════════════════════════════════════════════════════════
@@ -155,7 +156,7 @@ function useSpeechRec() {
 // ═══════════════════════════════════════════════════════════════
 function Confetti({ show, message }) {
   const particles = Array.from({ length: 32 });
-  const colors = [C.magenta, C.turquesa, C.limon, C.azul, "#fff"];
+  const colors = [C.turquesa, C.limon, C.azul, "#fff"];
   if (!show) return null;
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center", pointerEvents: "none" }}>
@@ -168,7 +169,7 @@ function Confetti({ show, message }) {
           <div key={i} style={{ position: "absolute", bottom: "-10px", left: `${x}%`, width: size, height: size, borderRadius: Math.random() > 0.5 ? "50%" : 2, background: col, opacity: 0.9, animation: `confettiRise ${0.8 + Math.random() * 0.8}s ease-out ${delay}s forwards` }} />
         );
       })}
-      <div style={{ background: C.magenta, borderRadius: 20, padding: "20px 36px", textAlign: "center", boxShadow: `0 8px 32px ${C.magenta}60`, animation: "celebPop 0.3s cubic-bezier(0.34,1.56,0.64,1)" }}>
+      <div style={{ background: C.turquesa, borderRadius: 20, padding: "20px 36px", textAlign: "center", boxShadow: `0 8px 32px ${C.turquesa}60`, animation: "celebPop 0.3s cubic-bezier(0.34,1.56,0.64,1)" }}>
         <Check size={32} color="#fff" strokeWidth={3} style={{ marginBottom: 8 }} />
         <div style={{ fontSize: 22, fontWeight: 900, color: "#fff", letterSpacing: -0.5 }}>{message}</div>
       </div>
@@ -194,7 +195,7 @@ function KaraokeText({ text, charIndex, charLength, color }) {
 // ═══════════════════════════════════════════════════════════════
 // PRON EXERCISE
 // ═══════════════════════════════════════════════════════════════
-function PronExercise({ answer, onListenPress, onPass, color = C.magenta, passLabel = "Next →", blockMicMs = 0 }) {
+function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passLabel = "Next →", blockMicMs = 0 }) {
   const { transcript, listening, supported, start, stop, setTranscript } = useSpeechRec();
   const [attempts, setAttempts] = useState(0);
   const [result, setResult] = useState(null);
@@ -230,7 +231,7 @@ function PronExercise({ answer, onListenPress, onPass, color = C.magenta, passLa
           <span style={{ fontSize: 12, fontWeight: 800, color: C.azulD }}>Listen</span>
         </button>
         <button type="button" onClick={handleMic}
-          style={{ flex: 2, border: "none", borderRadius: 14, padding: "14px 12px", cursor: micBlocked ? "default" : "pointer", color: "#fff", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, background: micBlocked ? C.grisB : listening ? C.magenta : canAdvance && result !== "retry" ? C.limon : color, transition: "all 0.2s", touchAction: "manipulation", opacity: micBlocked ? 0.5 : 1 }}>
+          style={{ flex: 2, border: "none", borderRadius: 14, padding: "14px 12px", cursor: micBlocked ? "default" : "pointer", color: "#fff", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, background: micBlocked ? C.grisB : listening ? C.turquesa : canAdvance && result !== "retry" ? C.limon : color, transition: "all 0.2s", touchAction: "manipulation", opacity: micBlocked ? 0.5 : 1 }}>
           <span style={{ fontSize: 24 }}>{listening ? "⏹" : "◉"}</span>
           <span style={{ fontSize: 12, fontWeight: 900 }}>{listening ? "Listening…" : result ? "Try again" : "Speak now"}</span>
         </button>
@@ -238,7 +239,7 @@ function PronExercise({ answer, onListenPress, onPass, color = C.magenta, passLa
       {listening && (
         <div style={{ display: "flex", gap: 3, justifyContent: "center", alignItems: "center", height: 28, marginBottom: 10 }}>
           {[2,4,6,8,6,4,2,4,6,8,6,4,2].map((h, i) => (
-            <div key={i} style={{ width: 3, borderRadius: 2, background: C.magenta, height: h * 2.5, animation: `wave ${0.3 + (i % 3) * 0.15}s ease-in-out infinite alternate` }} />
+            <div key={i} style={{ width: 3, borderRadius: 2, background: C.turquesa, height: h * 2.5, animation: `wave ${0.3 + (i % 3) * 0.15}s ease-in-out infinite alternate` }} />
           ))}
         </div>
       )}
@@ -320,7 +321,7 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
       <div style={{ fontSize: 24, fontWeight: 900, color: C.textH, letterSpacing: -0.5, marginBottom: 8 }}>Speaking Complete!</div>
       <div style={{ fontSize: 15, color: C.textS, fontWeight: 500, marginBottom: 32 }}>Great work on <strong>{sec.title}</strong>!</div>
       <button type="button" onClick={onComplete} onPointerDown={(e) => { e.preventDefault(); onComplete(); }}
-        style={{ ...btn(C.magenta, { fontSize: 15, padding: "15px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
+        style={{ ...btn(C.turquesa, { fontSize: 15, padding: "15px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
         Continue →
       </button>
     </div>
@@ -425,7 +426,7 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
         <div style={{ fontSize: 20, color: C.textH, fontWeight: 800, marginBottom: 8 }}>{pct >= 75 ? "Excellent!" : pct >= 50 ? "Well done!" : "Keep going!"}</div>
         <div style={{ fontSize: 14, color: C.textS, fontWeight: 500, lineHeight: 1.7, marginBottom: 32 }}>{pct >= 75 ? "You really know your Money phrases!" : "Practice makes perfect — you've got this."}</div>
         <button type="button" onClick={onComplete} onPointerDown={(e) => { e.preventDefault(); onComplete(); }}
-          style={{ ...btn(C.magenta, { fontSize: 15, padding: "15px 36px", borderRadius: 50 }), touchAction: "manipulation" }}>
+          style={{ ...btn(C.turquesa, { fontSize: 15, padding: "15px 36px", borderRadius: 50 }), touchAction: "manipulation" }}>
           Continue →
         </button>
       </div>
@@ -486,14 +487,14 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
           </div>
           <div style={{ textAlign: "center", marginBottom: 12 }}>
             <button type="button" onClick={handleMic}
-              style={{ ...btn(listening ? C.magenta : pronResult === "perfect" || pronResult === "good" ? C.limon : section.color, { fontSize: 15, padding: "14px 32px", borderRadius: 50 }), touchAction: "manipulation" }}>
+              style={{ ...btn(listening ? C.turquesa : pronResult === "perfect" || pronResult === "good" ? C.limon : section.color, { fontSize: 15, padding: "14px 32px", borderRadius: 50 }), touchAction: "manipulation" }}>
               {listening ? "⏹  Listening…" : pronResult ? "◉  Try again" : "◉  Tap to speak"}
             </button>
           </div>
           {listening && (
             <div style={{ display: "flex", gap: 3, justifyContent: "center", alignItems: "center", height: 28, marginBottom: 10 }}>
               {[2,4,6,8,6,4,2,4,6,8,6,4,2].map((h, i) => (
-                <div key={i} style={{ width: 3, borderRadius: 2, background: C.magenta, height: h * 2.5, animation: `wave ${0.3 + (i % 3) * 0.15}s ease-in-out infinite alternate` }} />
+                <div key={i} style={{ width: 3, borderRadius: 2, background: C.turquesa, height: h * 2.5, animation: `wave ${0.3 + (i % 3) * 0.15}s ease-in-out infinite alternate` }} />
               ))}
             </div>
           )}
@@ -568,11 +569,11 @@ function FinalQuiz({ speak, onComplete }) {
 
   if (phase === "intro") return (
     <div>
-      <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 24, padding: "16px 18px", background: C.azulL, borderRadius: 16, border: `1.5px solid ${C.azul}20` }}>
-        <div style={{ width: 48, height: 48, borderRadius: 14, background: C.azul, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 22 }}>🎤</div>
+      <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 24, padding: "16px 18px", background: C.turquesaL, borderRadius: 16, border: `1.5px solid ${C.turquesa}20` }}>
+        <div style={{ width: 48, height: 48, borderRadius: 14, background: C.turquesa, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 22 }}>🎤</div>
         <div>
           <div style={{ fontSize: 18, fontWeight: 900, color: C.textH }}>Final Challenge</div>
-          <div style={{ fontSize: 12, color: C.azulD, fontWeight: 700 }}>Money & Exchange · Quiz</div>
+          <div style={{ fontSize: 12, color: C.turquesaD, fontWeight: 700 }}>Money & Exchange · Quiz</div>
         </div>
       </div>
       <p style={{ fontSize: 15, color: C.textS, lineHeight: 1.7, marginBottom: 24 }}>
@@ -580,7 +581,7 @@ function FinalQuiz({ speak, onComplete }) {
       </p>
       <div style={{ textAlign: "center" }}>
         <button type="button" onClick={() => setPhase("quiz")} onPointerDown={(e) => { e.preventDefault(); setPhase("quiz"); }}
-          style={{ ...btn(C.magenta, { fontSize: 15, padding: "16px 44px", borderRadius: 50 }), touchAction: "manipulation" }}>
+          style={{ ...btn(C.turquesa, { fontSize: 15, padding: "16px 44px", borderRadius: 50 }), touchAction: "manipulation" }}>
           Start →
         </button>
       </div>
@@ -594,11 +595,11 @@ function FinalQuiz({ speak, onComplete }) {
         <div style={{ width: 64, height: 64, borderRadius: 20, background: C.limonL, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
           <Check size={32} color={C.limonD} strokeWidth={3} />
         </div>
-        <div style={{ fontSize: "clamp(48px,12vw,64px)", fontWeight: 900, color: C.azul, lineHeight: 1, marginBottom: 8, letterSpacing: -2 }}>{score}/{order.length}</div>
+        <div style={{ fontSize: "clamp(48px,12vw,64px)", fontWeight: 900, color: C.turquesa, lineHeight: 1, marginBottom: 8, letterSpacing: -2 }}>{score}/{order.length}</div>
         <div style={{ fontSize: 20, color: C.textH, fontWeight: 800, marginBottom: 8 }}>{pct >= 75 ? "Excellent!" : pct >= 50 ? "Well done!" : "Keep going!"}</div>
         <div style={{ fontSize: 14, color: C.textS, fontWeight: 500, lineHeight: 1.7, marginBottom: 32 }}>{pct >= 75 ? "You can really speak this!" : "Practice makes perfect — you've got this."}</div>
         <button type="button" onClick={onComplete} onPointerDown={(e) => { e.preventDefault(); onComplete(); }}
-          style={{ ...btn(C.magenta, { fontSize: 15, padding: "15px 36px", borderRadius: 50 }), touchAction: "manipulation" }}>
+          style={{ ...btn(C.turquesa, { fontSize: 15, padding: "15px 36px", borderRadius: 50 }), touchAction: "manipulation" }}>
           Continue →
         </button>
       </div>
@@ -611,14 +612,14 @@ function FinalQuiz({ speak, onComplete }) {
       <Confetti show={celebrate} message="Quiz Complete!" />
       <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: C.textM, fontWeight: 700, marginBottom: 8 }}>
         <span>{idx + 1} / {order.length}</span>
-        <span style={{ color: C.azul, fontWeight: 900 }}>Score: {score}</span>
+        <span style={{ color: C.turquesa, fontWeight: 900 }}>Score: {score}</span>
       </div>
       <div style={{ height: 5, background: C.grisS, borderRadius: 3, overflow: "hidden", marginBottom: 20 }}>
-        <div style={{ height: "100%", width: `${(idx / order.length) * 100}%`, background: C.azul, borderRadius: 3, transition: "width 0.4s" }} />
+        <div style={{ height: "100%", width: `${(idx / order.length) * 100}%`, background: C.turquesa, borderRadius: 3, transition: "width 0.4s" }} />
       </div>
       <div style={{ background: C.grisS, borderRadius: 16, padding: "20px", marginBottom: 20, textAlign: "center" }}>
         <button type="button" onClick={handleListen}
-          style={{ background: C.azul, border: "none", width: 64, height: 64, borderRadius: "50%", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px", touchAction: "manipulation" }}>
+          style={{ background: C.turquesa, border: "none", width: 64, height: 64, borderRadius: "50%", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px", touchAction: "manipulation" }}>
           <span style={{ fontSize: 26, color: "#fff" }}>♪</span>
         </button>
         <div style={{ fontSize: 13, color: C.textM }}>Tap to hear the situation</div>
@@ -640,14 +641,14 @@ function FinalQuiz({ speak, onComplete }) {
         </div>
       )}
       <button type="button" onClick={handleMic}
-        style={{ width: "100%", border: "none", borderRadius: 50, padding: "16px", fontSize: 15, fontWeight: 900, color: "#fff", cursor: "pointer", marginBottom: 12, background: listening ? C.magenta : (result === "perfect" || result === "good") ? C.limon : C.azul, touchAction: "manipulation" }}>
+        style={{ width: "100%", border: "none", borderRadius: 50, padding: "16px", fontSize: 15, fontWeight: 900, color: "#fff", cursor: "pointer", marginBottom: 12, background: listening ? C.turquesa : (result === "perfect" || result === "good") ? C.limon : C.turquesa, touchAction: "manipulation" }}>
         {listening ? "⏹ Listening…" : result ? "◉ Try again" : "◉ Tap to speak"}
       </button>
       {!supported && <div style={{ background: C.grisS, borderRadius: 10, padding: "10px 14px", marginBottom: 10, fontSize: 13, color: C.textS, textAlign: "center" }}>Voice recognition works best in Chrome.</div>}
       {(canAdvance || !supported) && (
         <div style={{ textAlign: "center" }}>
           <button type="button" onClick={nextSituation} onPointerDown={(e) => { e.preventDefault(); nextSituation(); }}
-            style={{ ...btn(result === "perfect" ? C.limon : C.azul, { fontSize: 15, padding: "14px 32px", borderRadius: 50 }), touchAction: "manipulation" }}>
+            style={{ ...btn(result === "perfect" ? C.limon : C.turquesa, { fontSize: 15, padding: "14px 32px", borderRadius: 50 }), touchAction: "manipulation" }}>
             {idx + 1 >= order.length ? "See Results →" : "Next Situation →"}
           </button>
         </div>
@@ -666,11 +667,11 @@ function LessonComplete({ onNext }) {
   return (
     <div style={{ textAlign: "center", padding: "40px 0", animation: "fadeUp 0.4s ease" }}>
       <Confetti show={celebrate} message="Lesson 2 Complete!" />
-      <div style={{ width: 72, height: 72, borderRadius: 22, background: C.magentaL, border: `1.5px solid ${C.magenta}40`, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px", fontSize: 40 }}>💰</div>
+      <div style={{ width: 72, height: 72, borderRadius: 22, background: C.turquesaL, border: `1.5px solid ${C.turquesa}40`, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px", fontSize: 40 }}>💰</div>
       <h2 style={{ fontSize: "clamp(24px,6vw,32px)", fontWeight: 900, color: C.textH, letterSpacing: -1, marginBottom: 8 }}>Lesson 2 Complete!</h2>
       <p style={{ fontSize: 15, color: C.textS, fontWeight: 500, marginBottom: 24 }}>You just handled money in Isla Mujeres — in Spanish!</p>
-      <div style={{ background: C.magentaL, border: `1.5px solid ${C.magenta}30`, borderRadius: 16, padding: "20px", marginBottom: 24, textAlign: "left" }}>
-        <div style={{ fontSize: 11, letterSpacing: 2, color: C.magentaD, fontWeight: 800, textTransform: "uppercase", marginBottom: 12 }}>You can now:</div>
+      <div style={{ background: C.turquesaL, border: `1.5px solid ${C.turquesa}30`, borderRadius: 16, padding: "20px", marginBottom: 24, textAlign: "left" }}>
+        <div style={{ fontSize: 11, letterSpacing: 2, color: C.turquesaD, fontWeight: 800, textTransform: "uppercase", marginBottom: 12 }}>You can now:</div>
         {section.skills.map((skill, i) => (
           <div key={i} style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 8 }}>
             <div style={{ width: 22, height: 22, borderRadius: "50%", background: C.limon, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
@@ -682,9 +683,9 @@ function LessonComplete({ onNext }) {
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 12, marginBottom: 32 }}>
         {[
-          { label: "Words learned",       value: "8", color: C.magenta },
+          { label: "Words learned",       value: "8", color: C.turquesa },
           { label: "Phrases practiced",   value: "8", color: C.turquesa },
-          { label: "Situations mastered", value: "8", color: C.azul },
+          { label: "Situations mastered", value: "8", color: C.turquesa },
         ].map((s, i) => (
           <div key={i} style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 16, padding: "16px 12px", textAlign: "center" }}>
             <div style={{ fontSize: 26, fontWeight: 900, color: s.color, marginBottom: 4 }}>{s.value}</div>
@@ -693,7 +694,7 @@ function LessonComplete({ onNext }) {
         ))}
       </div>
       <button type="button" onClick={onNext} onPointerDown={(e) => { e.preventDefault(); onNext(); }}
-        style={{ ...btn(C.magenta, { fontSize: 15, padding: "16px 40px", borderRadius: 50, boxShadow: `0 6px 24px ${C.magenta}40` }), touchAction: "manipulation" }}>
+        style={{ ...btn(C.turquesa, { fontSize: 15, padding: "16px 40px", borderRadius: 50, boxShadow: `0 6px 24px ${C.turquesa}40` }), touchAction: "manipulation" }}>
         Continue to Lesson 3 →
       </button>
     </div>
@@ -720,7 +721,7 @@ function getLeaveGroup(slide) {
 // ═══════════════════════════════════════════════════════════════
 // MAIN LESSON 2 COMPONENT
 // ═══════════════════════════════════════════════════════════════
-  export default function Lesson2({ onBack, initialSlide = 0, onSlideChange, onComplete, userId, lesson1Completed = false }) {
+export default function Lesson2({ onBack, initialSlide = 0, onSlideChange, onComplete, userId, lesson1Completed = false }) {
   const { speak } = useTTS();
   const [slide, setSlide] = useState(initialSlide);
   const exerciseBackRef = useRef(null);
@@ -732,6 +733,7 @@ function getLeaveGroup(slide) {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [navBlocked, setNavBlocked] = useState(false);
   const [showCheatSheet, setShowCheatSheet] = useState(false);
+
   useEffect(() => {
     const t = setTimeout(() => setMenuEnabled(true), 800);
     return () => clearTimeout(t);
@@ -785,24 +787,23 @@ function getLeaveGroup(slide) {
 
       <div style={{ maxWidth: 720, margin: "0 auto", padding: "64px 20px 80px", animation: "fadeUp 0.3s ease" }} key={slide}>
 
-        {/* SLIDE 0 — STORY */}
         {slide === 0 && (
           <div>
             <div style={{ display: "flex", gap: 14, alignItems: "center", justifyContent: "center", marginBottom: 24 }}>
-              <div style={{ width: 56, height: 56, borderRadius: 16, background: C.magentaL, border: `1.5px solid ${C.magenta}40`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 28 }}>💰</div>
+              <div style={{ width: 56, height: 56, borderRadius: 16, background: C.turquesaL, border: `1.5px solid ${C.turquesa}40`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 28 }}>💰</div>
               <div>
                 <div style={{ fontSize: "clamp(22px,5vw,28px)", fontWeight: 900, color: C.textH, letterSpacing: -0.8, lineHeight: 1.1 }}>You Need Pesos!</div>
               </div>
             </div>
             <div style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 16, padding: "22px 24px", marginBottom: 16, position: "relative", overflow: "hidden" }}>
-              <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 5, background: `linear-gradient(90deg,${C.magenta} 33%,#fff 33%,#fff 66%,${C.turquesa} 66%)` }} />
-              <div style={{ fontSize: 11, letterSpacing: 2, color: C.magenta, fontWeight: 800, textTransform: "uppercase", marginBottom: 12 }}>Your Story Continues</div>
+              <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 5, background: `linear-gradient(90deg,${C.turquesa} 33%,#fff 33%,#fff 66%,${C.turquesa} 66%)` }} />
+              <div style={{ fontSize: 11, letterSpacing: 2, color: C.turquesa, fontWeight: 800, textTransform: "uppercase", marginBottom: 12 }}>Your Story Continues</div>
               <p style={{ margin: 0, fontSize: "clamp(14px,2.5vw,16px)", color: C.textS, lineHeight: 1.85, fontStyle: "italic", fontWeight: 500 }}>
-                It's 4:30 PM. You've arrived at the <strong style={{ color: C.textH }}>ADO bus station</strong>, ready to continue your journey through Mexico — but your wallet is empty of pesos. Most places take cards, but <strong style={{ color: C.magenta }}>taxis, local buses, and street food stands</strong> only take cash. Time to find some pesos.
+                It's 4:30 PM. You've arrived at the <strong style={{ color: C.textH }}>ADO bus station</strong>, ready to continue your journey through Mexico — but your wallet is empty of pesos. Most places take cards, but <strong style={{ color: C.turquesa }}>taxis, local buses, and street food stands</strong> only take cash. Time to find some pesos.
               </p>
             </div>
-            <div style={{ background: C.magentaL, border: `1.5px solid ${C.magenta}30`, borderRadius: 14, padding: "16px 18px", marginBottom: 32 }}>
-              <div style={{ fontSize: 11, letterSpacing: 2, color: C.magentaD, fontWeight: 800, textTransform: "uppercase", marginBottom: 8 }}>What you'll learn</div>
+            <div style={{ background: C.turquesaL, border: `1.5px solid ${C.turquesa}30`, borderRadius: 14, padding: "16px 18px", marginBottom: 32 }}>
+              <div style={{ fontSize: 11, letterSpacing: 2, color: C.turquesaD, fontWeight: 800, textTransform: "uppercase", marginBottom: 8 }}>What you'll learn</div>
               {SECTION.skills.map((skill, i) => (
                 <div key={i} style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 6 }}>
                   <span style={{ fontSize: 13 }}>💰</span>
@@ -812,7 +813,7 @@ function getLeaveGroup(slide) {
             </div>
             <div style={{ textAlign: "center" }}>
               <button type="button" onClick={() => !navBlocked && advance()} onPointerDown={(e) => { e.preventDefault(); }}
-                style={{ ...btn(C.magenta, { fontSize: 15, padding: "14px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
+                style={{ ...btn(C.turquesa, { fontSize: 15, padding: "14px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
                 Start →
               </button>
             </div>
@@ -823,7 +824,6 @@ function getLeaveGroup(slide) {
         {slide === 2 && <SectionQuiz speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
         {slide === 3 && <FinalQuiz speak={speak} onComplete={advance} />}
         {slide === 4 && <LessonComplete onNext={handleLessonComplete} />}
-
       </div>
 
       {/* FOOTER */}
@@ -832,7 +832,7 @@ function getLeaveGroup(slide) {
           <span style={{ fontSize: 13, fontWeight: 800, color: C.negro, letterSpacing: -0.2 }}>Basic - Lesson 2 of 10</span>
           <div style={{ position: "relative" }}>
             <button type="button" onClick={() => menuEnabled && setMenuOpen(!menuOpen)}
-              style={{ ...btn(C.magenta, { fontSize: 13, padding: "8px 18px", borderRadius: 50 }), touchAction: "manipulation" }}>
+              style={{ ...btn(C.turquesa, { fontSize: 13, padding: "8px 18px", borderRadius: 50 }), touchAction: "manipulation" }}>
               Menu
             </button>
             {menuOpen && (
@@ -842,11 +842,11 @@ function getLeaveGroup(slide) {
                   Explore Mexico
                 </button>
                 {lesson1Completed && (
-  <button type="button" onClick={() => { setMenuOpen(false); setShowCheatSheet(true); }}
-    style={{ width: "100%", textAlign: "left", padding: "14px 18px", border: "none", background: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, color: C.textB, touchAction: "manipulation", borderBottom: `1px solid ${C.grisB}` }}>
-    Cheat Sheet - L1
-  </button>
-)}
+                  <button type="button" onClick={() => { setMenuOpen(false); setShowCheatSheet(true); }}
+                    style={{ width: "100%", textAlign: "left", padding: "14px 18px", border: "none", background: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, color: C.textB, touchAction: "manipulation", borderBottom: `1px solid ${C.grisB}` }}>
+                    Cheat Sheet - L1
+                  </button>
+                )}
                 <button type="button" onClick={() => { setMenuOpen(false); setShowHelp(true); }}
                   style={{ width: "100%", textAlign: "left", padding: "14px 18px", border: "none", background: "none", cursor: "pointer", fontSize: 14, fontWeight: 700, color: C.textB, touchAction: "manipulation" }}>
                   Need Help?
@@ -856,36 +856,38 @@ function getLeaveGroup(slide) {
           </div>
         </div>
       </div>
-{/* CHEAT SHEET L1 MODAL */}
-{showCheatSheet && (
-  <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }} onClick={() => setShowCheatSheet(false)}>
-    <div style={{ background: "#fff", borderRadius: 20, padding: "28px 24px", maxWidth: 480, width: "100%", maxHeight: "85vh", overflowY: "auto" }} onClick={(e) => e.stopPropagation()}>
-      <div style={{ fontSize: 18, fontWeight: 900, color: C.textH, marginBottom: 4 }}>Cheat Sheet - L1</div>
-      <div style={{ fontSize: 13, color: C.textS, marginBottom: 20 }}>At the Airport · Cancún</div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-        {CHEAT_SHEET_L1.map((word, i) => (
-          <div key={i} style={{ padding: "12px 0", borderBottom: `1px solid ${C.grisB}` }}>
-            <div style={{ fontSize: 15, fontWeight: 900, color: C.textH, marginBottom: 4 }}>{word.display}</div>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
-              <div style={{ fontSize: 14, fontWeight: 700, color: C.turquesaD }}>{word.phrase.es}</div>
-              <button type="button" onClick={() => speak(word.phrase.es)}
-                style={{ background: C.turquesaL, border: "none", borderRadius: "50%", width: 32, height: 32, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, touchAction: "manipulation" }}>
-                <span style={{ fontSize: 16 }}>♪</span>
+
+      {/* CHEAT SHEET L1 MODAL */}
+      {showCheatSheet && (
+        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }} onClick={() => setShowCheatSheet(false)}>
+          <div style={{ background: "#fff", borderRadius: 20, padding: "28px 24px", maxWidth: 480, width: "100%", maxHeight: "85vh", overflowY: "auto" }} onClick={(e) => e.stopPropagation()}>
+            <div style={{ fontSize: 18, fontWeight: 900, color: C.textH, marginBottom: 4 }}>Cheat Sheet - L1</div>
+            <div style={{ fontSize: 13, color: C.textS, marginBottom: 20 }}>At the Airport · Cancún</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+              {CHEAT_SHEET_L1.map((word, i) => (
+                <div key={i} style={{ padding: "12px 0", borderBottom: `1px solid ${C.grisB}` }}>
+                  <div style={{ fontSize: 15, fontWeight: 900, color: C.textH, marginBottom: 4 }}>{word.display}</div>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: C.turquesaD }}>{word.phrase.es}</div>
+                    <button type="button" onClick={() => speak(word.phrase.es)}
+                      style={{ background: C.turquesaL, border: "none", borderRadius: "50%", width: 32, height: 32, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, touchAction: "manipulation" }}>
+                      <span style={{ fontSize: 16 }}>♪</span>
+                    </button>
+                  </div>
+                  <div style={{ fontSize: 12, color: C.textS }}>{word.phrase.en}</div>
+                </div>
+              ))}
+            </div>
+            <div style={{ marginTop: 20 }}>
+              <button type="button" onClick={() => setShowCheatSheet(false)}
+                style={{ ...btn(C.turquesa, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 12 }), touchAction: "manipulation" }}>
+                Got it
               </button>
             </div>
-            <div style={{ fontSize: 12, color: C.textS }}>{word.phrase.en}</div>
           </div>
-        ))}
-      </div>
-      <div style={{ marginTop: 20 }}>
-        <button type="button" onClick={() => setShowCheatSheet(false)}
-          style={{ ...btn(C.magenta, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 12 }), touchAction: "manipulation" }}>
-          Got it
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+        </div>
+      )}
+
       {/* NEED HELP MODAL */}
       {showHelp && (
         <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }} onClick={() => setShowHelp(false)}>
@@ -898,7 +900,7 @@ function getLeaveGroup(slide) {
               <strong style={{ color: C.textH }}>Android:</strong> If buttons don't respond right away, wait a second after the screen changes before tapping again.
             </div>
             <button type="button" onClick={() => setShowHelp(false)}
-              style={{ ...btn(C.magenta, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 12 }), touchAction: "manipulation" }}>
+              style={{ ...btn(C.turquesa, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 12 }), touchAction: "manipulation" }}>
               Got it
             </button>
           </div>
@@ -926,7 +928,7 @@ function getLeaveGroup(slide) {
                   ))}
                 </div>
                 <button type="button" onClick={() => setShowExplore(false)}
-                  style={{ ...btn(C.magenta, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 12 }), touchAction: "manipulation" }}>
+                  style={{ ...btn(C.turquesa, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 12 }), touchAction: "manipulation" }}>
                   Got it
                 </button>
               </>
@@ -956,7 +958,7 @@ function getLeaveGroup(slide) {
             <div style={{ fontSize: 14, color: C.textS, lineHeight: 1.7, marginBottom: 24 }}>{leaveContent.d}</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               <button type="button" onClick={() => setShowLeave(false)}
-                style={{ ...btn(C.magenta, { fontSize: 15, padding: "14px", borderRadius: 12 }), touchAction: "manipulation" }}>
+                style={{ ...btn(C.turquesa, { fontSize: 15, padding: "14px", borderRadius: 12 }), touchAction: "manipulation" }}>
                 {leaveContent.stay}
               </button>
               <button type="button" onClick={onBack}
