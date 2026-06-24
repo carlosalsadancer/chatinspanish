@@ -832,7 +832,7 @@ export default function Lesson2({ onBack, initialSlide = 0, onSlideChange, onCom
           <span style={{ fontSize: 13, fontWeight: 800, color: C.negro, letterSpacing: -0.2 }}>Basic - Lesson 2 of 10</span>
           <div style={{ position: "relative" }}>
             <button type="button" onClick={() => menuEnabled && setMenuOpen(!menuOpen)}
-              style={{ ...btn(C.turquesa, { fontSize: 13, padding: "8px 18px", borderRadius: 50 }), touchAction: "manipulation" }}>
+              style={{ ...btn(C.magenta, { fontSize: 13, padding: "8px 18px", borderRadius: 50 }), touchAction: "manipulation" }}>
               Menu
             </button>
             {menuOpen && (
