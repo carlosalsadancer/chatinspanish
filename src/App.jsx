@@ -8,6 +8,32 @@ import AuthScreen from "./components/AuthScreen";
 import Lesson2 from "./lessons/Lesson2";
 import Lesson3 from "./lessons/Lesson3";
 import { supabase } from "./supabase";
+import ChatLogo from "./components/ChatLogo";
+
+// ═══════════════════════════════════════════════════════════════
+// LOADING SCREEN
+// ═══════════════════════════════════════════════════════════════
+function LoadingScreen() {
+  return (
+    <div style={{ position: "fixed", inset: 0, background: "#fff", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", zIndex: 9999 }}>
+      <ChatLogo size={72} bg={C.turquesa} />
+      <div style={{ marginTop: 24, display: "flex", gap: 6, alignItems: "center" }}>
+        {[0, 1, 2].map(i => (
+          <div key={i} style={{
+            width: 8, height: 8, borderRadius: "50%", background: C.turquesa,
+            animation: `dotPulse 1.2s ease-in-out ${i * 0.2}s infinite`,
+          }} />
+        ))}
+      </div>
+      <style>{`
+        @keyframes dotPulse {
+          0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+          40% { transform: scale(1); opacity: 1; }
+        }
+      `}</style>
+    </div>
+  );
+}
 
 // ═══════════════════════════════════════════════════════════════
 // WELCOME BACK MODAL
@@ -94,6 +120,7 @@ export default function App() {
   const testQuiz2 = urlParams.get('test') === 'quiz2';
   const testAuth  = urlParams.get('test') === 'auth';
   const [view, setView] = useState("landing");
+  const [loading, setLoading] = useState(true);
   const [showChromeModal, setShowChromeModal] = useState(false);
   const [showWelcomeBack, setShowWelcomeBack] = useState(false);
   const [showHomeScreen, setShowHomeScreen] = useState(false);
@@ -115,35 +142,59 @@ export default function App() {
     );
   }
 
-  async function checkCompletedLessons(uid) {
+  async function restoreUserProgress(uid) {
     const { data } = await supabase
       .from("progress")
-      .select("lesson_number, completed")
-      .eq("user_id", uid);
-    if (data) {
-      const l1 = data.find(r => r.lesson_number === 1);
-      const l2 = data.find(r => r.lesson_number === 2);
-      if (l1?.completed) setLesson1Completed(true);
-      if (l2?.completed) setLesson2Completed(true);
+      .select("lesson_number, completed, slide")
+      .eq("user_id", uid)
+      .order("lesson_number", { ascending: false });
+
+    if (!data || data.length === 0) {
+      setView("lesson2");
+      return;
+    }
+
+    const l1 = data.find(r => r.lesson_number === 1);
+    const l2 = data.find(r => r.lesson_number === 2);
+    if (l1?.completed) setLesson1Completed(true);
+    if (l2?.completed) setLesson2Completed(true);
+
+    const incomplete = data.find(r => !r.completed);
+    const highestCompleted = data.find(r => r.completed);
+
+    if (incomplete) {
+      const lessonNum = incomplete.lesson_number;
+      const slide = incomplete.slide || 0;
+      if (lessonNum === 2) { setLesson2Slide(slide); setView("lesson2"); }
+      else if (lessonNum === 3) { setLesson3Slide(slide); setView("lesson3"); }
+      else { setView("lesson2"); }
+    } else if (highestCompleted) {
+      const next = highestCompleted.lesson_number + 1;
+      if (next === 3) { setView("lesson3"); }
+      else { setView("lesson2"); }
+    } else {
+      setView("lesson2");
     }
   }
 
+  // ─── DETECTAR SESIÓN ────────────────────────────────────────
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === "SIGNED_IN" && session?.user) {
         setUserId(session.user.id);
         await saveLesson1Progress(session.user.id);
-        await checkCompletedLessons(session.user.id);
-        handleAuthSuccess();
+        await restoreUserProgress(session.user.id);
+        trackEvent("auth_complete", { method: "magic_link" });
+        setLoading(false);
       }
     });
 
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (session?.user) {
         setUserId(session.user.id);
-        await checkCompletedLessons(session.user.id);
-        handleAuthSuccess();
+        await restoreUserProgress(session.user.id);
       }
+      setLoading(false);
     });
 
     return () => subscription.unsubscribe();
@@ -206,12 +257,6 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  function handleAuthSuccess() {
-    trackEvent("auth_complete", { method: "magic_link" });
-    setView("lesson2");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
   function handleLesson2SlideChange(slide) {
     setLesson2Slide(slide);
     trackEvent("slide_change", { lesson: "lesson_2", slide_number: slide });
@@ -234,6 +279,9 @@ export default function App() {
     goToLanding();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
+
+  // ─── LOADING SCREEN ─────────────────────────────────────────
+  if (loading && !testQuiz2 && !testAuth) return <LoadingScreen />;
 
   return (
     <>
@@ -293,7 +341,7 @@ export default function App() {
       )}
 
       {view === "auth" && (
-        <AuthScreen onSuccess={handleAuthSuccess} />
+        <AuthScreen onSuccess={() => restoreUserProgress(userId)} />
       )}
 
       {view === "lesson2" && (
