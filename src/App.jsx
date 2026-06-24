@@ -6,6 +6,7 @@ import Lesson1 from "./lessons/Lesson1";
 import { FinalQuiz } from "./lessons/Lesson1";
 import AuthScreen from "./components/AuthScreen";
 import Lesson2 from "./lessons/Lesson2";
+import Lesson3 from "./lessons/Lesson3";
 import { supabase } from "./supabase";
 
 // ═══════════════════════════════════════════════════════════════
@@ -101,38 +102,38 @@ export default function App() {
   const [landingKey, setLandingKey] = useState(0);
   const [userId, setUserId] = useState(null);
   const [lesson2Slide, setLesson2Slide] = useState(0);
+  const [lesson3Slide, setLesson3Slide] = useState(0);
   const [lesson1Completed, setLesson1Completed] = useState(false);
+  const [lesson2Completed, setLesson2Completed] = useState(false);
 
   const LESSON_TOTAL = 8;
 
-  // ─── GUARDAR PROGRESS EN SUPABASE ───────────────────────────
   async function saveLesson1Progress(uid) {
-    await supabase
-      .from("progress")
-      .upsert(
-        { user_id: uid, lesson_number: 1, completed: true, slide: 5 },
-        { onConflict: "user_id,lesson_number" }
-      );
+    await supabase.from("progress").upsert(
+      { user_id: uid, lesson_number: 1, completed: true, slide: 5 },
+      { onConflict: "user_id,lesson_number" }
+    );
   }
 
-  // ─── CONSULTAR PROGRESO DE LESSON 1 ─────────────────────────
-  async function checkLesson1Completed(uid) {
+  async function checkCompletedLessons(uid) {
     const { data } = await supabase
       .from("progress")
-      .select("completed")
-      .eq("user_id", uid)
-      .eq("lesson_number", 1)
-      .single();
-    if (data?.completed) setLesson1Completed(true);
+      .select("lesson_number, completed")
+      .eq("user_id", uid);
+    if (data) {
+      const l1 = data.find(r => r.lesson_number === 1);
+      const l2 = data.find(r => r.lesson_number === 2);
+      if (l1?.completed) setLesson1Completed(true);
+      if (l2?.completed) setLesson2Completed(true);
+    }
   }
 
-  // ─── DETECTAR SESIÓN ────────────────────────────────────────
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === "SIGNED_IN" && session?.user) {
         setUserId(session.user.id);
         await saveLesson1Progress(session.user.id);
-        await checkLesson1Completed(session.user.id);
+        await checkCompletedLessons(session.user.id);
         handleAuthSuccess();
       }
     });
@@ -140,7 +141,7 @@ export default function App() {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (session?.user) {
         setUserId(session.user.id);
-        await checkLesson1Completed(session.user.id);
+        await checkCompletedLessons(session.user.id);
         handleAuthSuccess();
       }
     });
@@ -150,9 +151,7 @@ export default function App() {
 
   useEffect(() => {
     const saved = localStorage.getItem("cis_lesson1_slide");
-    if (saved && parseInt(saved) > 0) {
-      setSavedSlide(parseInt(saved));
-    }
+    if (saved && parseInt(saved) > 0) setSavedSlide(parseInt(saved));
   }, []);
 
   function hasSeenHomeScreenPrompt() { return localStorage.getItem("cis_home_prompt") === "true"; }
@@ -219,8 +218,21 @@ export default function App() {
   }
 
   function handleLesson2Complete() {
+    setLesson2Completed(true);
     trackEvent("lesson_complete", { lesson: "lesson_2" });
+    setView("lesson3");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function handleLesson3SlideChange(slide) {
+    setLesson3Slide(slide);
+    trackEvent("slide_change", { lesson: "lesson_3", slide_number: slide });
+  }
+
+  function handleLesson3Complete() {
+    trackEvent("lesson_complete", { lesson: "lesson_3" });
     goToLanding();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   return (
@@ -292,6 +304,17 @@ export default function App() {
           onComplete={handleLesson2Complete}
           userId={userId}
           lesson1Completed={lesson1Completed}
+        />
+      )}
+
+      {view === "lesson3" && (
+        <Lesson3
+          onBack={goToLanding}
+          initialSlide={lesson3Slide}
+          onSlideChange={handleLesson3SlideChange}
+          onComplete={handleLesson3Complete}
+          userId={userId}
+          lesson2Completed={lesson2Completed}
         />
       )}
     </>
