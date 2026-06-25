@@ -96,15 +96,19 @@ function useTTS() {
       };
       timerFallback = setTimeout(() => {
         if (!boundaryFired) {
-          const msPerWord = 380;
-          words.forEach((_, i) => {
+          const msPerChar = 68;
+          const minMs = 220;
+          let elapsed = 0;
+          words.forEach((word, i) => {
+            const delay = elapsed;
             setTimeout(() => {
               const charIndex = words.slice(0, i).join(" ").length + (i > 0 ? 1 : 0);
               const charLength = words[i].length;
               onWordBoundary(charIndex, charLength);
-            }, i * msPerWord);
+            }, delay);
+            elapsed += Math.max(minMs, word.length * msPerChar);
           });
-          setTimeout(() => onWordBoundary(-1, 0), words.length * msPerWord + 400);
+          setTimeout(() => onWordBoundary(-1, 0), elapsed + 300);
         }
       }, 600);
     }
