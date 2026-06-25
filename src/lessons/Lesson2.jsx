@@ -39,14 +39,14 @@ const SECTION = {
     "Ask for your change",
   ],
   words: [
-    { es: "los pesos",         display: "pesos",          pron: "PEH-sos",              en: "pesos",           phrase: { es: "¿Dónde puedo conseguir pesos?",            pron: "DON-deh PWEH-doh kon-seh-GHEER PEH-sos",                   en: "Where can I get pesos?" } },
-    { es: "la casa de cambio", display: "casa de cambio", pron: "KAH-sah deh KAM-byoh", en: "exchange office", phrase: { es: "¿Dónde está la casa de cambio más cercana?", pron: "DON-deh es-TAH lah KAH-sah deh KAM-byoh mas ser-KAH-nah", en: "Where is the nearest exchange office?" } },
-    { es: "el cajero",         display: "cajero",         pron: "kah-HEH-roh",           en: "ATM",             phrase: { es: "¿Hay un cajero cerca?",                     pron: "hay oon kah-HEH-roh SER-kah",                              en: "Is there an ATM nearby?" } },
-    { es: "el precio",         display: "precio",         pron: "PREH-syoh",             en: "price",           phrase: { es: "¿Cuál es el precio de esto?",               pron: "KWAL es el PREH-syoh deh ES-toh",                          en: "What is the price of this?" } },
-    { es: "la cuenta",         display: "cuenta",         pron: "KWEN-tah",              en: "the bill",        phrase: { es: "¿Me puede traer la cuenta, por favor?",     pron: "meh PWEH-deh trah-EHR lah KWEN-tah por fah-VOR",          en: "Can you bring me the bill, please?" } },
-    { es: "el efectivo",       display: "efectivo",       pron: "eh-fek-TEE-boh",        en: "cash",            phrase: { es: "¿Puedo pagar en efectivo?",                 pron: "PWEH-doh pah-GAR en eh-fek-TEE-boh",                       en: "Can I pay in cash?" } },
-    { es: "la tarjeta",        display: "tarjeta",        pron: "tar-HEH-tah",           en: "card",            phrase: { es: "¿Aceptan tarjeta?",                         pron: "ah-SEP-tan tar-HEH-tah",                                   en: "Do you accept card?" } },
-    { es: "el cambio",         display: "cambio",         pron: "KAM-byoh",              en: "change",          phrase: { es: "¿Me puede dar mi cambio, por favor?",       pron: "meh PWEH-deh dar mee KAM-byoh por fah-VOR",                en: "Can you give me my change, please?" } },
+    { es: "pesos",          display: "pesos",          pron: "PEH-sos",              en: "pesos",           phrase: { es: "¿Dónde puedo conseguir pesos?",            pron: "DON-deh PWEH-doh kon-seh-GHEER PEH-sos",                   en: "Where can I get pesos?" } },
+    { es: "casa de cambio", display: "casa de cambio", pron: "KAH-sah deh KAM-byoh", en: "exchange office", phrase: { es: "¿Dónde está la casa de cambio más cercana?", pron: "DON-deh es-TAH lah KAH-sah deh KAM-byoh mas ser-KAH-nah", en: "Where is the nearest exchange office?" } },
+    { es: "cajero",         display: "cajero",         pron: "kah-HEH-roh",           en: "ATM",             phrase: { es: "¿Hay un cajero cerca?",                     pron: "hay oon kah-HEH-roh SER-kah",                              en: "Is there an ATM nearby?" } },
+    { es: "precio",         display: "precio",         pron: "PREH-syoh",             en: "price",           phrase: { es: "¿Cuál es el precio de esto?",               pron: "KWAL es el PREH-syoh deh ES-toh",                          en: "What is the price of this?" } },
+    { es: "cuenta",         display: "cuenta",         pron: "KWEN-tah",              en: "the bill",        phrase: { es: "¿Me puede traer la cuenta, por favor?",     pron: "meh PWEH-deh trah-EHR lah KWEN-tah por fah-VOR",          en: "Can you bring me the bill, please?" } },
+    { es: "efectivo",       display: "efectivo",       pron: "eh-fek-TEE-boh",        en: "cash",            phrase: { es: "¿Puedo pagar en efectivo?",                 pron: "PWEH-doh pah-GAR en eh-fek-TEE-boh",                       en: "Can I pay in cash?" } },
+    { es: "tarjeta",        display: "tarjeta",        pron: "tar-HEH-tah",           en: "card",            phrase: { es: "¿Aceptan tarjeta?",                         pron: "ah-SEP-tan tar-HEH-tah",                                   en: "Do you accept card?" } },
+    { es: "cambio",         display: "cambio",         pron: "KAM-byoh",              en: "change",          phrase: { es: "¿Me puede dar mi cambio, por favor?",       pron: "meh PWEH-deh dar mee KAM-byoh por fah-VOR",                en: "Can you give me my change, please?" } },
   ],
 };
 
@@ -283,12 +283,8 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
           )}
           {result === "retry" && wordFeedback && (
             <div style={{ fontSize: 13, color: C.rojo, fontWeight: 600 }}>
-              {wordFeedback.missing.length > 0 && (
-                <div>Missing: <strong>{wordFeedback.missing.join(", ")}</strong></div>
-              )}
-              {wordFeedback.extra.length > 0 && (
-                <div style={{ marginTop: 4 }}>Extra words: <strong>{wordFeedback.extra.join(", ")}</strong></div>
-              )}
+              {wordFeedback.missing.length > 0 && <div>Missing: <strong>{wordFeedback.missing.join(", ")}</strong></div>}
+              {wordFeedback.extra.length > 0 && <div style={{ marginTop: 4 }}>Extra words: <strong>{wordFeedback.extra.join(", ")}</strong></div>}
             </div>
           )}
           {attempts >= 2 && result === "retry" && (
@@ -434,7 +430,7 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
   useEffect(() => {
     if (!transcript || listening) return;
     const sc = scoreMatch(transcript, questions[idx].correct);
-    setPronResult(sc >= 85 ? "perfect" : sc >= 60 ? "good" : "retry");
+    setPronResult(sc >= 90 ? "perfect" : sc >= 75 ? "good" : "retry");
     setPronAttempts(a => a + 1);
   }, [transcript, listening]);
 
@@ -591,7 +587,7 @@ function FinalQuiz({ speak, onComplete }) {
     if (!transcript || listening) return;
     const q = situations[order[idx]];
     const sc = scoreMatch(transcript, q.correct);
-    setResult(sc >= 85 ? "perfect" : sc >= 60 ? "good" : "retry");
+    setResult(sc >= 90 ? "perfect" : sc >= 75 ? "good" : "retry");
     setAttempts(a => a + 1);
   }, [transcript, listening]);
 
