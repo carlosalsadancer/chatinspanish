@@ -75,10 +75,22 @@ function scoreMatch(heard, expected) {
   const norm = s => s.toLowerCase().replace(/[¿¡.,!?]/g,"").replace(/[áàä]/g,"a").replace(/[éèë]/g,"e").replace(/[íìï]/g,"i").replace(/[óòö]/g,"o").replace(/[úùü]/g,"u").replace(/ñ/g,"n").trim();
   const h = norm(heard), e = norm(expected);
   if (h === e) return 100;
-  if (h.includes(e) || e.includes(h)) return 92;
-  const hw = h.split(" "), ew = e.split(" ");
-  const hits = hw.filter(w => ew.some(ew => ew.includes(w) || w.includes(ew))).length;
-  return Math.round((hits / Math.max(hw.length, ew.length)) * 100);
+  const hw = h.split(" ").filter(w => w.length > 0);
+  const ew = e.split(" ").filter(w => w.length > 0);
+  const hits = ew.filter(ew => hw.some(hw => hw === ew || ew.includes(hw) || hw.includes(ew))).length;
+  const extras = hw.filter(hw => !ew.some(ew => ew === hw || ew.includes(hw) || hw.includes(ew))).length;
+  const coverage = hits / ew.length;
+  const penalty = Math.min(extras * 0.08, 0.3);
+  return Math.round(Math.max(0, coverage - penalty) * 100);
+}
+
+function getWordFeedback(heard, expected) {
+  const norm = s => s.toLowerCase().replace(/[¿¡.,!?]/g,"").replace(/[áàä]/g,"a").replace(/[éèë]/g,"e").replace(/[íìï]/g,"i").replace(/[óòö]/g,"o").replace(/[úùü]/g,"u").replace(/ñ/g,"n").trim();
+  const hw = norm(heard).split(" ").filter(w => w.length > 0);
+  const ew = norm(expected).split(" ").filter(w => w.length > 0);
+  const missing = ew.filter(ew => !hw.some(hw => hw === ew || ew.includes(hw) || hw.includes(ew)));
+  const extra = hw.filter(hw => !ew.some(ew => ew === hw || ew.includes(hw) || hw.includes(ew)));
+  return { missing, extra };
 }
 
 const CELEBRATE_MESSAGES = ["Perfect!", "Great job!", "Nice pronunciation!", "Excellent!", "Well done!"];
@@ -204,6 +216,7 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
   const [attempts, setAttempts] = useState(0);
   const [result, setResult] = useState(null);
   const [micBlocked, setMicBlocked] = useState(blockMicMs > 0);
+  const [wordFeedback, setWordFeedback] = useState(null);
 
   useEffect(() => {
     if (blockMicMs > 0) { setMicBlocked(true); const t = setTimeout(() => setMicBlocked(false), blockMicMs); return () => clearTimeout(t); }
@@ -212,14 +225,16 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
   useEffect(() => {
     if (!transcript || listening) return;
     const score = scoreMatch(transcript, answer);
-    setResult(score >= 85 ? "perfect" : score >= 60 ? "good" : "retry");
+    const feedback = getWordFeedback(transcript, answer);
+    setWordFeedback(feedback);
+    setResult(score >= 90 ? "perfect" : score >= 75 ? "good" : "retry");
     setAttempts(a => a + 1);
   }, [transcript, listening]);
 
   function handleMic() {
     if (micBlocked) return;
     if (listening) { stop(); return; }
-    setResult(null); setTranscript(""); start();
+    setResult(null); setTranscript(""); setWordFeedback(null); start();
   }
 
   const canAdvance = result === "perfect" || result === "good" || attempts >= 2;
@@ -248,19 +263,37 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
         </div>
       )}
       {result && transcript && (
-        <div style={{ background: resultBg, border: `1.5px solid ${resultColor}40`, borderRadius: 12, padding: "12px 16px", marginBottom: 12, textAlign: "center" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 4 }}>
+        <div style={{ background: resultBg, border: `1.5px solid ${resultColor}40`, borderRadius: 12, padding: "12px 16px", marginBottom: 12 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
             <span style={{ fontSize: 18 }}>{result === "perfect" ? "✓" : result === "good" ? "◎" : "✗"}</span>
             <span style={{ fontSize: 14, fontWeight: 900, color: result === "perfect" ? C.limonD : result === "good" ? C.azulD : C.rojo }}>
               {result === "perfect" ? "Perfect!" : result === "good" ? "Good job!" : "Try again!"}
             </span>
           </div>
-          <div style={{ fontSize: 14, color: C.textS, fontWeight: 500 }}>
-            {result === "perfect" && "Native speakers will understand you!"}
-            {result === "good"    && "Good pronunciation! Keep going."}
-            {result === "retry"   && <>I heard: <strong>"{transcript}"</strong> — listen first, then try again.</>}
+          <div style={{ fontSize: 13, color: C.textS, marginBottom: 6 }}>
+            I heard: <strong style={{ color: C.textB }}>"{transcript}"</strong>
           </div>
-          {attempts >= 2 && result === "retry" && <div style={{ marginTop: 6, fontSize: 14, color: C.textM, fontStyle: "italic" }}>You can continue — pronunciation improves with practice!</div>}
+          {result === "perfect" && (
+            <div style={{ fontSize: 13, color: C.limonD, fontWeight: 600 }}>Native speakers will understand you!</div>
+          )}
+          {result === "good" && wordFeedback?.missing?.length > 0 && (
+            <div style={{ fontSize: 13, color: C.azulD, fontWeight: 600 }}>
+              Almost! Try to include: <strong>{wordFeedback.missing.join(", ")}</strong>
+            </div>
+          )}
+          {result === "retry" && wordFeedback && (
+            <div style={{ fontSize: 13, color: C.rojo, fontWeight: 600 }}>
+              {wordFeedback.missing.length > 0 && (
+                <div>Missing: <strong>{wordFeedback.missing.join(", ")}</strong></div>
+              )}
+              {wordFeedback.extra.length > 0 && (
+                <div style={{ marginTop: 4 }}>Extra words: <strong>{wordFeedback.extra.join(", ")}</strong></div>
+              )}
+            </div>
+          )}
+          {attempts >= 2 && result === "retry" && (
+            <div style={{ marginTop: 6, fontSize: 13, color: C.textM, fontStyle: "italic" }}>You can continue — pronunciation improves with practice!</div>
+          )}
         </div>
       )}
       {!supported && <div style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 10, padding: "10px 14px", marginBottom: 10, fontSize: 14, color: C.textS }}>Voice recognition works best in Chrome.</div>}
