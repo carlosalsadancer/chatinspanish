@@ -20,14 +20,14 @@ const EXPLORE_VIDEOS = [
 // CHEAT SHEET L2
 // ═══════════════════════════════════════════════════════════════
 const CHEAT_SHEET_L2 = [
-  { display: "pesos",          phrase: { es: "¿Dónde puedo conseguir pesos?",            en: "Where can I get pesos?" } },
+  { display: "pesos",          phrase: { es: "¿Dónde puedo conseguir pesos?",              en: "Where can I get pesos?" } },
   { display: "casa de cambio", phrase: { es: "¿Dónde está la casa de cambio más cercana?", en: "Where is the nearest exchange office?" } },
-  { display: "cajero",         phrase: { es: "¿Hay un cajero cerca?",                     en: "Is there an ATM nearby?" } },
-  { display: "precio",         phrase: { es: "¿Cuál es el precio de esto?",               en: "What is the price of this?" } },
-  { display: "cuenta",         phrase: { es: "¿Me puede traer la cuenta, por favor?",     en: "Can you bring me the bill, please?" } },
-  { display: "efectivo",       phrase: { es: "¿Puedo pagar en efectivo?",                 en: "Can I pay in cash?" } },
-  { display: "tarjeta",        phrase: { es: "¿Aceptan tarjeta?",                         en: "Do you accept card?" } },
-  { display: "cambio",         phrase: { es: "¿Me puede dar mi cambio, por favor?",       en: "Can you give me my change, please?" } },
+  { display: "cajero",         phrase: { es: "¿Hay un cajero cerca?",                       en: "Is there an ATM nearby?" } },
+  { display: "precio",         phrase: { es: "¿Cuál es el precio de esto?",                 en: "What is the price of this?" } },
+  { display: "cuenta",         phrase: { es: "¿Me puede traer la cuenta, por favor?",       en: "Can you bring me the bill, please?" } },
+  { display: "efectivo",       phrase: { es: "¿Puedo pagar en efectivo?",                   en: "Can I pay in cash?" } },
+  { display: "tarjeta",        phrase: { es: "¿Aceptan tarjeta?",                           en: "Do you accept card?" } },
+  { display: "cambio",         phrase: { es: "¿Me puede dar mi cambio, por favor?",         en: "Can you give me my change, please?" } },
 ];
 
 // ═══════════════════════════════════════════════════════════════
@@ -43,14 +43,14 @@ const SECTION = {
     "Check in at your hostel",
   ],
   words: [
-    { es: "la parada",      display: "parada",      pron: "pah-RAH-dah",       en: "bus stop",    phrase: { es: "¿Dónde está la parada del autobús ADO?",          pron: "DON-deh es-TAH lah pah-RAH-dah del ow-toh-BOOS ah-deh-OH",    en: "Where is the ADO bus stop?" } },
-    { es: "el autobús",     display: "autobús",     pron: "ow-toh-BOOS",       en: "bus",         phrase: { es: "¿Cuál autobús va a Cancún?",                       pron: "kwal ow-toh-BOOS bah ah kan-KOON",                             en: "Which bus goes to Cancún?" } },
-    { es: "el boleto",      display: "boleto",      pron: "boh-LEH-toh",       en: "ticket",      phrase: { es: "Aquí está mi boleto.",                              pron: "ah-KEE es-TAH mee boh-LEH-toh",                                en: "Here is my ticket." } },
-    { es: "el asiento",     display: "asiento",     pron: "ah-SYEN-toh",       en: "seat",        phrase: { es: "Disculpe, ese es mi asiento. Tengo el ocho.",       pron: "dees-KUL-peh EH-seh ehs mee ah-SYEN-toh TEN-goh el OH-choh", en: "Excuse me, that is my seat. I have number eight." } },
-    { es: "el taxi",        display: "taxi",        pron: "TAK-see",           en: "taxi",        phrase: { es: "¿Dónde puedo tomar un taxi?",                       pron: "DON-deh PWEH-doh toh-MAR oon TAK-see",                        en: "Where can I get a taxi?" } },
-    { es: "la dirección",   display: "dirección",   pron: "dee-rek-SYON",      en: "address",     phrase: { es: "Esta es la dirección de mi hotel.",                 pron: "ES-tah ehs lah dee-rek-SYON deh mee oh-TEL",                  en: "This is the address of my hotel." } },
-    { es: "el precio",      display: "precio",      pron: "PREH-syoh",         en: "price",       phrase: { es: "¿Cuál es el precio por llevarme al hostal?",        pron: "kwal ehs el PREH-syoh por yeh-BAR-meh al os-TAL",            en: "What is the price to take me to the hostel?" } },
-    { es: "la reservación", display: "reservación", pron: "reh-ser-bah-SYON",  en: "reservation", phrase: { es: "Buen día, tengo una reservación a nombre de...",    pron: "bwen DEE-ah TEN-goh OO-nah reh-ser-bah-SYON ah NOM-breh deh", en: "Good day, I have a reservation under the name of..." } },
+    { es: "parada",      display: "parada",      pron: "pah-RAH-dah",       en: "bus stop",    phrase: { es: "¿Dónde está la parada del autobús ADO?",          pron: "DON-deh es-TAH lah pah-RAH-dah del ow-toh-BOOS ah-deh-OH",    en: "Where is the ADO bus stop?" } },
+    { es: "autobús",     display: "autobús",     pron: "ow-toh-BOOS",       en: "bus",         phrase: { es: "¿Cuál autobús va a Cancún?",                       pron: "kwal ow-toh-BOOS bah ah kan-KOON",                             en: "Which bus goes to Cancún?" } },
+    { es: "boleto",      display: "boleto",      pron: "boh-LEH-toh",       en: "ticket",      phrase: { es: "Aquí está mi boleto.",                              pron: "ah-KEE es-TAH mee boh-LEH-toh",                                en: "Here is my ticket." } },
+    { es: "asiento",     display: "asiento",     pron: "ah-SYEN-toh",       en: "seat",        phrase: { es: "Disculpe, ese es mi asiento. Tengo el ocho.",       pron: "dees-KUL-peh EH-seh ehs mee ah-SYEN-toh TEN-goh el OH-choh", en: "Excuse me, that is my seat. I have number eight." } },
+    { es: "taxi",        display: "taxi",        pron: "TAK-see",           en: "taxi",        phrase: { es: "¿Dónde puedo tomar un taxi?",                       pron: "DON-deh PWEH-doh toh-MAR oon TAK-see",                        en: "Where can I get a taxi?" } },
+    { es: "dirección",   display: "dirección",   pron: "dee-rek-SYON",      en: "address",     phrase: { es: "Esta es la dirección de mi hotel.",                 pron: "ES-tah ehs lah dee-rek-SYON deh mee oh-TEL",                  en: "This is the address of my hotel." } },
+    { es: "precio",      display: "precio",      pron: "PREH-syoh",         en: "price",       phrase: { es: "¿Cuál es el precio por llevarme al hostal?",        pron: "kwal ehs el PREH-syoh por yeh-BAR-meh al os-TAL",             en: "What is the price to take me to the hostel?" } },
+    { es: "reservación", display: "reservación", pron: "reh-ser-bah-SYON",  en: "reservation", phrase: { es: "Buen día, tengo una reservación a nombre de...",    pron: "bwen DEE-ah TEN-goh OO-nah reh-ser-bah-SYON ah NOM-breh deh", en: "Good day, I have a reservation under the name of..." } },
   ],
 };
 
@@ -58,14 +58,14 @@ const SECTION = {
 // QUIZ DATA
 // ═══════════════════════════════════════════════════════════════
 const QUIZ_DATA = [
-  { scene: "Airport — looking for ADO bus",    q: "You need to find the ADO bus stop. What do you ask?",          correct: "¿Dónde está la parada del autobús ADO?",        options: ["¿Dónde está la parada del autobús ADO?", "¿Cuál autobús va a Cancún?", "¿Dónde puedo tomar un taxi?", "¿Cuál es el precio?"] },
-  { scene: "Bus station",                       q: "You need to find the right bus. What do you ask?",             correct: "¿Cuál autobús va a Cancún?",                     options: ["¿Cuál autobús va a Cancún?", "¿Dónde está la parada?", "¿Cuál es el precio?", "Aquí está mi boleto."] },
-  { scene: "Boarding the bus",                  q: "The driver asks for your ticket. What do you say?",            correct: "Aquí está mi boleto.",                           options: ["Aquí está mi boleto.", "Disculpe, ese es mi asiento.", "¿Cuál autobús va a Cancún?", "Esta es la dirección de mi hotel."] },
-  { scene: "Inside the bus — someone in your seat", q: "Someone is sitting in your seat. What do you say?",       correct: "Disculpe, ese es mi asiento. Tengo el ocho.",   options: ["Disculpe, ese es mi asiento. Tengo el ocho.", "Aquí está mi boleto.", "¿Cuál autobús va a Cancún?", "¿Dónde está la parada?"] },
-  { scene: "Outside the airport — need a ride", q: "You want to get a taxi. What do you ask?",                    correct: "¿Dónde puedo tomar un taxi?",                    options: ["¿Dónde puedo tomar un taxi?", "¿Cuál es el precio?", "¿Dónde está la parada?", "Esta es la dirección de mi hotel."] },
-  { scene: "Inside a taxi",                     q: "You show the driver where to go. What do you say?",           correct: "Esta es la dirección de mi hotel.",              options: ["Esta es la dirección de mi hotel.", "¿Dónde puedo tomar un taxi?", "¿Cuál es el precio?", "Aquí está mi boleto."] },
-  { scene: "Negotiating taxi fare",             q: "You want to know how much it costs. What do you ask?",        correct: "¿Cuál es el precio por llevarme al hostal?",    options: ["¿Cuál es el precio por llevarme al hostal?", "Esta es la dirección de mi hotel.", "¿Dónde puedo tomar un taxi?", "¿Dónde está la parada?"] },
-  { scene: "Arriving at the hostel",           q: "You need to check in. What do you say?",                       correct: "Buen día, tengo una reservación a nombre de...", options: ["Buen día, tengo una reservación a nombre de...", "¿Cuál es el precio?", "Esta es la dirección de mi hotel.", "Aquí está mi boleto."] },
+  { scene: "Airport — looking for ADO bus",         q: "You need to find the ADO bus stop. What do you ask?",    correct: "¿Dónde está la parada del autobús ADO?",        options: ["¿Dónde está la parada del autobús ADO?", "¿Cuál autobús va a Cancún?", "¿Dónde puedo tomar un taxi?", "¿Cuál es el precio?"] },
+  { scene: "Bus station",                            q: "You need to find the right bus. What do you ask?",       correct: "¿Cuál autobús va a Cancún?",                     options: ["¿Cuál autobús va a Cancún?", "¿Dónde está la parada?", "¿Cuál es el precio?", "Aquí está mi boleto."] },
+  { scene: "Boarding the bus",                       q: "The driver asks for your ticket. What do you say?",      correct: "Aquí está mi boleto.",                           options: ["Aquí está mi boleto.", "Disculpe, ese es mi asiento.", "¿Cuál autobús va a Cancún?", "Esta es la dirección de mi hotel."] },
+  { scene: "Inside the bus — someone in your seat",  q: "Someone is sitting in your seat. What do you say?",     correct: "Disculpe, ese es mi asiento. Tengo el ocho.",   options: ["Disculpe, ese es mi asiento. Tengo el ocho.", "Aquí está mi boleto.", "¿Cuál autobús va a Cancún?", "¿Dónde está la parada?"] },
+  { scene: "Outside the airport — need a ride",      q: "You want to get a taxi. What do you ask?",              correct: "¿Dónde puedo tomar un taxi?",                    options: ["¿Dónde puedo tomar un taxi?", "¿Cuál es el precio?", "¿Dónde está la parada?", "Esta es la dirección de mi hotel."] },
+  { scene: "Inside a taxi",                          q: "You show the driver where to go. What do you say?",     correct: "Esta es la dirección de mi hotel.",              options: ["Esta es la dirección de mi hotel.", "¿Dónde puedo tomar un taxi?", "¿Cuál es el precio?", "Aquí está mi boleto."] },
+  { scene: "Negotiating taxi fare",                  q: "You want to know how much it costs. What do you ask?",  correct: "¿Cuál es el precio por llevarme al hostal?",    options: ["¿Cuál es el precio por llevarme al hostal?", "Esta es la dirección de mi hotel.", "¿Dónde puedo tomar un taxi?", "¿Dónde está la parada?"] },
+  { scene: "Arriving at the hostel",                 q: "You need to check in. What do you say?",                correct: "Buen día, tengo una reservación a nombre de...", options: ["Buen día, tengo una reservación a nombre de...", "¿Cuál es el precio?", "Esta es la dirección de mi hotel.", "Aquí está mi boleto."] },
 ];
 
 const TOTAL = 5;
@@ -287,12 +287,8 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
           )}
           {result === "retry" && wordFeedback && (
             <div style={{ fontSize: 13, color: C.rojo, fontWeight: 600 }}>
-              {wordFeedback.missing.length > 0 && (
-                <div>Missing: <strong>{wordFeedback.missing.join(", ")}</strong></div>
-              )}
-              {wordFeedback.extra.length > 0 && (
-                <div style={{ marginTop: 4 }}>Extra words: <strong>{wordFeedback.extra.join(", ")}</strong></div>
-              )}
+              {wordFeedback.missing.length > 0 && <div>Missing: <strong>{wordFeedback.missing.join(", ")}</strong></div>}
+              {wordFeedback.extra.length > 0 && <div style={{ marginTop: 4 }}>Extra words: <strong>{wordFeedback.extra.join(", ")}</strong></div>}
             </div>
           )}
           {attempts >= 2 && result === "retry" && (
@@ -312,6 +308,7 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
     </div>
   );
 }
+
 // ═══════════════════════════════════════════════════════════════
 // EXERCISE SLIDE
 // ═══════════════════════════════════════════════════════════════
@@ -437,7 +434,7 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
   useEffect(() => {
     if (!transcript || listening) return;
     const sc = scoreMatch(transcript, questions[idx].correct);
-    setPronResult(sc >= 85 ? "perfect" : sc >= 60 ? "good" : "retry");
+    setPronResult(sc >= 90 ? "perfect" : sc >= 75 ? "good" : "retry");
     setPronAttempts(a => a + 1);
   }, [transcript, listening]);
 
@@ -570,13 +567,13 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
 // ═══════════════════════════════════════════════════════════════
 function FinalQuiz({ speak, onComplete }) {
   const situations = [
-    { en: "You need to find the ADO bus stop. What do you ask, in Spanish?",          correct: "¿Dónde está la parada del autobús ADO?" },
-    { en: "You need to find the right bus to Cancún. What do you ask, in Spanish?",   correct: "¿Cuál autobús va a Cancún?" },
-    { en: "The driver asks for your ticket. What do you say, in Spanish?",            correct: "Aquí está mi boleto." },
-    { en: "Someone is sitting in your seat. What do you say, in Spanish?",            correct: "Disculpe, ese es mi asiento. Tengo el ocho." },
-    { en: "You need to get a taxi. What do you ask, in Spanish?",                     correct: "¿Dónde puedo tomar un taxi?" },
-    { en: "You want to show the driver where to go. What do you say, in Spanish?",    correct: "Esta es la dirección de mi hotel." },
-    { en: "You want to know how much the ride costs. What do you ask, in Spanish?",   correct: "¿Cuál es el precio por llevarme al hostal?" },
+    { en: "You need to find the ADO bus stop. What do you ask, in Spanish?",             correct: "¿Dónde está la parada del autobús ADO?" },
+    { en: "You need to find the right bus to Cancún. What do you ask, in Spanish?",      correct: "¿Cuál autobús va a Cancún?" },
+    { en: "The driver asks for your ticket. What do you say, in Spanish?",               correct: "Aquí está mi boleto." },
+    { en: "Someone is sitting in your seat. What do you say, in Spanish?",               correct: "Disculpe, ese es mi asiento. Tengo el ocho." },
+    { en: "You need to get a taxi. What do you ask, in Spanish?",                        correct: "¿Dónde puedo tomar un taxi?" },
+    { en: "You want to show the driver where to go. What do you say, in Spanish?",       correct: "Esta es la dirección de mi hotel." },
+    { en: "You want to know how much the ride costs. What do you ask, in Spanish?",      correct: "¿Cuál es el precio por llevarme al hostal?" },
     { en: "You arrive at the hostel and need to check in. What do you say, in Spanish?", correct: "Buen día, tengo una reservación a nombre de..." },
   ];
   const [order] = useState(() => shuffle([0,1,2,3,4,5,6,7]));
@@ -594,7 +591,7 @@ function FinalQuiz({ speak, onComplete }) {
     if (!transcript || listening) return;
     const q = situations[order[idx]];
     const sc = scoreMatch(transcript, q.correct);
-    setResult(sc >= 85 ? "perfect" : sc >= 60 ? "good" : "retry");
+    setResult(sc >= 90 ? "perfect" : sc >= 75 ? "good" : "retry");
     setAttempts(a => a + 1);
   }, [transcript, listening]);
 
