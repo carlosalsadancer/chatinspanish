@@ -8,6 +8,7 @@ import AuthScreen from "./components/AuthScreen";
 import Lesson2 from "./lessons/Lesson2";
 import Lesson3 from "./lessons/Lesson3";
 import Lesson4 from "./lessons/Lesson4";
+import Dashboard from "./components/Dashboard";
 import { supabase } from "./supabase";
 import ChatLogo from "./components/ChatLogo";
 
@@ -183,6 +184,7 @@ export default function App() {
       setView("lesson2");
     }
   }
+
   // ─── DETECTAR SESIÓN ────────────────────────────────────────
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
@@ -275,6 +277,8 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  function handleLesson2Back() { setView("dashboard"); }
+
   function handleLesson3SlideChange(slide) {
     setLesson3Slide(slide);
     trackEvent("slide_change", { lesson: "lesson_3", slide_number: slide });
@@ -287,6 +291,8 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  function handleLesson3Back() { setView("dashboard"); }
+
   function handleLesson4SlideChange(slide) {
     setLesson4Slide(slide);
     trackEvent("slide_change", { lesson: "lesson_4", slide_number: slide });
@@ -296,6 +302,22 @@ export default function App() {
     trackEvent("lesson_complete", { lesson: "lesson_4" });
     goToLanding();
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function handleLesson4Back() { setView("dashboard"); }
+
+  function getCurrentLesson() {
+    if (!lesson2Completed) return 2;
+    if (!lesson3Completed) return 3;
+    return 4;
+  }
+
+  function getCompletedLessons() {
+    const completed = [];
+    if (lesson1Completed) completed.push(1);
+    if (lesson2Completed) completed.push(2);
+    if (lesson3Completed) completed.push(3);
+    return completed;
   }
 
   // ─── LOADING SCREEN ─────────────────────────────────────────
@@ -362,9 +384,16 @@ export default function App() {
         <AuthScreen onSuccess={() => restoreUserProgress(userId)} />
       )}
 
+      {view === "dashboard" && (
+        <Dashboard
+          completedLessons={getCompletedLessons()}
+          currentLesson={getCurrentLesson()}
+        />
+      )}
+
       {view === "lesson2" && (
         <Lesson2
-          onBack={goToLanding}
+          onBack={handleLesson2Back}
           initialSlide={lesson2Slide}
           onSlideChange={handleLesson2SlideChange}
           onComplete={handleLesson2Complete}
@@ -375,7 +404,7 @@ export default function App() {
 
       {view === "lesson3" && (
         <Lesson3
-          onBack={goToLanding}
+          onBack={handleLesson3Back}
           initialSlide={lesson3Slide}
           onSlideChange={handleLesson3SlideChange}
           onComplete={handleLesson3Complete}
@@ -386,7 +415,7 @@ export default function App() {
 
       {view === "lesson4" && (
         <Lesson4
-          onBack={goToLanding}
+          onBack={handleLesson4Back}
           initialSlide={lesson4Slide}
           onSlideChange={handleLesson4SlideChange}
           onComplete={handleLesson4Complete}
