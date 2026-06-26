@@ -222,6 +222,7 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
   const [result, setResult] = useState(null);
   const [micBlocked, setMicBlocked] = useState(blockMicMs > 0);
   const [wordFeedback, setWordFeedback] = useState(null);
+  const [btnBlocked, setBtnBlocked] = useState(false);
 
   useEffect(() => {
     if (blockMicMs > 0) { setMicBlocked(true); const t = setTimeout(() => setMicBlocked(false), blockMicMs); return () => clearTimeout(t); }
@@ -240,6 +241,14 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
     if (micBlocked) return;
     if (listening) { stop(); return; }
     setResult(null); setTranscript(""); setWordFeedback(null); start();
+  }
+
+  // FIX TRANSICIÓN 2
+  function handlePass() {
+    if (btnBlocked) return;
+    setBtnBlocked(true);
+    setTimeout(() => setBtnBlocked(false), 600);
+    onPass();
   }
 
   const canAdvance = result === "perfect" || result === "good" || attempts >= 2;
@@ -300,8 +309,8 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
       {!supported && <div style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 10, padding: "10px 14px", marginBottom: 10, fontSize: 14, color: C.textS }}>Voice recognition works best in Chrome.</div>}
       {(canAdvance || !supported) && (
         <div style={{ textAlign: "center", marginTop: 8 }}>
-          <button type="button" onClick={onPass} onPointerDown={(e) => { e.preventDefault(); onPass(); }}
-            style={{ ...btn(result === "perfect" ? C.limon : color, { fontSize: 15, padding: "13px 28px", borderRadius: 50 }), touchAction: "manipulation" }}>
+          <button type="button" onClick={handlePass} onPointerDown={(e) => { e.preventDefault(); handlePass(); }}
+            style={{ ...btn(result === "perfect" ? C.limon : color, { fontSize: 15, padding: "13px 28px", borderRadius: 50 }), touchAction: "manipulation", opacity: btnBlocked ? 0.7 : 1 }}>
             {passLabel}
           </button>
         </div>
@@ -322,7 +331,8 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
   const [karaokeLen, setKaraokeLen] = useState(0);
   const [celebrate, setCelebrate] = useState(false);
   const [celebrateMsg, setCelebrateMsg] = useState("");
-  const [blockMic, setBlockMic] = useState(100);
+  const [blockMic, setBlockMic] = useState(600);
+  const [btnBlocked, setBtnBlocked] = useState(false);
 
   useEffect(() => {
     if (onBackRequest) {
@@ -335,18 +345,26 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
   }, [phase, wordIdx, onBackRequest]);
 
   function showCelebration(msg) { setCelebrateMsg(msg); setCelebrate(true); setTimeout(() => setCelebrate(false), 1500); }
-  function handleWordPass() { setBlockMic(400); setPhase("phrase"); setKaraokeIdx(-1); }
+  function handleWordPass() { setBlockMic(600); setPhase("phrase"); setKaraokeIdx(-1); }
   function handlePhrasePass() {
-    setKaraokeIdx(-1); setBlockMic(0);
+    setKaraokeIdx(-1); setBlockMic(600);
     showCelebration(CELEBRATE_MESSAGES[wordIdx % CELEBRATE_MESSAGES.length]);
     setTimeout(() => {
-      if (wordIdx + 1 < sec.words.length) { setWordIdx(wordIdx + 1); setPhase("word"); setBlockMic(400); }
+      if (wordIdx + 1 < sec.words.length) { setWordIdx(wordIdx + 1); setPhase("word"); }
       else { setDone(true); }
     }, 1600);
   }
   function handleListenPhrase() {
     setKaraokeIdx(0); setKaraokeLen(0);
     speak(sec.words[wordIdx].phrase.es, (ci, cl) => { setKaraokeIdx(ci); setKaraokeLen(cl); });
+  }
+
+  // FIX TRANSICIÓN 3
+  function handleComplete() {
+    if (btnBlocked) return;
+    setBtnBlocked(true);
+    setTimeout(() => setBtnBlocked(false), 600);
+    onComplete();
   }
 
   const cardStyle = (bg, borderColor) => ({ background: bg, border: `1.5px solid ${borderColor}`, borderRadius: 16, padding: "20px", marginBottom: 16, textAlign: "center" });
@@ -358,8 +376,8 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
       </div>
       <div style={{ fontSize: 24, fontWeight: 900, color: C.textH, letterSpacing: -0.5, marginBottom: 8 }}>Speaking Complete!</div>
       <div style={{ fontSize: 15, color: C.textS, fontWeight: 500, marginBottom: 32 }}>Great work on <strong>{sec.title}</strong>!</div>
-      <button type="button" onClick={onComplete} onPointerDown={(e) => { e.preventDefault(); onComplete(); }}
-        style={{ ...btn(C.turquesa, { fontSize: 15, padding: "15px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
+      <button type="button" onClick={handleComplete} onPointerDown={(e) => { e.preventDefault(); handleComplete(); }}
+        style={{ ...btn(C.turquesa, { fontSize: 15, padding: "15px 40px", borderRadius: 50 }), touchAction: "manipulation", opacity: btnBlocked ? 0.7 : 1 }}>
         Continue →
       </button>
     </div>
@@ -421,6 +439,8 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
   const { transcript, listening, supported, start, stop, setTranscript } = useSpeechRec();
   const [pronResult, setPronResult] = useState(null);
   const [pronAttempts, setPronAttempts] = useState(0);
+  const [micBlocked, setMicBlocked] = useState(false);
+  const [nextBlocked, setNextBlocked] = useState(false);
 
   useEffect(() => {
     if (onBackRequest) {
@@ -446,9 +466,25 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
     return () => clearTimeout(t);
   }, [idx]);
 
-  function select(opt) { if (sel !== null || selBlocked) return; setSel(opt); if (opt === questions[idx].correct) setScore(s => s + 1); }
-  function handleMic() { if (listening) { stop(); return; } setPronResult(null); setTranscript(""); start(); }
+  // FIX TRANSICIÓN 4
+  function select(opt) {
+    if (sel !== null || selBlocked) return;
+    setSel(opt);
+    if (opt === questions[idx].correct) setScore(s => s + 1);
+    setMicBlocked(true);
+    setTimeout(() => setMicBlocked(false), 600);
+  }
+
+  function handleMic() {
+    if (micBlocked || listening) { if (listening) stop(); return; }
+    setPronResult(null); setTranscript(""); start();
+  }
+
+  // FIX TRANSICIÓN 5
   function nextQuestion() {
+    if (nextBlocked) return;
+    setNextBlocked(true);
+    setTimeout(() => setNextBlocked(false), 600);
     if (idx + 1 >= questions.length) { setCelebrate(true); setTimeout(() => { setCelebrate(false); setDone(true); }, 1600); return; }
     setIdx(i => i + 1); setSel(null); setPronResult(null); setPronAttempts(0); setTranscript("");
   }
@@ -525,7 +561,7 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
           </div>
           <div style={{ textAlign: "center", marginBottom: 12 }}>
             <button type="button" onClick={handleMic}
-              style={{ ...btn(listening ? C.turquesa : pronResult === "perfect" || pronResult === "good" ? C.limon : section.color, { fontSize: 15, padding: "14px 32px", borderRadius: 50 }), touchAction: "manipulation" }}>
+              style={{ ...btn(micBlocked || listening ? C.turquesa : pronResult === "perfect" || pronResult === "good" ? C.limon : section.color, { fontSize: 15, padding: "14px 32px", borderRadius: 50 }), touchAction: "manipulation", opacity: micBlocked ? 0.5 : 1 }}>
               {listening ? "⏹  Listening…" : pronResult ? "◉  Try again" : "◉  Tap to speak"}
             </button>
           </div>
@@ -552,7 +588,7 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
           {(canAdvancePron || !supported) && (
             <div style={{ textAlign: "center", marginTop: 8 }}>
               <button type="button" onClick={nextQuestion} onPointerDown={(e) => { e.preventDefault(); nextQuestion(); }}
-                style={{ ...btn(pronResult === "perfect" ? C.limon : section.color, { fontSize: 15, padding: "14px 32px", borderRadius: 50 }), touchAction: "manipulation" }}>
+                style={{ ...btn(pronResult === "perfect" ? C.limon : section.color, { fontSize: 15, padding: "14px 32px", borderRadius: 50 }), touchAction: "manipulation", opacity: nextBlocked ? 0.7 : 1 }}>
                 {idx + 1 >= questions.length ? "See Results →" : "Next Question →"}
               </button>
             </div>
@@ -587,6 +623,8 @@ function FinalQuiz({ speak, onComplete }) {
   const [counted, setCounted] = useState(false);
   const { transcript, listening, supported, start, stop, setTranscript } = useSpeechRec();
   const [result, setResult] = useState(null);
+  const [micBlocked, setMicBlocked] = useState(false);
+  const [nextBlocked, setNextBlocked] = useState(false);
 
   useEffect(() => {
     if (!transcript || listening) return;
@@ -596,13 +634,38 @@ function FinalQuiz({ speak, onComplete }) {
     setAttempts(a => a + 1);
   }, [transcript, listening]);
 
-  function handleListen() { const synth = window.speechSynthesis; synth.cancel(); const u = new SpeechSynthesisUtterance(situations[order[idx]].en); u.lang = "en-US"; u.rate = 0.95; synth.speak(u); }
-  function handleMic() { if (listening) { stop(); return; } setResult(null); setTranscript(""); start(); }
+  function handleListen() {
+    const synth = window.speechSynthesis;
+    synth.cancel();
+    const u = new SpeechSynthesisUtterance(situations[order[idx]].en);
+    u.lang = "en-US"; u.rate = 0.95; synth.speak(u);
+  }
+
+  function handleMic() {
+    if (micBlocked) return;
+    if (listening) { stop(); return; }
+    setResult(null); setTranscript(""); start();
+  }
+
+  // FIX TRANSICIÓN 6
+  function handleStart() {
+    setPhase("quiz");
+    setMicBlocked(true);
+    setTimeout(() => setMicBlocked(false), 600);
+  }
+
+  // FIX TRANSICIÓN 7
   function nextSituation() {
+    if (nextBlocked) return;
+    setNextBlocked(true);
+    setTimeout(() => setNextBlocked(false), 600);
     if ((result === "perfect" || result === "good") && !counted) { setScore(s => s + 1); setCounted(true); }
     if (idx + 1 >= order.length) { setCelebrate(true); setTimeout(() => { setCelebrate(false); setDone(true); }, 1600); return; }
     setIdx(i => i + 1); setAttempts(0); setResult(null); setTranscript(""); setCounted(false);
+    setMicBlocked(true);
+    setTimeout(() => setMicBlocked(false), 600);
   }
+
   const canAdvance = result === "perfect" || result === "good" || attempts >= 2;
 
   if (phase === "intro") return (
@@ -618,7 +681,7 @@ function FinalQuiz({ speak, onComplete }) {
         Listen to the situation in English. Then say the Spanish phrase from memory — no text, no hints. Just you and your Spanish.
       </p>
       <div style={{ textAlign: "center" }}>
-        <button type="button" onClick={() => setPhase("quiz")} onPointerDown={(e) => { e.preventDefault(); setPhase("quiz"); }}
+        <button type="button" onClick={handleStart} onPointerDown={(e) => { e.preventDefault(); handleStart(); }}
           style={{ ...btn(C.turquesa, { fontSize: 15, padding: "16px 44px", borderRadius: 50 }), touchAction: "manipulation" }}>
           Start →
         </button>
@@ -679,14 +742,14 @@ function FinalQuiz({ speak, onComplete }) {
         </div>
       )}
       <button type="button" onClick={handleMic}
-        style={{ width: "100%", border: "none", borderRadius: 50, padding: "16px", fontSize: 15, fontWeight: 900, color: "#fff", cursor: "pointer", marginBottom: 12, background: listening ? C.turquesa : (result === "perfect" || result === "good") ? C.limon : C.turquesa, touchAction: "manipulation" }}>
+        style={{ width: "100%", border: "none", borderRadius: 50, padding: "16px", fontSize: 15, fontWeight: 900, color: "#fff", cursor: "pointer", marginBottom: 12, background: micBlocked ? C.grisB : listening ? C.turquesa : (result === "perfect" || result === "good") ? C.limon : C.turquesa, touchAction: "manipulation", opacity: micBlocked ? 0.5 : 1 }}>
         {listening ? "⏹ Listening…" : result ? "◉ Try again" : "◉ Tap to speak"}
       </button>
       {!supported && <div style={{ background: C.grisS, borderRadius: 10, padding: "10px 14px", marginBottom: 10, fontSize: 13, color: C.textS, textAlign: "center" }}>Voice recognition works best in Chrome.</div>}
       {(canAdvance || !supported) && (
         <div style={{ textAlign: "center" }}>
           <button type="button" onClick={nextSituation} onPointerDown={(e) => { e.preventDefault(); nextSituation(); }}
-            style={{ ...btn(result === "perfect" ? C.limon : C.turquesa, { fontSize: 15, padding: "14px 32px", borderRadius: 50 }), touchAction: "manipulation" }}>
+            style={{ ...btn(result === "perfect" ? C.limon : C.turquesa, { fontSize: 15, padding: "14px 32px", borderRadius: 50 }), touchAction: "manipulation", opacity: nextBlocked ? 0.7 : 1 }}>
             {idx + 1 >= order.length ? "See Results →" : "Next Situation →"}
           </button>
         </div>
@@ -789,7 +852,7 @@ export default function Lesson4({ onBack, initialSlide = 0, onSlideChange, onCom
     if (n < 0 || n >= TOTAL) return;
     setSlide(n);
     setNavBlocked(true);
-    setTimeout(() => setNavBlocked(false), 500);
+    setTimeout(() => setNavBlocked(false), 600);
     if (onSlideChange) onSlideChange(n);
     saveProgress(n);
     window.scrollTo({ top: 0, behavior: "smooth" });
