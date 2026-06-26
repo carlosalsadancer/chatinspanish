@@ -7,6 +7,7 @@ import { FinalQuiz } from "./lessons/Lesson1";
 import AuthScreen from "./components/AuthScreen";
 import Lesson2 from "./lessons/Lesson2";
 import Lesson3 from "./lessons/Lesson3";
+import Lesson4 from "./lessons/Lesson4";
 import { supabase } from "./supabase";
 import ChatLogo from "./components/ChatLogo";
 
@@ -130,8 +131,10 @@ export default function App() {
   const [userId, setUserId] = useState(null);
   const [lesson2Slide, setLesson2Slide] = useState(0);
   const [lesson3Slide, setLesson3Slide] = useState(0);
+  const [lesson4Slide, setLesson4Slide] = useState(0);
   const [lesson1Completed, setLesson1Completed] = useState(false);
   const [lesson2Completed, setLesson2Completed] = useState(false);
+  const [lesson3Completed, setLesson3Completed] = useState(false);
 
   const LESSON_TOTAL = 8;
 
@@ -156,8 +159,10 @@ export default function App() {
 
     const l1 = data.find(r => r.lesson_number === 1);
     const l2 = data.find(r => r.lesson_number === 2);
+    const l3 = data.find(r => r.lesson_number === 3);
     if (l1?.completed) setLesson1Completed(true);
     if (l2?.completed) setLesson2Completed(true);
+    if (l3?.completed) setLesson3Completed(true);
 
     const incomplete = data.find(r => !r.completed);
     const highestCompleted = data.find(r => r.completed);
@@ -167,10 +172,12 @@ export default function App() {
       const slide = incomplete.slide || 0;
       if (lessonNum === 2) { setLesson2Slide(slide); setView("lesson2"); }
       else if (lessonNum === 3) { setLesson3Slide(slide); setView("lesson3"); }
+      else if (lessonNum === 4) { setLesson4Slide(slide); setView("lesson4"); }
       else { setView("lesson2"); }
     } else if (highestCompleted) {
       const next = highestCompleted.lesson_number + 1;
       if (next === 3) { setView("lesson3"); }
+      else if (next === 4) { setView("lesson4"); }
       else { setView("lesson2"); }
     } else {
       setView("lesson2");
@@ -275,7 +282,19 @@ export default function App() {
   }
 
   function handleLesson3Complete() {
+    setLesson3Completed(true);
     trackEvent("lesson_complete", { lesson: "lesson_3" });
+    setView("lesson4");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function handleLesson4SlideChange(slide) {
+    setLesson4Slide(slide);
+    trackEvent("slide_change", { lesson: "lesson_4", slide_number: slide });
+  }
+
+  function handleLesson4Complete() {
+    trackEvent("lesson_complete", { lesson: "lesson_4" });
     goToLanding();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -363,6 +382,17 @@ export default function App() {
           onComplete={handleLesson3Complete}
           userId={userId}
           lesson2Completed={lesson2Completed}
+        />
+      )}
+
+      {view === "lesson4" && (
+        <Lesson4
+          onBack={goToLanding}
+          initialSlide={lesson4Slide}
+          onSlideChange={handleLesson4SlideChange}
+          onComplete={handleLesson4Complete}
+          userId={userId}
+          lesson3Completed={lesson3Completed}
         />
       )}
     </>
