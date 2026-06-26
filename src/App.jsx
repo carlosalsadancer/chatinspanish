@@ -178,12 +178,11 @@ export default function App() {
       const next = highestCompleted.lesson_number + 1;
       if (next === 3) { setView("lesson3"); }
       else if (next === 4) { setView("lesson4"); }
-      else { setView("lesson2"); }
+      else { goToLanding(); }
     } else {
       setView("lesson2");
     }
   }
-
   // ─── DETECTAR SESIÓN ────────────────────────────────────────
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
