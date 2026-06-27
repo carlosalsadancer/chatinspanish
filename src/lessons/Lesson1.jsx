@@ -409,6 +409,7 @@ function SentenceBuilder({ speak, onComplete }) {
   const [karaokeLen, setKaraokeLen] = useState(0);
   const [micBlocked, setMicBlocked] = useState(false);
   const [btnBlocked, setBtnBlocked] = useState(false);
+  const [tapBlocked, setTapBlocked] = useState(false);
   const { transcript, listening, supported, start, stop, setTranscript } = useSpeechRec();
   const [pronResult, setPronResult] = useState(null);
   const [pronAttempts, setPronAttempts] = useState(0);
@@ -424,7 +425,9 @@ function SentenceBuilder({ speak, onComplete }) {
   }, [transcript, listening]);
 
   function handleTapAvailable(word, idx) {
-    if (correct) return;
+    if (correct || tapBlocked) return;
+    setTapBlocked(true);
+    setTimeout(() => setTapBlocked(false), 300);
     const expected = current.words[placed.length];
     if (word === expected) {
       const newPlaced = [...placed, word];
@@ -548,8 +551,10 @@ function SentenceBuilder({ speak, onComplete }) {
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16, justifyContent: "center" }}>
             {available.map((w, i) => (
-              <button type="button" key={i} onClick={() => handleTapAvailable(w, i)} onPointerDown={(e) => { e.preventDefault(); handleTapAvailable(w, i); }}
-                style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 8, padding: "9px 16px", fontSize: 15, fontWeight: 800, color: C.textB, cursor: "pointer", touchAction: "manipulation", transition: "all 0.15s" }}>
+              <button type="button" key={i}
+                onClick={() => handleTapAvailable(w, i)}
+                onPointerDown={(e) => { e.preventDefault(); handleTapAvailable(w, i); }}
+                style={{ background: tapBlocked ? C.grisB : C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 8, padding: "9px 16px", fontSize: 15, fontWeight: 800, color: C.textB, cursor: tapBlocked ? "default" : "pointer", touchAction: "manipulation", transition: "all 0.15s", opacity: tapBlocked ? 0.7 : 1 }}>
                 {w}
               </button>
             ))}
@@ -629,7 +634,6 @@ function SentenceBuilder({ speak, onComplete }) {
     </div>
   );
 }
-
 // ═══════════════════════════════════════════════════════════════
 // SECTION QUIZ
 // ═══════════════════════════════════════════════════════════════
