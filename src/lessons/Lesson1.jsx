@@ -32,6 +32,20 @@ const SECTION = {
 };
 
 // ═══════════════════════════════════════════════════════════════
+// SENTENCE BUILDER DATA
+// ═══════════════════════════════════════════════════════════════
+const BUILDER_DATA = [
+  { en: "Is there free internet at the airport?",       words: ["¿Hay","internet","gratis","en","el","aeropuerto?"],          distractors: ["migración","fila"] },
+  { en: "Where is the immigration area?",               words: ["¿Dónde","está","la","zona","de","migración?"],               distractors: ["pasaporte","salida"] },
+  { en: "Excuse me, is this the line for foreigners?",  words: ["Perdón,","¿esta","es","la","fila","para","extranjeros?"],    distractors: ["migración","maleta"] },
+  { en: "Hello, here is my passport.",                  words: ["Hola,","aquí","está","mi","pasaporte."],                     distractors: ["boleto","fila"] },
+  { en: "I have my return ticket here.",                words: ["Tengo","mi","boleto","de","regreso","aquí."],                distractors: ["pasaporte","maleta"] },
+  { en: "Where do I pick up my suitcase?",              words: ["¿Dónde","recojo","mi","maleta?"],                            distractors: ["salida","boleto"] },
+  { en: "Which way is the exit?",                       words: ["¿Por","dónde","es","la","salida?"],                          distractors: ["maleta","internet"] },
+  { en: "Where do I buy the ADO bus ticket?",           words: ["¿Dónde","compro","el","boleto","de","autobús","ADO?"],       distractors: ["salida","migración"] },
+];
+
+// ═══════════════════════════════════════════════════════════════
 // QUIZ DATA
 // ═══════════════════════════════════════════════════════════════
 const QUIZ_DATA = [
@@ -45,7 +59,7 @@ const QUIZ_DATA = [
   { scene: "Outside the airport",                   q: "You want to get a bus to Cancún. What do you ask?",                    correct: "¿Dónde compro el boleto de autobús ADO?",    options: ["¿Dónde compro el boleto de autobús ADO?","¿Por dónde es la salida?","¿Dónde recojo mi maleta?","¿Hay un cajero cerca?"] },
 ];
 
-const TOTAL = 6;
+const TOTAL = 7;
 
 // ═══════════════════════════════════════════════════════════════
 // HELPERS
@@ -105,16 +119,12 @@ function useTTS() {
       };
       timerFallback = setTimeout(() => {
         if (!boundaryFired) {
-          const msPerChar = 68;
-          const minMs = 220;
-          let elapsed = 0;
+          const msPerChar = 68; const minMs = 220; let elapsed = 0;
           words.forEach((word, i) => {
-            const delay = elapsed;
             setTimeout(() => {
               const charIndex = words.slice(0, i).join(" ").length + (i > 0 ? 1 : 0);
-              const charLength = words[i].length;
-              onWordBoundary(charIndex, charLength);
-            }, delay);
+              onWordBoundary(charIndex, words[i].length);
+            }, elapsed);
             elapsed += Math.max(minMs, word.length * msPerChar);
           });
           setTimeout(() => onWordBoundary(-1, 0), elapsed + 300);
@@ -162,13 +172,11 @@ function Confetti({ show, message }) {
         const delay = Math.random() * 0.5;
         const size = 6 + Math.random() * 8;
         const col = colors[Math.floor(Math.random() * colors.length)];
-        return (
-          <div key={i} style={{ position: "absolute", bottom: "-10px", left: `${x}%`, width: size, height: size, borderRadius: Math.random() > 0.5 ? "50%" : 2, background: col, opacity: 0.9, animation: `confettiRise ${0.8 + Math.random() * 0.8}s ease-out ${delay}s forwards` }} />
-        );
+        return <div key={i} style={{ position: "absolute", bottom: "-10px", left: `${x}%`, width: size, height: size, borderRadius: Math.random() > 0.5 ? "50%" : 2, background: col, opacity: 0.9, animation: `confettiRise ${0.8 + Math.random() * 0.8}s ease-out ${delay}s forwards` }} />;
       })}
       <div style={{ background: C.turquesa, borderRadius: 20, padding: "20px 36px", textAlign: "center", boxShadow: `0 8px 32px ${C.turquesa}60`, animation: "celebPop 0.3s cubic-bezier(0.34,1.56,0.64,1)" }}>
-        <Check size={32} color="#fff" strokeWidth={3} style={{ marginBottom: 8 }} />
-        <div style={{ fontSize: 22, fontWeight: 900, color: "#fff", letterSpacing: -0.5 }}>{message}</div>
+        <Check size={32} color="#fff" strokeWidth={3} />
+        <div style={{ fontSize: 22, fontWeight: 900, color: "#fff", letterSpacing: -0.5, marginTop: 8 }}>{message}</div>
       </div>
     </div>
   );
@@ -198,6 +206,7 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
   const [result, setResult] = useState(null);
   const [micBlocked, setMicBlocked] = useState(blockMicMs > 0);
   const [wordFeedback, setWordFeedback] = useState(null);
+  const [btnBlocked, setBtnBlocked] = useState(false);
 
   useEffect(() => {
     if (blockMicMs > 0) { setMicBlocked(true); const t = setTimeout(() => setMicBlocked(false), blockMicMs); return () => clearTimeout(t); }
@@ -216,6 +225,13 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
     if (micBlocked) return;
     if (listening) { stop(); return; }
     setResult(null); setTranscript(""); setWordFeedback(null); start();
+  }
+
+  function handlePass() {
+    if (btnBlocked) return;
+    setBtnBlocked(true);
+    setTimeout(() => setBtnBlocked(false), 600);
+    onPass();
   }
 
   const canAdvance = result === "perfect" || result === "good" || attempts >= 2;
@@ -251,33 +267,23 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
               {result === "perfect" ? "Perfect!" : result === "good" ? "Good job!" : "Try again!"}
             </span>
           </div>
-          <div style={{ fontSize: 13, color: C.textS, marginBottom: 6 }}>
-            I heard: <strong style={{ color: C.textB }}>"{transcript}"</strong>
-          </div>
-          {result === "perfect" && (
-            <div style={{ fontSize: 13, color: C.limonD, fontWeight: 600 }}>Native speakers will understand you!</div>
-          )}
-          {result === "good" && wordFeedback?.missing?.length > 0 && (
-            <div style={{ fontSize: 13, color: C.azulD, fontWeight: 600 }}>
-              Almost! Try to include: <strong>{wordFeedback.missing.join(", ")}</strong>
-            </div>
-          )}
+          <div style={{ fontSize: 13, color: C.textS, marginBottom: 6 }}>I heard: <strong style={{ color: C.textB }}>"{transcript}"</strong></div>
+          {result === "perfect" && <div style={{ fontSize: 13, color: C.limonD, fontWeight: 600 }}>Native speakers will understand you!</div>}
+          {result === "good" && wordFeedback?.missing?.length > 0 && <div style={{ fontSize: 13, color: C.azulD, fontWeight: 600 }}>Almost! Try to include: <strong>{wordFeedback.missing.join(", ")}</strong></div>}
           {result === "retry" && wordFeedback && (
             <div style={{ fontSize: 13, color: C.rojo, fontWeight: 600 }}>
               {wordFeedback.missing.length > 0 && <div>Missing: <strong>{wordFeedback.missing.join(", ")}</strong></div>}
               {wordFeedback.extra.length > 0 && <div style={{ marginTop: 4 }}>Extra words: <strong>{wordFeedback.extra.join(", ")}</strong></div>}
             </div>
           )}
-          {attempts >= 2 && result === "retry" && (
-            <div style={{ marginTop: 6, fontSize: 13, color: C.textM, fontStyle: "italic" }}>You can continue — pronunciation improves with practice!</div>
-          )}
+          {attempts >= 2 && result === "retry" && <div style={{ marginTop: 6, fontSize: 13, color: C.textM, fontStyle: "italic" }}>You can continue — pronunciation improves with practice!</div>}
         </div>
       )}
       {!supported && <div style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 10, padding: "10px 14px", marginBottom: 10, fontSize: 14, color: C.textS }}>Voice recognition works best in Chrome.</div>}
       {(canAdvance || !supported) && (
         <div style={{ textAlign: "center", marginTop: 8 }}>
-          <button type="button" onClick={onPass} onPointerDown={(e) => { e.preventDefault(); onPass(); }}
-            style={{ ...btn(result === "perfect" ? C.limon : color, { fontSize: 15, padding: "13px 28px", borderRadius: 50 }), touchAction: "manipulation" }}>
+          <button type="button" onClick={handlePass} onPointerDown={(e) => { e.preventDefault(); handlePass(); }}
+            style={{ ...btn(result === "perfect" ? C.limon : color, { fontSize: 15, padding: "13px 28px", borderRadius: 50 }), touchAction: "manipulation", opacity: btnBlocked ? 0.7 : 1 }}>
             {passLabel}
           </button>
         </div>
@@ -298,7 +304,8 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
   const [karaokeLen, setKaraokeLen] = useState(0);
   const [celebrate, setCelebrate] = useState(false);
   const [celebrateMsg, setCelebrateMsg] = useState("");
-  const [blockMic, setBlockMic] = useState(100);
+  const [blockMic, setBlockMic] = useState(600);
+  const [btnBlocked, setBtnBlocked] = useState(false);
 
   useEffect(() => {
     if (onBackRequest) {
@@ -311,18 +318,24 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
   }, [phase, wordIdx, onBackRequest]);
 
   function showCelebration(msg) { setCelebrateMsg(msg); setCelebrate(true); setTimeout(() => setCelebrate(false), 1500); }
-  function handleWordPass() { setBlockMic(400); setPhase("phrase"); setKaraokeIdx(-1); }
+  function handleWordPass() { setBlockMic(600); setPhase("phrase"); setKaraokeIdx(-1); }
   function handlePhrasePass() {
-    setKaraokeIdx(-1); setBlockMic(0);
+    setKaraokeIdx(-1); setBlockMic(600);
     showCelebration(CELEBRATE_MESSAGES[wordIdx % CELEBRATE_MESSAGES.length]);
     setTimeout(() => {
-      if (wordIdx + 1 < sec.words.length) { setWordIdx(wordIdx + 1); setPhase("word"); setBlockMic(400); }
+      if (wordIdx + 1 < sec.words.length) { setWordIdx(wordIdx + 1); setPhase("word"); }
       else { setDone(true); }
     }, 1600);
   }
   function handleListenPhrase() {
     setKaraokeIdx(0); setKaraokeLen(0);
     speak(sec.words[wordIdx].phrase.es, (ci, cl) => { setKaraokeIdx(ci); setKaraokeLen(cl); });
+  }
+  function handleComplete() {
+    if (btnBlocked) return;
+    setBtnBlocked(true);
+    setTimeout(() => setBtnBlocked(false), 600);
+    onComplete();
   }
 
   const cardStyle = (bg, borderColor) => ({ background: bg, border: `1.5px solid ${borderColor}`, borderRadius: 16, padding: "20px", marginBottom: 16, textAlign: "center" });
@@ -334,8 +347,8 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
       </div>
       <div style={{ fontSize: 24, fontWeight: 900, color: C.textH, letterSpacing: -0.5, marginBottom: 8 }}>Speaking Complete!</div>
       <div style={{ fontSize: 15, color: C.textS, fontWeight: 500, marginBottom: 32 }}>Great work on <strong>{sec.title}</strong>!</div>
-      <button type="button" onClick={onComplete} onPointerDown={(e) => { e.preventDefault(); onComplete(); }}
-        style={{ ...btn(C.turquesa, { fontSize: 15, padding: "15px 40px", borderRadius: 50 }), touchAction: "manipulation" }}>
+      <button type="button" onClick={handleComplete} onPointerDown={(e) => { e.preventDefault(); handleComplete(); }}
+        style={{ ...btn(C.turquesa, { fontSize: 15, padding: "15px 40px", borderRadius: 50 }), touchAction: "manipulation", opacity: btnBlocked ? 0.7 : 1 }}>
         Continue →
       </button>
     </div>
@@ -382,6 +395,242 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
 }
 
 // ═══════════════════════════════════════════════════════════════
+// SENTENCE BUILDER SLIDE
+// ═══════════════════════════════════════════════════════════════
+function SentenceBuilder({ speak, onComplete }) {
+  const [phraseIdx, setPhraseIdx] = useState(0);
+  const [placed, setPlaced] = useState([]);
+  const [available, setAvailable] = useState(() => shuffle([...BUILDER_DATA[0].words, ...BUILDER_DATA[0].distractors]));
+  const [error, setError] = useState(null);
+  const [correct, setCorrect] = useState(false);
+  const [celebrate, setCelebrate] = useState(false);
+  const [done, setDone] = useState(false);
+  const [karaokeIdx, setKaraokeIdx] = useState(-1);
+  const [karaokeLen, setKaraokeLen] = useState(0);
+  const [micBlocked, setMicBlocked] = useState(false);
+  const [btnBlocked, setBtnBlocked] = useState(false);
+  const { transcript, listening, supported, start, stop, setTranscript } = useSpeechRec();
+  const [pronResult, setPronResult] = useState(null);
+  const [pronAttempts, setPronAttempts] = useState(0);
+
+  const current = BUILDER_DATA[phraseIdx];
+
+  useEffect(() => {
+    if (!transcript || listening) return;
+    const fullPhrase = current.words.join(" ");
+    const sc = scoreMatch(transcript, fullPhrase);
+    setPronResult(sc >= 90 ? "perfect" : sc >= 75 ? "good" : "retry");
+    setPronAttempts(a => a + 1);
+  }, [transcript, listening]);
+
+  function handleTapAvailable(word, idx) {
+    if (correct) return;
+    const expected = current.words[placed.length];
+    if (word === expected) {
+      const newPlaced = [...placed, word];
+      setPlaced(newPlaced);
+      setAvailable(prev => { const n = [...prev]; n.splice(idx, 1); return n; });
+      setError(null);
+      if (newPlaced.length === current.words.length) {
+        setCorrect(true);
+        setMicBlocked(true);
+        setTimeout(() => {
+          speak(current.words.join(" "), (ci, cl) => { setKaraokeIdx(ci); setKaraokeLen(cl); });
+          setTimeout(() => setMicBlocked(false), 1200);
+        }, 400);
+      }
+    } else {
+      setError(word);
+      setTimeout(() => setError(null), 800);
+    }
+  }
+
+  function handleTapPlaced(word, idx) {
+    if (correct) return;
+    const newPlaced = placed.slice(0, idx);
+    const removed = placed.slice(idx);
+    setPlaced(newPlaced);
+    setAvailable(prev => shuffle([...prev, ...removed]));
+    setError(null);
+  }
+
+  function handleMic() {
+    if (micBlocked) return;
+    if (listening) { stop(); return; }
+    setPronResult(null); setTranscript(""); start();
+  }
+
+  function handleNext() {
+    if (btnBlocked) return;
+    setBtnBlocked(true);
+    setTimeout(() => setBtnBlocked(false), 600);
+    if (phraseIdx + 1 >= BUILDER_DATA.length) {
+      setCelebrate(true);
+      setTimeout(() => { setCelebrate(false); setDone(true); }, 1600);
+      return;
+    }
+    const next = phraseIdx + 1;
+    setPhraseIdx(next);
+    setPlaced([]);
+    setAvailable(shuffle([...BUILDER_DATA[next].words, ...BUILDER_DATA[next].distractors]));
+    setCorrect(false);
+    setKaraokeIdx(-1);
+    setPronResult(null);
+    setPronAttempts(0);
+    setTranscript("");
+    setError(null);
+    setMicBlocked(true);
+    setTimeout(() => setMicBlocked(false), 600);
+  }
+
+  function handleComplete() {
+    if (btnBlocked) return;
+    setBtnBlocked(true);
+    setTimeout(() => setBtnBlocked(false), 600);
+    onComplete();
+  }
+
+  const canAdvancePron = pronResult === "perfect" || pronResult === "good" || pronAttempts >= 2;
+
+  if (done) return (
+    <div style={{ textAlign: "center", padding: "48px 0", animation: "fadeUp 0.4s ease" }}>
+      <div style={{ width: 64, height: 64, borderRadius: 20, background: C.limonL, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
+        <Check size={32} color={C.limonD} strokeWidth={3} />
+      </div>
+      <div style={{ fontSize: 24, fontWeight: 900, color: C.textH, letterSpacing: -0.5, marginBottom: 8 }}>Builder Complete!</div>
+      <div style={{ fontSize: 15, color: C.textS, fontWeight: 500, marginBottom: 32 }}>You built all 8 phrases!</div>
+      <button type="button" onClick={handleComplete} onPointerDown={(e) => { e.preventDefault(); handleComplete(); }}
+        style={{ ...btn(C.turquesa, { fontSize: 15, padding: "15px 40px", borderRadius: 50 }), touchAction: "manipulation", opacity: btnBlocked ? 0.7 : 1 }}>
+        Continue →
+      </button>
+    </div>
+  );
+
+  return (
+    <div>
+      <Confetti show={celebrate} message="Builder Complete!" />
+      <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16, padding: "14px 16px", background: C.turquesaL, borderRadius: 16, border: `1.5px solid ${C.turquesa}20` }}>
+        <div style={{ width: 44, height: 44, borderRadius: 12, background: C.turquesaL, border: `1.5px solid ${C.turquesa}40`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 22 }}>💬</div>
+        <div>
+          <div style={{ fontSize: 16, fontWeight: 900, color: C.textH }}>Sentence Builder</div>
+          <div style={{ fontSize: 11, color: C.turquesaD, fontWeight: 700 }}>At the Airport · Phrase {phraseIdx + 1} of {BUILDER_DATA.length}</div>
+        </div>
+      </div>
+
+      <div style={{ height: 4, background: C.grisB, borderRadius: 2, overflow: "hidden", marginBottom: 20 }}>
+        <div style={{ height: "100%", width: `${(phraseIdx / BUILDER_DATA.length) * 100}%`, background: C.turquesa, borderRadius: 2, transition: "width 0.4s" }} />
+      </div>
+
+      <div style={{ fontSize: 13, color: C.textS, fontWeight: 600, marginBottom: 10, textAlign: "center" }}>{current.en}</div>
+
+      <div style={{ minHeight: 56, background: correct ? C.limonL : error ? C.rojoL : C.grisS, border: `1.5px ${correct ? "solid" : "dashed"} ${correct ? C.limon : error ? C.rojo : C.turquesa}60`, borderRadius: 12, padding: "10px 12px", marginBottom: 6, display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center", transition: "all 0.2s" }}>
+        {placed.map((w, i) => (
+          <button type="button" key={i} onClick={() => handleTapPlaced(w, i)} onPointerDown={(e) => { e.preventDefault(); handleTapPlaced(w, i); }}
+            style={{ background: correct ? C.limon : C.turquesa, color: "#fff", border: "none", borderRadius: 8, padding: "8px 14px", fontSize: 15, fontWeight: 800, cursor: correct ? "default" : "pointer", touchAction: "manipulation" }}>
+            {w}
+          </button>
+        ))}
+        {!correct && placed.length < current.words.length && (
+          <div style={{ width: 48, height: 36, background: C.turquesaL, border: `1.5px dashed ${C.turquesa}60`, borderRadius: 8 }} />
+        )}
+      </div>
+
+      {error && (
+        <div style={{ fontSize: 12, color: C.rojo, fontWeight: 700, textAlign: "center", marginBottom: 8 }}>
+          That word doesn't belong here — try again
+        </div>
+      )}
+
+      {!correct && (
+        <>
+          <div style={{ fontSize: 11, color: C.textM, textAlign: "center", marginBottom: 12, fontWeight: 600 }}>
+            Tap to place · Tap placed word to remove
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16, justifyContent: "center" }}>
+            {available.map((w, i) => (
+              <button type="button" key={i} onClick={() => handleTapAvailable(w, i)} onPointerDown={(e) => { e.preventDefault(); handleTapAvailable(w, i); }}
+                style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 8, padding: "9px 16px", fontSize: 15, fontWeight: 800, color: C.textB, cursor: "pointer", touchAction: "manipulation", transition: "all 0.15s" }}>
+                {w}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+
+      {correct && (
+        <div style={{ marginTop: 8 }}>
+          <div style={{ background: C.limonL, border: `1.5px solid ${C.limon}40`, borderRadius: 14, padding: "14px 16px", marginBottom: 14, textAlign: "center" }}>
+            <div style={{ fontSize: 13, fontWeight: 800, color: C.limonD, marginBottom: 6 }}>✓ Correct! Now listen and repeat</div>
+            <div style={{ fontSize: "clamp(18px,4vw,22px)", fontWeight: 900, color: C.textH, lineHeight: 1.3 }}>
+              {karaokeIdx < 0
+                ? current.words.join(" ")
+                : (() => {
+                    const full = current.words.join(" ");
+                    return (
+                      <>
+                        {full.slice(0, karaokeIdx)}
+                        <span style={{ background: C.limon, color: "#fff", borderRadius: 4, padding: "0 2px" }}>{full.slice(karaokeIdx, karaokeIdx + karaokeLen)}</span>
+                        {full.slice(karaokeIdx + karaokeLen)}
+                      </>
+                    );
+                  })()
+              }
+            </div>
+          </div>
+
+          <div style={{ display: "flex", gap: 12, marginBottom: 12 }}>
+            <button type="button"
+              onClick={() => {
+                setKaraokeIdx(0);
+                speak(current.words.join(" "), (ci, cl) => { setKaraokeIdx(ci); setKaraokeLen(cl); });
+              }}
+              style={{ flex: 1, background: C.azulL, border: `1.5px solid ${C.azul}40`, borderRadius: 14, padding: "14px 12px", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, touchAction: "manipulation" }}>
+              <span style={{ fontSize: 24 }}>♪</span>
+              <span style={{ fontSize: 12, fontWeight: 800, color: C.azulD }}>Listen</span>
+            </button>
+            <button type="button" onClick={handleMic}
+              style={{ flex: 2, border: "none", borderRadius: 14, padding: "14px 12px", cursor: micBlocked ? "default" : "pointer", color: "#fff", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, background: micBlocked ? C.grisB : listening ? C.turquesa : pronResult === "perfect" || pronResult === "good" ? C.limon : C.turquesa, transition: "all 0.2s", touchAction: "manipulation", opacity: micBlocked ? 0.5 : 1 }}>
+              <span style={{ fontSize: 24 }}>{listening ? "⏹" : "◉"}</span>
+              <span style={{ fontSize: 12, fontWeight: 900 }}>{listening ? "Listening…" : pronResult ? "Try again" : "Speak now"}</span>
+            </button>
+          </div>
+
+          {listening && (
+            <div style={{ display: "flex", gap: 3, justifyContent: "center", alignItems: "center", height: 28, marginBottom: 10 }}>
+              {[2,4,6,8,6,4,2,4,6,8,6,4,2].map((h, i) => (
+                <div key={i} style={{ width: 3, borderRadius: 2, background: C.turquesa, height: h * 2.5, animation: `wave ${0.3 + (i % 3) * 0.15}s ease-in-out infinite alternate` }} />
+              ))}
+            </div>
+          )}
+
+          {pronResult && transcript && (
+            <div style={{ background: pronResult === "perfect" ? C.limonL : pronResult === "good" ? C.azulL : C.rojoL, border: `1.5px solid ${pronResult === "perfect" ? C.limon : pronResult === "good" ? C.azul : C.rojo}40`, borderRadius: 12, padding: "12px 16px", marginBottom: 12, textAlign: "center" }}>
+              <div style={{ fontSize: 14, fontWeight: 900, color: pronResult === "perfect" ? C.limonD : pronResult === "good" ? C.azulD : C.rojo, marginBottom: 4 }}>
+                {pronResult === "perfect" ? "Perfect!" : pronResult === "good" ? "Good job!" : "Try again!"}
+              </div>
+              <div style={{ fontSize: 13, color: C.textS }}>
+                {pronResult === "retry" ? <>I heard: <strong>"{transcript}"</strong></> : "Native speakers will understand you!"}
+              </div>
+            </div>
+          )}
+
+          {!supported && <div style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 10, padding: "10px 14px", marginBottom: 10, fontSize: 14, color: C.textS }}>Voice recognition works best in Chrome.</div>}
+
+          {(canAdvancePron || !supported) && (
+            <div style={{ textAlign: "center", marginTop: 8 }}>
+              <button type="button" onClick={handleNext} onPointerDown={(e) => { e.preventDefault(); handleNext(); }}
+                style={{ ...btn(pronResult === "perfect" ? C.limon : C.turquesa, { fontSize: 15, padding: "13px 28px", borderRadius: 50 }), touchAction: "manipulation", opacity: btnBlocked ? 0.7 : 1 }}>
+                {phraseIdx + 1 >= BUILDER_DATA.length ? "Builder complete →" : "Next phrase →"}
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
 // SECTION QUIZ
 // ═══════════════════════════════════════════════════════════════
 function SectionQuiz({ speak, onComplete, onBackRequest }) {
@@ -397,6 +646,8 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
   const { transcript, listening, supported, start, stop, setTranscript } = useSpeechRec();
   const [pronResult, setPronResult] = useState(null);
   const [pronAttempts, setPronAttempts] = useState(0);
+  const [micBlocked, setMicBlocked] = useState(false);
+  const [nextBlocked, setNextBlocked] = useState(false);
 
   useEffect(() => {
     if (onBackRequest) {
@@ -422,9 +673,23 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
     return () => clearTimeout(t);
   }, [idx]);
 
-  function select(opt) { if (sel !== null || selBlocked) return; setSel(opt); if (opt === questions[idx].correct) setScore(s => s + 1); }
-  function handleMic() { if (listening) { stop(); return; } setPronResult(null); setTranscript(""); start(); }
+  function select(opt) {
+    if (sel !== null || selBlocked) return;
+    setSel(opt);
+    if (opt === questions[idx].correct) setScore(s => s + 1);
+    setMicBlocked(true);
+    setTimeout(() => setMicBlocked(false), 600);
+  }
+
+  function handleMic() {
+    if (micBlocked || listening) { if (listening) stop(); return; }
+    setPronResult(null); setTranscript(""); start();
+  }
+
   function nextQuestion() {
+    if (nextBlocked) return;
+    setNextBlocked(true);
+    setTimeout(() => setNextBlocked(false), 600);
     if (idx + 1 >= questions.length) { setCelebrate(true); setTimeout(() => { setCelebrate(false); setDone(true); }, 1600); return; }
     setIdx(i => i + 1); setSel(null); setPronResult(null); setPronAttempts(0); setTranscript("");
   }
@@ -501,7 +766,7 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
           </div>
           <div style={{ textAlign: "center", marginBottom: 12 }}>
             <button type="button" onClick={handleMic}
-              style={{ ...btn(listening ? C.turquesa : pronResult === "perfect" || pronResult === "good" ? C.limon : section.color, { fontSize: 15, padding: "14px 32px", borderRadius: 50 }), touchAction: "manipulation" }}>
+              style={{ ...btn(micBlocked || listening ? C.turquesa : pronResult === "perfect" || pronResult === "good" ? C.limon : section.color, { fontSize: 15, padding: "14px 32px", borderRadius: 50 }), touchAction: "manipulation", opacity: micBlocked ? 0.5 : 1 }}>
               {listening ? "⏹  Listening…" : pronResult ? "◉  Try again" : "◉  Tap to speak"}
             </button>
           </div>
@@ -528,7 +793,7 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
           {(canAdvancePron || !supported) && (
             <div style={{ textAlign: "center", marginTop: 8 }}>
               <button type="button" onClick={nextQuestion} onPointerDown={(e) => { e.preventDefault(); nextQuestion(); }}
-                style={{ ...btn(pronResult === "perfect" ? C.limon : section.color, { fontSize: 15, padding: "14px 32px", borderRadius: 50 }), touchAction: "manipulation" }}>
+                style={{ ...btn(pronResult === "perfect" ? C.limon : section.color, { fontSize: 15, padding: "14px 32px", borderRadius: 50 }), touchAction: "manipulation", opacity: nextBlocked ? 0.7 : 1 }}>
                 {idx + 1 >= questions.length ? "See Results →" : "Next Question →"}
               </button>
             </div>
@@ -564,6 +829,8 @@ export function FinalQuiz({ speak, onComplete }) {
   const [counted, setCounted] = useState(false);
   const { transcript, listening, supported, start, stop, setTranscript } = useSpeechRec();
   const [result, setResult] = useState(null);
+  const [micBlocked, setMicBlocked] = useState(false);
+  const [nextBlocked, setNextBlocked] = useState(false);
 
   useEffect(() => {
     if (!transcript || listening) return;
@@ -574,12 +841,25 @@ export function FinalQuiz({ speak, onComplete }) {
   }, [transcript, listening]);
 
   function handleListen() { const synth = window.speechSynthesis; synth.cancel(); const u = new SpeechSynthesisUtterance(situations[order[idx]].en); u.lang = "en-US"; u.rate = 0.95; synth.speak(u); }
-  function handleMic() { if (listening) { stop(); return; } setResult(null); setTranscript(""); start(); }
+  function handleMic() { if (micBlocked) return; if (listening) { stop(); return; } setResult(null); setTranscript(""); start(); }
+
+  function handleStart() {
+    setPhase("quiz");
+    setMicBlocked(true);
+    setTimeout(() => setMicBlocked(false), 600);
+  }
+
   function nextSituation() {
+    if (nextBlocked) return;
+    setNextBlocked(true);
+    setTimeout(() => setNextBlocked(false), 600);
     if ((result === "perfect" || result === "good") && !counted) { setScore(s => s + 1); setCounted(true); }
     if (idx + 1 >= order.length) { setCelebrate(true); setTimeout(() => { setCelebrate(false); setDone(true); }, 1600); return; }
     setIdx(i => i + 1); setAttempts(0); setResult(null); setTranscript(""); setCounted(false);
+    setMicBlocked(true);
+    setTimeout(() => setMicBlocked(false), 600);
   }
+
   const canAdvance = result === "perfect" || result === "good" || attempts >= 2;
 
   if (phase === "intro") return (
@@ -595,7 +875,7 @@ export function FinalQuiz({ speak, onComplete }) {
         Listen to the situation in English. Then say the Spanish phrase from memory — no text, no hints. Just you and your Spanish.
       </p>
       <div style={{ textAlign: "center" }}>
-        <button type="button" onClick={() => setPhase("quiz")} onPointerDown={(e) => { e.preventDefault(); setPhase("quiz"); }}
+        <button type="button" onClick={handleStart} onPointerDown={(e) => { e.preventDefault(); handleStart(); }}
           style={{ ...btn(C.turquesa, { fontSize: 15, padding: "16px 44px", borderRadius: 50 }), touchAction: "manipulation" }}>
           Start →
         </button>
@@ -656,14 +936,14 @@ export function FinalQuiz({ speak, onComplete }) {
         </div>
       )}
       <button type="button" onClick={handleMic}
-        style={{ width: "100%", border: "none", borderRadius: 50, padding: "16px", fontSize: 15, fontWeight: 900, color: "#fff", cursor: "pointer", marginBottom: 12, background: listening ? C.turquesa : (result === "perfect" || result === "good") ? C.limon : C.turquesa, touchAction: "manipulation" }}>
+        style={{ width: "100%", border: "none", borderRadius: 50, padding: "16px", fontSize: 15, fontWeight: 900, color: "#fff", cursor: "pointer", marginBottom: 12, background: micBlocked ? C.grisB : listening ? C.turquesa : (result === "perfect" || result === "good") ? C.limon : C.turquesa, touchAction: "manipulation", opacity: micBlocked ? 0.5 : 1 }}>
         {listening ? "⏹ Listening…" : result ? "◉ Try again" : "◉ Tap to speak"}
       </button>
       {!supported && <div style={{ background: C.grisS, borderRadius: 10, padding: "10px 14px", marginBottom: 10, fontSize: 13, color: C.textS, textAlign: "center" }}>Voice recognition works best in Chrome.</div>}
       {(canAdvance || !supported) && (
         <div style={{ textAlign: "center" }}>
           <button type="button" onClick={nextSituation} onPointerDown={(e) => { e.preventDefault(); nextSituation(); }}
-            style={{ ...btn(result === "perfect" ? C.limon : C.turquesa, { fontSize: 15, padding: "14px 32px", borderRadius: 50 }), touchAction: "manipulation" }}>
+            style={{ ...btn(result === "perfect" ? C.limon : C.turquesa, { fontSize: 15, padding: "14px 32px", borderRadius: 50 }), touchAction: "manipulation", opacity: nextBlocked ? 0.7 : 1 }}>
             {idx + 1 >= order.length ? "See Results →" : "Next Situation →"}
           </button>
         </div>
@@ -729,14 +1009,16 @@ const EXPLORE_VIDEOS = [
 const LEAVE_CONTENT = {
   screen:   { q: "Leave this screen?",   d: "Your progress is saved. Come back anytime to pick up right here.",                          stay: "Keep Going",      leave: "Leave Screen" },
   exercise: { q: "Leave this exercise?", d: "You'll restart this exercise from the beginning next time. Keep going to lock it in!",       stay: "Keep Practicing", leave: "Leave Exercise" },
+  builder:  { q: "Leave this exercise?", d: "You'll restart the Sentence Builder from the beginning next time. Keep going to lock it in!", stay: "Keep Practicing", leave: "Leave Exercise" },
   practice: { q: "Leave this practice?", d: "You'll restart this practice from the beginning next time. You're doing great — keep going!", stay: "Keep Going",      leave: "Leave Practice" },
   quiz:     { q: "Leave this quiz?",     d: "You'll restart the quiz from the beginning next time. You're doing great — keep going!",     stay: "Keep Going",      leave: "Leave Quiz" },
 };
 
 function getLeaveGroup(slide) {
   if (slide === 2) return "exercise";
-  if (slide === 3) return "practice";
-  if (slide === 4) return "quiz";
+  if (slide === 3) return "builder";
+  if (slide === 4) return "practice";
+  if (slide === 5) return "quiz";
   return "screen";
 }
 
@@ -764,8 +1046,9 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
     if (n < 0 || n >= TOTAL) return;
     setSlide(n);
     setNavBlocked(true);
-    setTimeout(() => setNavBlocked(false), 500);
+    setTimeout(() => setNavBlocked(false), 600);
     if (onSlideChange) onSlideChange(n);
+    localStorage.setItem("cis_lesson1_slide", n.toString());
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
   function advance() { goTo(slide + 1); }
@@ -773,7 +1056,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
 
   const leaveGroup = getLeaveGroup(slide);
   const leaveContent = LEAVE_CONTENT[leaveGroup];
-  const showCloseButton = slide !== 5;
+  const showCloseButton = slide !== 6;
 
   return (
     <div style={{ background: "#fff", minHeight: "100vh", paddingBottom: 64 }}>
@@ -804,7 +1087,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
               {[
                 { num: "01", color: C.turquesa, title: "Story",    desc: "You're dropped into a real situation. Your journey begins." },
                 { num: "02", color: C.azul,     title: "Speak",    desc: "8 words — listen, repeat, get graded." },
-                { num: "03", color: C.morado,   title: "Phrases",  desc: "Each word comes with a real phrase — practice both." },
+                { num: "03", color: C.morado,   title: "Build",    desc: "Put the phrase together from scrambled words." },
                 { num: "04", color: C.limonD,   title: "Practice", desc: "Real-life situations — choose the right phrase, then say it." },
                 { num: "05", color: C.magentaD, title: "Quiz",     desc: "No hints — listen and speak the phrase from memory." },
               ].map((s, i) => (
@@ -867,9 +1150,10 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
         )}
 
         {slide === 2 && <ExerciseSlide speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
-        {slide === 3 && <SectionQuiz speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
-        {slide === 4 && <FinalQuiz speak={speak} onComplete={advance} />}
-        {slide === 5 && <LessonComplete onNext={onComplete || onBack} />}
+        {slide === 3 && <SentenceBuilder speak={speak} onComplete={advance} />}
+        {slide === 4 && <SectionQuiz speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
+        {slide === 5 && <FinalQuiz speak={speak} onComplete={advance} />}
+        {slide === 6 && <LessonComplete onNext={onComplete || onBack} />}
       </div>
 
       {/* FOOTER */}
