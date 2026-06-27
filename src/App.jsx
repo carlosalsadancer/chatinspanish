@@ -137,11 +137,13 @@ export default function App() {
   const [lesson2Completed, setLesson2Completed] = useState(false);
   const [lesson3Completed, setLesson3Completed] = useState(false);
 
-  const LESSON_TOTAL = 8;
+  // Lesson 1 ahora tiene TOTAL=7 (slide 6 = LessonComplete)
+  // Lesson 2 ahora tiene TOTAL=6 (slide 5 = LessonComplete)
+  const LESSON1_TOTAL = 7;
 
   async function saveLesson1Progress(uid) {
     await supabase.from("progress").upsert(
-      { user_id: uid, lesson_number: 1, completed: true, slide: 5 },
+      { user_id: uid, lesson_number: 1, completed: true, slide: 6 },
       { onConflict: "user_id,lesson_number" }
     );
   }
@@ -343,7 +345,7 @@ export default function App() {
       {showWelcomeBack && (
         <WelcomeBackModal
           slide={savedSlide}
-          total={LESSON_TOTAL}
+          total={LESSON1_TOTAL}
           onContinue={() => { setShowWelcomeBack(false); goToLesson(savedSlide); }}
           onRestart={() => {
             localStorage.removeItem("cis_lesson1_slide");
