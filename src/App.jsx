@@ -98,6 +98,7 @@ export default function App() {
   const [lesson1Completed, setLesson1Completed] = useState(false);
   const [lesson2Completed, setLesson2Completed] = useState(false);
   const [lesson3Completed, setLesson3Completed] = useState(false);
+  const [lesson4Completed, setLesson4Completed] = useState(false);
 
   const LESSON1_TOTAL = 7;
 
@@ -123,9 +124,11 @@ export default function App() {
     const l1 = data.find(r => r.lesson_number === 1);
     const l2 = data.find(r => r.lesson_number === 2);
     const l3 = data.find(r => r.lesson_number === 3);
+    const l4 = data.find(r => r.lesson_number === 4);
     if (l1?.completed) setLesson1Completed(true);
     if (l2?.completed) setLesson2Completed(true);
     if (l3?.completed) setLesson3Completed(true);
+    if (l4?.completed) setLesson4Completed(true);
 
     const incomplete = data.find(r => !r.completed);
     const highestCompleted = data.find(r => r.completed);
@@ -247,6 +250,7 @@ export default function App() {
   }
 
   function handleLesson4Complete() {
+    setLesson4Completed(true);
     trackEvent("lesson_complete", { lesson: "lesson_4" });
     goToLanding();
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -257,7 +261,8 @@ export default function App() {
   function getCurrentLesson() {
     if (!lesson2Completed) return 2;
     if (!lesson3Completed) return 3;
-    return 4;
+    if (!lesson4Completed) return 4;
+    return 5;
   }
 
   function getCompletedLessons() {
@@ -265,6 +270,7 @@ export default function App() {
     if (lesson1Completed) completed.push(1);
     if (lesson2Completed) completed.push(2);
     if (lesson3Completed) completed.push(3);
+    if (lesson4Completed) completed.push(4);
     return completed;
   }
 
