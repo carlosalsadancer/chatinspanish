@@ -8,6 +8,159 @@ import ChatLogo from "../components/ChatLogo";
 const Check = ({size=24,color="#fff",strokeWidth=2}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>;
 
 // ═══════════════════════════════════════════════════════════════
+// DEVICE DETECTION
+// ═══════════════════════════════════════════════════════════════
+function getDeviceType() {
+  const ua = navigator.userAgent;
+  const isIOS = /iPad|iPhone|iPod/.test(ua);
+  const isAndroid = /Android/.test(ua);
+  const isSafari = /Safari/.test(ua) && !/Chrome/.test(ua) && !/CriOS/.test(ua);
+  const isChromeiOS = /CriOS/.test(ua);
+  if (isIOS && isSafari) return "ios-safari";
+  if (isIOS && isChromeiOS) return "ios-chrome";
+  if (isAndroid) return "android";
+  return "desktop";
+}
+
+// ═══════════════════════════════════════════════════════════════
+// INSTALL MODAL 1 — RECOMMENDATION
+// ═══════════════════════════════════════════════════════════════
+function InstallModal1({ onAddNow, onLater }) {
+  return (
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
+      <div style={{ background: "#fff", borderRadius: 20, padding: "28px 24px", maxWidth: 340, width: "100%", textAlign: "center" }}>
+        <div style={{ width: 64, height: 64, borderRadius: 16, background: C.magenta, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
+          <ChatLogo size={36} bg={C.magenta} />
+        </div>
+        <div style={{ fontSize: 17, fontWeight: 800, color: C.textH, marginBottom: 10, lineHeight: 1.3 }}>
+          We recommend adding Chat in Spanish to your home screen as an app.
+        </div>
+        <div style={{ fontSize: 14, color: C.textS, marginBottom: 24, lineHeight: 1.6 }}>
+          Practice your Spanish anytime — no browser needed.
+        </div>
+        <button type="button" onClick={onAddNow} onPointerDown={(e) => { e.preventDefault(); onAddNow(); }}
+          style={{ ...btn(C.turquesa, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 12, marginBottom: 10 }), touchAction: "manipulation" }}>
+          Add now
+        </button>
+        <button type="button" onClick={onLater} onPointerDown={(e) => { e.preventDefault(); onLater(); }}
+          style={{ width: "100%", padding: "12px", background: "transparent", border: "none", color: C.textM, fontSize: 14, fontWeight: 600, cursor: "pointer", touchAction: "manipulation" }}>
+          Later
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// INSTALL MODAL 2 — INSTRUCTIONS
+// ═══════════════════════════════════════════════════════════════
+function InstallModal2({ onDone }) {
+  const device = getDeviceType();
+
+  const steps = {
+    "ios-safari": [
+      { title: "Tap the Share button ⬆", desc: "At the bottom center of your Safari browser" },
+      { title: 'Tap "Add to Home Screen"', desc: "Scroll down in the share menu to find it" },
+      { title: 'Tap "Add"', desc: "Top right corner of your screen" },
+    ],
+    "ios-chrome": [
+      { title: "Tap the menu ⋮", desc: "At the bottom right of your Chrome browser" },
+      { title: 'Tap "Add to Home Screen"', desc: "Scroll down in the menu to find it" },
+      { title: 'Tap "Add"', desc: "To confirm and add to your home screen" },
+    ],
+    "android": [
+      { title: 'Tap "Install app"', desc: "If a banner appears at the bottom of Chrome, tap it" },
+      { title: "Or tap the menu ⋮", desc: "At the top right of Chrome if no banner appears" },
+      { title: 'Tap "Add to Home Screen"', desc: "Then tap \"Add\" to confirm" },
+    ],
+  };
+
+  const labels = {
+    "ios-safari": "iPhone · Safari",
+    "ios-chrome": "iPhone · Chrome",
+    "android": "Android · Chrome",
+  };
+
+  const currentSteps = steps[device] || steps["android"];
+  const currentLabel = labels[device] || "Android · Chrome";
+
+  return (
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
+      <div style={{ background: "#fff", borderRadius: 20, padding: "28px 24px", maxWidth: 340, width: "100%" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+          <div style={{ width: 44, height: 44, borderRadius: 12, background: C.magenta, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+            <ChatLogo size={26} bg={C.magenta} />
+          </div>
+          <div>
+            <div style={{ fontSize: 15, fontWeight: 800, color: C.textH, lineHeight: 1.3 }}>Add Chat in Spanish to your home screen</div>
+            <div style={{ fontSize: 11, color: C.textM, fontWeight: 600, marginTop: 2 }}>{currentLabel}</div>
+          </div>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
+          {currentSteps.map((step, i) => (
+            <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12, background: C.turquesaL, borderRadius: 10, padding: 12 }}>
+              <div style={{ width: 26, height: 26, borderRadius: 6, background: C.turquesa, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <span style={{ fontSize: 13, fontWeight: 800, color: "#fff" }}>{i + 1}</span>
+              </div>
+              <div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: C.textH, marginBottom: 2 }}>{step.title}</div>
+                <div style={{ fontSize: 12, color: C.textS, lineHeight: 1.4 }}>{step.desc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <button type="button" onClick={onDone} onPointerDown={(e) => { e.preventDefault(); onDone(); }}
+          style={{ ...btn(C.magenta, { width: "100%", fontSize: 14, padding: "14px", borderRadius: 12 }), touchAction: "manipulation" }}>
+          Done — continue my lesson 1 →
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// INSTALL MODAL CONTROLLER
+// ═══════════════════════════════════════════════════════════════
+function useInstallModal() {
+  const [showModal1, setShowModal1] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
+
+  function shouldShow() {
+    const device = getDeviceType();
+    if (device === "desktop") return false;
+    if (localStorage.getItem("cis_install_done") === "true") return false;
+    const shown = parseInt(localStorage.getItem("cis_install_shown") || "0");
+    if (shown >= 3) return false;
+    return true;
+  }
+
+  function triggerModal() {
+    if (!shouldShow()) return;
+    const shown = parseInt(localStorage.getItem("cis_install_shown") || "0");
+    localStorage.setItem("cis_install_shown", (shown + 1).toString());
+    setShowModal1(true);
+  }
+
+  function handleAddNow() {
+    setShowModal1(false);
+    setShowModal2(true);
+  }
+
+  function handleLater() {
+    setShowModal1(false);
+  }
+
+  function handleDone() {
+    localStorage.setItem("cis_install_done", "true");
+    setShowModal2(false);
+  }
+
+  return { showModal1, showModal2, triggerModal, handleAddNow, handleLater, handleDone };
+}
+
+// ═══════════════════════════════════════════════════════════════
 // SECTION DATA
 // ═══════════════════════════════════════════════════════════════
 const SECTION = {
@@ -295,7 +448,7 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
 // ═══════════════════════════════════════════════════════════════
 // EXERCISE SLIDE
 // ═══════════════════════════════════════════════════════════════
-function ExerciseSlide({ speak, onComplete, onBackRequest }) {
+function ExerciseSlide({ speak, onComplete, onBackRequest, installModal }) {
   const sec = SECTION;
   const [wordIdx, setWordIdx] = useState(0);
   const [phase, setPhase] = useState("word");
@@ -306,6 +459,14 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
   const [celebrateMsg, setCelebrateMsg] = useState("");
   const [blockMic, setBlockMic] = useState(600);
   const [btnBlocked, setBtnBlocked] = useState(false);
+  const [modalTriggered, setModalTriggered] = useState(false);
+
+  useEffect(() => {
+    if (!modalTriggered) {
+      setModalTriggered(true);
+      setTimeout(() => installModal.triggerModal(), 800);
+    }
+  }, []);
 
   useEffect(() => {
     if (onBackRequest) {
@@ -397,7 +558,7 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
 // ═══════════════════════════════════════════════════════════════
 // SENTENCE BUILDER SLIDE
 // ═══════════════════════════════════════════════════════════════
-function SentenceBuilder({ speak, onComplete }) {
+function SentenceBuilder({ speak, onComplete, installModal }) {
   const [phraseIdx, setPhraseIdx] = useState(0);
   const [placed, setPlaced] = useState([]);
   const [available, setAvailable] = useState(() => shuffle([...BUILDER_DATA[0].words, ...BUILDER_DATA[0].distractors]));
@@ -410,11 +571,19 @@ function SentenceBuilder({ speak, onComplete }) {
   const [micBlocked, setMicBlocked] = useState(false);
   const [btnBlocked, setBtnBlocked] = useState(false);
   const [tapBlocked, setTapBlocked] = useState(false);
+  const [modalTriggered, setModalTriggered] = useState(false);
   const { transcript, listening, supported, start, stop, setTranscript } = useSpeechRec();
   const [pronResult, setPronResult] = useState(null);
   const [pronAttempts, setPronAttempts] = useState(0);
 
   const current = BUILDER_DATA[phraseIdx];
+
+  useEffect(() => {
+    if (!modalTriggered) {
+      setModalTriggered(true);
+      setTimeout(() => installModal.triggerModal(), 800);
+    }
+  }, []);
 
   useEffect(() => {
     if (!transcript || listening) return;
@@ -519,13 +688,10 @@ function SentenceBuilder({ speak, onComplete }) {
           <div style={{ fontSize: 11, color: C.turquesaD, fontWeight: 700 }}>At the Airport · Phrase {phraseIdx + 1} of {BUILDER_DATA.length}</div>
         </div>
       </div>
-
       <div style={{ height: 4, background: C.grisB, borderRadius: 2, overflow: "hidden", marginBottom: 20 }}>
         <div style={{ height: "100%", width: `${(phraseIdx / BUILDER_DATA.length) * 100}%`, background: C.turquesa, borderRadius: 2, transition: "width 0.4s" }} />
       </div>
-
       <div style={{ fontSize: 13, color: C.textS, fontWeight: 600, marginBottom: 10, textAlign: "center" }}>{current.en}</div>
-
       <div style={{ minHeight: 56, background: correct ? C.limonL : error ? C.rojoL : C.grisS, border: `1.5px ${correct ? "solid" : "dashed"} ${correct ? C.limon : error ? C.rojo : C.turquesa}60`, borderRadius: 12, padding: "10px 12px", marginBottom: 6, display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center", transition: "all 0.2s" }}>
         {placed.map((w, i) => (
           <button type="button" key={i} onClick={() => handleTapPlaced(w, i)} onPointerDown={(e) => { e.preventDefault(); handleTapPlaced(w, i); }}
@@ -537,13 +703,11 @@ function SentenceBuilder({ speak, onComplete }) {
           <div style={{ width: 48, height: 36, background: C.turquesaL, border: `1.5px dashed ${C.turquesa}60`, borderRadius: 8 }} />
         )}
       </div>
-
       {error && (
         <div style={{ fontSize: 12, color: C.rojo, fontWeight: 700, textAlign: "center", marginBottom: 8 }}>
           That word doesn't belong here — try again
         </div>
       )}
-
       {!correct && (
         <>
           <div style={{ fontSize: 11, color: C.textM, textAlign: "center", marginBottom: 12, fontWeight: 600 }}>
@@ -551,9 +715,7 @@ function SentenceBuilder({ speak, onComplete }) {
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16, justifyContent: "center" }}>
             {available.map((w, i) => (
-              <button type="button" key={i}
-                onClick={() => handleTapAvailable(w, i)}
-                onPointerDown={(e) => { e.preventDefault(); handleTapAvailable(w, i); }}
+              <button type="button" key={i} onClick={() => handleTapAvailable(w, i)} onPointerDown={(e) => { e.preventDefault(); handleTapAvailable(w, i); }}
                 style={{ background: tapBlocked ? C.grisB : C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 8, padding: "9px 16px", fontSize: 15, fontWeight: 800, color: C.textB, cursor: tapBlocked ? "default" : "pointer", touchAction: "manipulation", transition: "all 0.15s", opacity: tapBlocked ? 0.7 : 1 }}>
                 {w}
               </button>
@@ -561,7 +723,6 @@ function SentenceBuilder({ speak, onComplete }) {
           </div>
         </>
       )}
-
       {correct && (
         <div style={{ marginTop: 8 }}>
           <div style={{ background: C.limonL, border: `1.5px solid ${C.limon}40`, borderRadius: 14, padding: "14px 16px", marginBottom: 14, textAlign: "center" }}>
@@ -582,13 +743,9 @@ function SentenceBuilder({ speak, onComplete }) {
               }
             </div>
           </div>
-
           <div style={{ display: "flex", gap: 12, marginBottom: 12 }}>
             <button type="button"
-              onClick={() => {
-                setKaraokeIdx(0);
-                speak(current.words.join(" "), (ci, cl) => { setKaraokeIdx(ci); setKaraokeLen(cl); });
-              }}
+              onClick={() => { setKaraokeIdx(0); speak(current.words.join(" "), (ci, cl) => { setKaraokeIdx(ci); setKaraokeLen(cl); }); }}
               style={{ flex: 1, background: C.azulL, border: `1.5px solid ${C.azul}40`, borderRadius: 14, padding: "14px 12px", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, touchAction: "manipulation" }}>
               <span style={{ fontSize: 24 }}>♪</span>
               <span style={{ fontSize: 12, fontWeight: 800, color: C.azulD }}>Listen</span>
@@ -599,7 +756,6 @@ function SentenceBuilder({ speak, onComplete }) {
               <span style={{ fontSize: 12, fontWeight: 900 }}>{listening ? "Listening…" : pronResult ? "Try again" : "Speak now"}</span>
             </button>
           </div>
-
           {listening && (
             <div style={{ display: "flex", gap: 3, justifyContent: "center", alignItems: "center", height: 28, marginBottom: 10 }}>
               {[2,4,6,8,6,4,2,4,6,8,6,4,2].map((h, i) => (
@@ -607,7 +763,6 @@ function SentenceBuilder({ speak, onComplete }) {
               ))}
             </div>
           )}
-
           {pronResult && transcript && (
             <div style={{ background: pronResult === "perfect" ? C.limonL : pronResult === "good" ? C.azulL : C.rojoL, border: `1.5px solid ${pronResult === "perfect" ? C.limon : pronResult === "good" ? C.azul : C.rojo}40`, borderRadius: 12, padding: "12px 16px", marginBottom: 12, textAlign: "center" }}>
               <div style={{ fontSize: 14, fontWeight: 900, color: pronResult === "perfect" ? C.limonD : pronResult === "good" ? C.azulD : C.rojo, marginBottom: 4 }}>
@@ -618,9 +773,7 @@ function SentenceBuilder({ speak, onComplete }) {
               </div>
             </div>
           )}
-
           {!supported && <div style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 10, padding: "10px 14px", marginBottom: 10, fontSize: 14, color: C.textS }}>Voice recognition works best in Chrome.</div>}
-
           {(canAdvancePron || !supported) && (
             <div style={{ textAlign: "center", marginTop: 8 }}>
               <button type="button" onClick={handleNext} onPointerDown={(e) => { e.preventDefault(); handleNext(); }}
@@ -634,6 +787,7 @@ function SentenceBuilder({ speak, onComplete }) {
     </div>
   );
 }
+
 // ═══════════════════════════════════════════════════════════════
 // SECTION QUIZ
 // ═══════════════════════════════════════════════════════════════
@@ -811,7 +965,7 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
 // ═══════════════════════════════════════════════════════════════
 // FINAL QUIZ
 // ═══════════════════════════════════════════════════════════════
-export function FinalQuiz({ speak, onComplete }) {
+export function FinalQuiz({ speak, onComplete, installModal }) {
   const section = SECTION;
   const situations = [
     { en: "You just landed and need WiFi. What do you ask, in Spanish?",                              correct: "¿Hay internet gratis en el aeropuerto?" },
@@ -831,10 +985,18 @@ export function FinalQuiz({ speak, onComplete }) {
   const [done, setDone] = useState(false);
   const [celebrate, setCelebrate] = useState(false);
   const [counted, setCounted] = useState(false);
+  const [modalTriggered, setModalTriggered] = useState(false);
   const { transcript, listening, supported, start, stop, setTranscript } = useSpeechRec();
   const [result, setResult] = useState(null);
   const [micBlocked, setMicBlocked] = useState(false);
   const [nextBlocked, setNextBlocked] = useState(false);
+
+  useEffect(() => {
+    if (!modalTriggered && installModal) {
+      setModalTriggered(true);
+      setTimeout(() => installModal.triggerModal(), 800);
+    }
+  }, []);
 
   useEffect(() => {
     if (!transcript || listening) return;
@@ -993,7 +1155,7 @@ function LessonComplete({ onNext }) {
         ))}
       </div>
       <button type="button" onClick={onNext} onPointerDown={(e) => { e.preventDefault(); onNext(); }}
-        style={{ ...btn(C.turquesa, { fontSize: 15, padding: "16px 40px", borderRadius: 50, boxShadow: `0 6px 24px ${C.turquesa}40` }), touchAction: "manipulation" }}>
+        style={{ ...btn(C.magenta, { fontSize: 15, padding: "16px 40px", borderRadius: 50, boxShadow: `0 6px 24px ${C.magenta}40` }), touchAction: "manipulation" }}>
         Continue to Lesson 2 →
       </button>
     </div>
@@ -1040,6 +1202,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
   const [navBlocked, setNavBlocked] = useState(false);
   const [showExplore, setShowExplore] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState(null);
+  const installModal = useInstallModal();
 
   useEffect(() => {
     const t = setTimeout(() => setMenuEnabled(true), 800);
@@ -1071,6 +1234,18 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
         @keyframes wave { from { transform: scaleY(1); } to { transform: scaleY(2); } }
       `}</style>
 
+      {installModal.showModal1 && (
+        <InstallModal1
+          onAddNow={installModal.handleAddNow}
+          onLater={installModal.handleLater}
+        />
+      )}
+      {installModal.showModal2 && (
+        <InstallModal2
+          onDone={installModal.handleDone}
+        />
+      )}
+
       {showCloseButton && (
         <div style={{ position: "fixed", top: 16, left: 16, zIndex: 55 }}>
           <button type="button" onClick={() => setShowLeave(true)} aria-label="Leave"
@@ -1082,7 +1257,6 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
 
       <div style={{ maxWidth: 720, margin: "0 auto", padding: "64px 20px 80px", animation: "fadeUp 0.3s ease" }} key={slide}>
 
-        {/* SLIDE 0 — ONBOARDING */}
         {slide === 0 && (
           <div style={{ textAlign: "center" }}>
             <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}><ChatLogo size={80} bg={C.magenta} /></div>
@@ -1119,7 +1293,6 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
           </div>
         )}
 
-        {/* SLIDE 1 — STORY */}
         {slide === 1 && (
           <div>
             <div style={{ display: "flex", gap: 14, alignItems: "center", justifyContent: "center", marginBottom: 24 }}>
@@ -1153,10 +1326,10 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
           </div>
         )}
 
-        {slide === 2 && <ExerciseSlide speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
-        {slide === 3 && <SentenceBuilder speak={speak} onComplete={advance} />}
+        {slide === 2 && <ExerciseSlide speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} installModal={installModal} />}
+        {slide === 3 && <SentenceBuilder speak={speak} onComplete={advance} installModal={installModal} />}
         {slide === 4 && <SectionQuiz speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
-        {slide === 5 && <FinalQuiz speak={speak} onComplete={advance} />}
+        {slide === 5 && <FinalQuiz speak={speak} onComplete={advance} installModal={installModal} />}
         {slide === 6 && <LessonComplete onNext={onComplete || onBack} />}
       </div>
 
