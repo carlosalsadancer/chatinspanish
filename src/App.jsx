@@ -69,43 +69,6 @@ function WelcomeBackModal({ slide, total, onContinue, onRestart }) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// HOME SCREEN PROMPT MODAL
-// ═══════════════════════════════════════════════════════════════
-function HomeScreenModal({ onClose }) {
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-  return (
-    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 999, display: "flex", alignItems: "flex-end", justifyContent: "center", padding: 16 }}>
-      <div style={{ background: C.blanco, borderRadius: 20, padding: "32px 24px", maxWidth: 440, width: "100%", textAlign: "center", marginBottom: 16 }}>
-        <div style={{ fontSize: 44, marginBottom: 12 }}>📱</div>
-        <h3 style={{ fontSize: 18, fontWeight: 900, color: C.negro, marginBottom: 8 }}>Get quick access!</h3>
-        <p style={{ fontSize: 14, color: C.textS, lineHeight: 1.7, marginBottom: 20 }}>
-          Add Chat in Spanish to your home screen so you can find it instantly.
-        </p>
-        {isIOS ? (
-          <div style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 14, padding: "16px", marginBottom: 20, textAlign: "left" }}>
-            <div style={{ fontSize: 13, color: C.textB, fontWeight: 600, lineHeight: 1.8 }}>
-              <div style={{ marginBottom: 6 }}>1. Tap the <strong>Share</strong> button at the bottom of your browser</div>
-              <div>2. Tap <strong>"Add to Home Screen"</strong></div>
-            </div>
-          </div>
-        ) : (
-          <div style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 14, padding: "16px", marginBottom: 20, textAlign: "left" }}>
-            <div style={{ fontSize: 13, color: C.textB, fontWeight: 600, lineHeight: 1.8 }}>
-              <div style={{ marginBottom: 6 }}>1. Tap the <strong>menu (⋮)</strong> at the top right of Chrome</div>
-              <div>2. Tap <strong>"Add to Home Screen"</strong></div>
-            </div>
-          </div>
-        )}
-        <button type="button" onClick={onClose} onPointerDown={(e) => { e.preventDefault(); onClose(); }}
-          style={{ ...btn(C.negro, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 12 }), touchAction: "manipulation" }}>
-          Got it →
-        </button>
-      </div>
-    </div>
-  );
-}
-
-// ═══════════════════════════════════════════════════════════════
 // GA HELPER
 // ═══════════════════════════════════════════════════════════════
 function trackEvent(name, params = {}) {
@@ -125,7 +88,6 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [showChromeModal, setShowChromeModal] = useState(false);
   const [showWelcomeBack, setShowWelcomeBack] = useState(false);
-  const [showHomeScreen, setShowHomeScreen] = useState(false);
   const [savedSlide, setSavedSlide] = useState(0);
   const [startSlide, setStartSlide] = useState(0);
   const [landingKey, setLandingKey] = useState(0);
@@ -137,8 +99,6 @@ export default function App() {
   const [lesson2Completed, setLesson2Completed] = useState(false);
   const [lesson3Completed, setLesson3Completed] = useState(false);
 
-  // Lesson 1 ahora tiene TOTAL=7 (slide 6 = LessonComplete)
-  // Lesson 2 ahora tiene TOTAL=6 (slide 5 = LessonComplete)
   const LESSON1_TOTAL = 7;
 
   async function saveLesson1Progress(uid) {
@@ -215,29 +175,15 @@ export default function App() {
     if (saved && parseInt(saved) > 0) setSavedSlide(parseInt(saved));
   }, []);
 
-  function hasSeenHomeScreenPrompt() { return localStorage.getItem("cis_home_prompt") === "true"; }
-  function markHomeScreenPromptSeen() { localStorage.setItem("cis_home_prompt", "true"); }
-
   function isSafariIOS() {
     const ua = navigator.userAgent;
     return /iPad|iPhone|iPod/.test(ua) && /Safari/.test(ua) && !/Chrome/.test(ua) && !/CriOS/.test(ua);
   }
 
-  function isMobile() { return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent); }
-
   function handleStartFree() {
-    if (isMobile() && !hasSeenHomeScreenPrompt()) { setShowHomeScreen(true); return; }
     if (isSafariIOS()) { setShowChromeModal(true); return; }
     if (savedSlide > 0) { setShowWelcomeBack(true); return; }
     goToLesson(0);
-  }
-
-  function handleHomeScreenClose() {
-    markHomeScreenPromptSeen();
-    setShowHomeScreen(false);
-    if (isSafariIOS()) { setShowChromeModal(true); }
-    else if (savedSlide > 0) { setShowWelcomeBack(true); }
-    else { goToLesson(0); }
   }
 
   function goToLesson(slide = 0) {
@@ -328,8 +274,6 @@ export default function App() {
   return (
     <>
       <style>{GLOBAL_CSS}</style>
-
-      {showHomeScreen && <HomeScreenModal onClose={handleHomeScreenClose} />}
 
       {showChromeModal && (
         <ChromeModal
