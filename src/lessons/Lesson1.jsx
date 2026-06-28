@@ -852,19 +852,47 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
     setIdx(i => i + 1); setSel(null); setPronResult(null); setPronAttempts(0); setTranscript("");
   }
 
+  function handlePracticeAgain() {
+    setIdx(0);
+    setScore(0);
+    setSel(null);
+    setPronResult(null);
+    setPronAttempts(0);
+    setTranscript("");
+    setDone(false);
+    setCelebrate(false);
+  }
+
   if (done) {
     const pct = Math.round((score / questions.length) * 100);
+    const isPerfect = score === 8;
+    const isGood = score === 6 || score === 7;
+
     return (
       <div style={{ textAlign: "center", padding: "40px 0", animation: "fadeUp 0.4s ease" }}>
-        <div style={{ width: 64, height: 64, borderRadius: 20, background: C.limonL, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
-          <Check size={32} color={C.limonD} strokeWidth={3} />
+        <div style={{ width: 56, height: 56, borderRadius: 14, background: isPerfect ? C.limonL : isGood ? C.limonL : C.grisS, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
+          <Check size={28} color={isPerfect ? C.limonD : isGood ? C.limonD : C.textM} strokeWidth={3} />
         </div>
-        <div style={{ fontSize: "clamp(48px,12vw,64px)", fontWeight: 900, color: section.color, lineHeight: 1, marginBottom: 8, letterSpacing: -2 }}>{score}/{questions.length}</div>
-        <div style={{ fontSize: 20, color: C.textH, fontWeight: 800, marginBottom: 8 }}>{pct >= 75 ? "Excellent!" : pct >= 50 ? "Well done!" : "Keep going!"}</div>
-        <div style={{ fontSize: 14, color: C.textS, fontWeight: 500, lineHeight: 1.7, marginBottom: 32 }}>{pct >= 75 ? "You really know your Airport phrases!" : "Practice makes perfect — you've got this."}</div>
+        <div style={{ fontSize: "clamp(48px,12vw,64px)", fontWeight: 900, color: isPerfect ? C.limon : isGood ? C.limon : C.grisB, lineHeight: 1, marginBottom: 8, letterSpacing: -2 }}>{score}/{questions.length}</div>
+        <div style={{ fontSize: 18, fontWeight: 800, color: C.textH, marginBottom: 8 }}>
+          {isPerfect ? "Perfect score!" : isGood ? "Well done!" : "Keep going!"}
+        </div>
+        <div style={{ fontSize: 14, color: C.textS, fontWeight: 500, lineHeight: 1.7, marginBottom: 32 }}>
+          {isPerfect
+            ? "You nailed every phrase. You're ready for the Final Challenge."
+            : isGood
+            ? "You're almost there — a quick review will lock it in before the Final Challenge."
+            : "We recommend practicing again before moving on."}
+        </div>
+        {!isPerfect && (
+          <button type="button" onClick={handlePracticeAgain} onPointerDown={(e) => { e.preventDefault(); handlePracticeAgain(); }}
+            style={{ ...btn(C.magenta, { fontSize: 15, padding: "15px 36px", borderRadius: 50, width: "100%", marginBottom: 10 }), touchAction: "manipulation" }}>
+            Practice again
+          </button>
+        )}
         <button type="button" onClick={onComplete} onPointerDown={(e) => { e.preventDefault(); onComplete(); }}
-          style={{ ...btn(C.turquesa, { fontSize: 15, padding: "15px 36px", borderRadius: 50 }), touchAction: "manipulation" }}>
-          Continue →
+          style={{ width: "100%", padding: isPerfect ? "15px 36px" : "12px", background: isPerfect ? C.magenta : "transparent", color: isPerfect ? "#fff" : C.textM, border: "none", borderRadius: isPerfect ? 50 : 0, cursor: "pointer", fontSize: isPerfect ? 15 : 14, fontWeight: isPerfect ? 800 : 600, touchAction: "manipulation" }}>
+          {isPerfect ? "Continue →" : "Continue anyway →"}
         </button>
       </div>
     );
@@ -937,8 +965,11 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
           )}
           {pronResult && transcript && (
             <div style={{ background: pronResult === "perfect" ? C.limonL : pronResult === "good" ? C.azulL : C.rojoL, border: `1.5px solid ${pronResult === "perfect" ? C.limon : pronResult === "good" ? C.azul : C.rojo}40`, borderRadius: 12, padding: "12px 16px", marginBottom: 12, textAlign: "center" }}>
-              <div style={{ fontSize: 14, fontWeight: 900, color: pronResult === "perfect" ? C.limonD : pronResult === "good" ? C.azulD : C.rojo, marginBottom: 4 }}>
-                {pronResult === "perfect" ? "Perfect!" : pronResult === "good" ? "Good job!" : "Try again!"}
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 6 }}>
+                <span style={{ fontSize: 18 }}>{pronResult === "perfect" ? "✓" : pronResult === "good" ? "◎" : "✗"}</span>
+                <span style={{ fontSize: 14, fontWeight: 900, color: pronResult === "perfect" ? C.limonD : pronResult === "good" ? C.azulD : C.rojo }}>
+                  {pronResult === "perfect" ? "Perfect!" : pronResult === "good" ? "Good job!" : "Try again!"}
+                </span>
               </div>
               <div style={{ fontSize: 14, color: C.textS }}>
                 {pronResult === "retry" && <>I heard: <strong>"{transcript}"</strong></>}
@@ -965,7 +996,7 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
 // ═══════════════════════════════════════════════════════════════
 // FINAL QUIZ
 // ═══════════════════════════════════════════════════════════════
-export function FinalQuiz({ speak, onComplete, installModal }) {
+export function FinalQuiz({ speak, onComplete, onPracticeAgain, installModal }) {
   const section = SECTION;
   const situations = [
     { en: "You just landed and need WiFi. What do you ask, in Spanish?",                              correct: "¿Hay internet gratis en el aeropuerto?" },
@@ -1006,8 +1037,18 @@ export function FinalQuiz({ speak, onComplete, installModal }) {
     setAttempts(a => a + 1);
   }, [transcript, listening]);
 
-  function handleListen() { const synth = window.speechSynthesis; synth.cancel(); const u = new SpeechSynthesisUtterance(situations[order[idx]].en); u.lang = "en-US"; u.rate = 0.95; synth.speak(u); }
-  function handleMic() { if (micBlocked) return; if (listening) { stop(); return; } setResult(null); setTranscript(""); start(); }
+  function handleListen() {
+    const synth = window.speechSynthesis;
+    synth.cancel();
+    const u = new SpeechSynthesisUtterance(situations[order[idx]].en);
+    u.lang = "en-US"; u.rate = 0.95; synth.speak(u);
+  }
+
+  function handleMic() {
+    if (micBlocked) return;
+    if (listening) { stop(); return; }
+    setResult(null); setTranscript(""); start();
+  }
 
   function handleStart() {
     setPhase("quiz");
@@ -1042,7 +1083,7 @@ export function FinalQuiz({ speak, onComplete, installModal }) {
       </p>
       <div style={{ textAlign: "center" }}>
         <button type="button" onClick={handleStart} onPointerDown={(e) => { e.preventDefault(); handleStart(); }}
-          style={{ ...btn(C.turquesa, { fontSize: 15, padding: "16px 44px", borderRadius: 50 }), touchAction: "manipulation" }}>
+          style={{ ...btn(C.magenta, { fontSize: 15, padding: "16px 44px", borderRadius: 50 }), touchAction: "manipulation" }}>
           Start →
         </button>
       </div>
@@ -1050,18 +1091,33 @@ export function FinalQuiz({ speak, onComplete, installModal }) {
   );
 
   if (done) {
-    const pct = Math.round((score / order.length) * 100);
+    const isPerfect = score === 8;
+    const isGood = score === 6 || score === 7;
     return (
       <div style={{ textAlign: "center", padding: "40px 0", animation: "fadeUp 0.4s ease" }}>
-        <div style={{ width: 64, height: 64, borderRadius: 20, background: C.limonL, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
-          <Check size={32} color={C.limonD} strokeWidth={3} />
+        <div style={{ width: 56, height: 56, borderRadius: 14, background: isPerfect ? C.limonL : isGood ? C.limonL : C.grisS, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
+          <Check size={28} color={isPerfect ? C.limonD : isGood ? C.limonD : C.textM} strokeWidth={3} />
         </div>
-        <div style={{ fontSize: "clamp(48px,12vw,64px)", fontWeight: 900, color: C.turquesa, lineHeight: 1, marginBottom: 8, letterSpacing: -2 }}>{score}/{order.length}</div>
-        <div style={{ fontSize: 20, color: C.textH, fontWeight: 800, marginBottom: 8 }}>{pct >= 75 ? "Excellent!" : pct >= 50 ? "Well done!" : "Keep going!"}</div>
-        <div style={{ fontSize: 14, color: C.textS, fontWeight: 500, lineHeight: 1.7, marginBottom: 32 }}>{pct >= 75 ? "You can really speak this!" : "Practice makes perfect — you've got this."}</div>
+        <div style={{ fontSize: "clamp(48px,12vw,64px)", fontWeight: 900, color: isPerfect ? C.limon : isGood ? C.limon : C.grisB, lineHeight: 1, marginBottom: 8, letterSpacing: -2 }}>{score}/{order.length}</div>
+        <div style={{ fontSize: 18, fontWeight: 800, color: C.textH, marginBottom: 8 }}>
+          {isPerfect ? "Perfect score!" : isGood ? "Well done!" : "Keep going!"}
+        </div>
+        <div style={{ fontSize: 14, color: C.textS, fontWeight: 500, lineHeight: 1.7, marginBottom: 32 }}>
+          {isPerfect
+            ? "You can really speak this! Time to continue your journey."
+            : isGood
+            ? "You're almost there — a quick review will lock it in."
+            : "We recommend practicing again before moving on."}
+        </div>
+        {!isPerfect && (
+          <button type="button" onClick={onPracticeAgain} onPointerDown={(e) => { e.preventDefault(); onPracticeAgain(); }}
+            style={{ ...btn(C.magenta, { fontSize: 15, padding: "15px 36px", borderRadius: 50, width: "100%", marginBottom: 10 }), touchAction: "manipulation" }}>
+            Practice again
+          </button>
+        )}
         <button type="button" onClick={onComplete} onPointerDown={(e) => { e.preventDefault(); onComplete(); }}
-          style={{ ...btn(C.turquesa, { fontSize: 15, padding: "15px 36px", borderRadius: 50 }), touchAction: "manipulation" }}>
-          Continue →
+          style={{ width: "100%", padding: isPerfect ? "15px 36px" : "12px", background: isPerfect ? C.magenta : "transparent", color: isPerfect ? "#fff" : C.textM, border: "none", borderRadius: isPerfect ? 50 : 0, cursor: "pointer", fontSize: isPerfect ? 15 : 14, fontWeight: isPerfect ? 800 : 600, touchAction: "manipulation" }}>
+          {isPerfect ? "Continue →" : "Continue anyway →"}
         </button>
       </div>
     );
@@ -1329,7 +1385,7 @@ export default function Lesson1({ onBack, initialSlide = 0, onSlideChange, onCom
         {slide === 2 && <ExerciseSlide speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} installModal={installModal} />}
         {slide === 3 && <SentenceBuilder speak={speak} onComplete={advance} installModal={installModal} />}
         {slide === 4 && <SectionQuiz speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
-        {slide === 5 && <FinalQuiz speak={speak} onComplete={advance} installModal={installModal} />}
+        {slide === 5 && <FinalQuiz speak={speak} onComplete={advance} onPracticeAgain={() => goTo(4)} installModal={installModal} />}
         {slide === 6 && <LessonComplete onNext={onComplete || onBack} />}
       </div>
 
