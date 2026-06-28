@@ -414,25 +414,25 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
         </div>
       )}
       {result && transcript && (
-        <div style={{ background: resultBg, border: `1.5px solid ${resultColor}40`, borderRadius: 12, padding: "12px 16px", marginBottom: 12 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-            <span style={{ fontSize: 18 }}>{result === "perfect" ? "✓" : result === "good" ? "◎" : "✗"}</span>
-            <span style={{ fontSize: 14, fontWeight: 900, color: result === "perfect" ? C.limonD : result === "good" ? C.azulD : C.rojo }}>
-              {result === "perfect" ? "Perfect!" : result === "good" ? "Good job!" : "Try again!"}
-            </span>
-          </div>
-          <div style={{ fontSize: 13, color: C.textS, marginBottom: 6 }}>I heard: <strong style={{ color: C.textB }}>"{transcript}"</strong></div>
-          {result === "perfect" && <div style={{ fontSize: 13, color: C.limonD, fontWeight: 600 }}>Native speakers will understand you!</div>}
-          {result === "good" && wordFeedback?.missing?.length > 0 && <div style={{ fontSize: 13, color: C.azulD, fontWeight: 600 }}>Almost! Try to include: <strong>{wordFeedback.missing.join(", ")}</strong></div>}
-          {result === "retry" && wordFeedback && (
-            <div style={{ fontSize: 13, color: C.rojo, fontWeight: 600 }}>
-              {wordFeedback.missing.length > 0 && <div>Missing: <strong>{wordFeedback.missing.join(", ")}</strong></div>}
-              {wordFeedback.extra.length > 0 && <div style={{ marginTop: 4 }}>Extra words: <strong>{wordFeedback.extra.join(", ")}</strong></div>}
-            </div>
-          )}
-          {attempts >= 2 && result === "retry" && <div style={{ marginTop: 6, fontSize: 13, color: C.textM, fontStyle: "italic" }}>You can continue — pronunciation improves with practice!</div>}
-        </div>
-      )}
+  <div style={{ background: resultBg, border: `1.5px solid ${resultColor}40`, borderRadius: 12, padding: "12px 16px", marginBottom: 12, textAlign: "center" }}>
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 6 }}>
+      <span style={{ fontSize: 18 }}>{result === "perfect" ? "✓" : result === "good" ? "◎" : "✗"}</span>
+      <span style={{ fontSize: 14, fontWeight: 900, color: result === "perfect" ? C.limonD : result === "good" ? C.azulD : C.rojo }}>
+        {result === "perfect" ? "Perfect!" : result === "good" ? "Good job!" : "Try again!"}
+      </span>
+    </div>
+    <div style={{ fontSize: 13, color: C.textS, marginBottom: 6 }}>I heard: <strong style={{ color: C.textB }}>"{transcript}"</strong></div>
+    {result === "perfect" && <div style={{ fontSize: 13, color: C.limonD, fontWeight: 600 }}>Native speakers will understand you!</div>}
+    {result === "good" && wordFeedback?.missing?.length > 0 && <div style={{ fontSize: 13, color: C.azulD, fontWeight: 600 }}>Almost! Try to include: <strong>{wordFeedback.missing.join(", ")}</strong></div>}
+    {result === "retry" && wordFeedback && (
+      <div style={{ fontSize: 13, color: C.rojo, fontWeight: 600 }}>
+        {wordFeedback.missing.length > 0 && <div>Missing: <strong>{wordFeedback.missing.join(", ")}</strong></div>}
+        {wordFeedback.extra.length > 0 && <div style={{ marginTop: 4 }}>Extra words: <strong>{wordFeedback.extra.join(", ")}</strong></div>}
+      </div>
+    )}
+    {attempts >= 2 && result === "retry" && <div style={{ marginTop: 6, fontSize: 13, color: C.textM, fontStyle: "italic" }}>You can continue — pronunciation improves with practice!</div>}
+  </div>
+)}
       {!supported && <div style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 10, padding: "10px 14px", marginBottom: 10, fontSize: 14, color: C.textS }}>Voice recognition works best in Chrome.</div>}
       {(canAdvance || !supported) && (
         <div style={{ textAlign: "center", marginTop: 8 }}>
