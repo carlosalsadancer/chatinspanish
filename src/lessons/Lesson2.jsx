@@ -853,19 +853,45 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
     setIdx(i => i + 1); setSel(null); setPronResult(null); setPronAttempts(0); setTranscript("");
   }
 
+  function handlePracticeAgain() {
+    setIdx(0);
+    setScore(0);
+    setSel(null);
+    setPronResult(null);
+    setPronAttempts(0);
+    setTranscript("");
+    setDone(false);
+    setCelebrate(false);
+  }
+
   if (done) {
-    const pct = Math.round((score / questions.length) * 100);
+    const isPerfect = score === 8;
+    const isGood = score === 6 || score === 7;
     return (
       <div style={{ textAlign: "center", padding: "40px 0", animation: "fadeUp 0.4s ease" }}>
-        <div style={{ width: 64, height: 64, borderRadius: 20, background: C.limonL, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
-          <Check size={32} color={C.limonD} strokeWidth={3} />
+        <div style={{ width: 56, height: 56, borderRadius: 14, background: isPerfect ? C.limonL : isGood ? C.limonL : C.grisS, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
+          <Check size={28} color={isPerfect ? C.limonD : isGood ? C.limonD : C.textM} strokeWidth={3} />
         </div>
-        <div style={{ fontSize: "clamp(48px,12vw,64px)", fontWeight: 900, color: section.color, lineHeight: 1, marginBottom: 8, letterSpacing: -2 }}>{score}/{questions.length}</div>
-        <div style={{ fontSize: 20, color: C.textH, fontWeight: 800, marginBottom: 8 }}>{pct >= 75 ? "Excellent!" : pct >= 50 ? "Well done!" : "Keep going!"}</div>
-        <div style={{ fontSize: 14, color: C.textS, fontWeight: 500, lineHeight: 1.7, marginBottom: 32 }}>{pct >= 75 ? "You really know your Money phrases!" : "Practice makes perfect — you've got this."}</div>
+        <div style={{ fontSize: "clamp(48px,12vw,64px)", fontWeight: 900, color: isPerfect ? C.limon : isGood ? C.limon : C.grisB, lineHeight: 1, marginBottom: 8, letterSpacing: -2 }}>{score}/{questions.length}</div>
+        <div style={{ fontSize: 18, fontWeight: 800, color: C.textH, marginBottom: 8 }}>
+          {isPerfect ? "Perfect score!" : isGood ? "Well done!" : "Keep going!"}
+        </div>
+        <div style={{ fontSize: 14, color: C.textS, fontWeight: 500, lineHeight: 1.7, marginBottom: 32 }}>
+          {isPerfect
+            ? "You nailed every phrase. You're ready for the Final Challenge."
+            : isGood
+            ? "You're almost there — a quick review will lock it in before the Final Challenge."
+            : "We recommend practicing again before moving on."}
+        </div>
+        {!isPerfect && (
+          <button type="button" onClick={handlePracticeAgain} onPointerDown={(e) => { e.preventDefault(); handlePracticeAgain(); }}
+            style={{ ...btn(C.magenta, { fontSize: 15, padding: "15px 36px", borderRadius: 50, width: "100%", marginBottom: 10 }), touchAction: "manipulation" }}>
+            Practice again
+          </button>
+        )}
         <button type="button" onClick={onComplete} onPointerDown={(e) => { e.preventDefault(); onComplete(); }}
-          style={{ ...btn(C.turquesa, { fontSize: 15, padding: "15px 36px", borderRadius: 50 }), touchAction: "manipulation" }}>
-          Continue →
+          style={{ width: "100%", padding: isPerfect ? "15px 36px" : "12px", background: isPerfect ? C.magenta : "transparent", color: isPerfect ? "#fff" : C.textM, border: "none", borderRadius: isPerfect ? 50 : 0, cursor: "pointer", fontSize: isPerfect ? 15 : 14, fontWeight: isPerfect ? 800 : 600, touchAction: "manipulation" }}>
+          {isPerfect ? "Continue →" : "Continue anyway →"}
         </button>
       </div>
     );
@@ -966,7 +992,7 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
 // ═══════════════════════════════════════════════════════════════
 // FINAL QUIZ
 // ═══════════════════════════════════════════════════════════════
-function FinalQuiz({ speak, onComplete }) {
+function FinalQuiz({ speak, onComplete, onPracticeAgain }) {
   const situations = [
     { en: "You need Mexican pesos. What do you ask, in Spanish?",                    correct: "¿Dónde puedo conseguir pesos?" },
     { en: "You want to exchange your dollars. What do you ask, in Spanish?",         correct: "¿Dónde está la casa de cambio más cercana?" },
@@ -1042,18 +1068,33 @@ function FinalQuiz({ speak, onComplete }) {
   );
 
   if (done) {
-    const pct = Math.round((score / order.length) * 100);
+    const isPerfect = score === 8;
+    const isGood = score === 6 || score === 7;
     return (
       <div style={{ textAlign: "center", padding: "40px 0", animation: "fadeUp 0.4s ease" }}>
-        <div style={{ width: 64, height: 64, borderRadius: 20, background: C.limonL, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
-          <Check size={32} color={C.limonD} strokeWidth={3} />
+        <div style={{ width: 56, height: 56, borderRadius: 14, background: isPerfect ? C.limonL : isGood ? C.limonL : C.grisS, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
+          <Check size={28} color={isPerfect ? C.limonD : isGood ? C.limonD : C.textM} strokeWidth={3} />
         </div>
-        <div style={{ fontSize: "clamp(48px,12vw,64px)", fontWeight: 900, color: C.turquesa, lineHeight: 1, marginBottom: 8, letterSpacing: -2 }}>{score}/{order.length}</div>
-        <div style={{ fontSize: 20, color: C.textH, fontWeight: 800, marginBottom: 8 }}>{pct >= 75 ? "Excellent!" : pct >= 50 ? "Well done!" : "Keep going!"}</div>
-        <div style={{ fontSize: 14, color: C.textS, fontWeight: 500, lineHeight: 1.7, marginBottom: 32 }}>{pct >= 75 ? "You can really speak this!" : "Practice makes perfect — you've got this."}</div>
+        <div style={{ fontSize: "clamp(48px,12vw,64px)", fontWeight: 900, color: isPerfect ? C.limon : isGood ? C.limon : C.grisB, lineHeight: 1, marginBottom: 8, letterSpacing: -2 }}>{score}/{order.length}</div>
+        <div style={{ fontSize: 18, fontWeight: 800, color: C.textH, marginBottom: 8 }}>
+          {isPerfect ? "Perfect score!" : isGood ? "Well done!" : "Keep going!"}
+        </div>
+        <div style={{ fontSize: 14, color: C.textS, fontWeight: 500, lineHeight: 1.7, marginBottom: 32 }}>
+          {isPerfect
+            ? "You can really speak this! Time to continue your journey."
+            : isGood
+            ? "You're almost there — a quick review will lock it in."
+            : "We recommend practicing again before moving on."}
+        </div>
+        {!isPerfect && (
+          <button type="button" onClick={onPracticeAgain} onPointerDown={(e) => { e.preventDefault(); onPracticeAgain(); }}
+            style={{ ...btn(C.magenta, { fontSize: 15, padding: "15px 36px", borderRadius: 50, width: "100%", marginBottom: 10 }), touchAction: "manipulation" }}>
+            Practice again
+          </button>
+        )}
         <button type="button" onClick={onComplete} onPointerDown={(e) => { e.preventDefault(); onComplete(); }}
-          style={{ ...btn(C.turquesa, { fontSize: 15, padding: "15px 36px", borderRadius: 50 }), touchAction: "manipulation" }}>
-          Continue →
+          style={{ width: "100%", padding: isPerfect ? "15px 36px" : "12px", background: isPerfect ? C.magenta : "transparent", color: isPerfect ? "#fff" : C.textM, border: "none", borderRadius: isPerfect ? 50 : 0, cursor: "pointer", fontSize: isPerfect ? 15 : 14, fontWeight: isPerfect ? 800 : 600, touchAction: "manipulation" }}>
+          {isPerfect ? "Continue →" : "Continue anyway →"}
         </button>
       </div>
     );
@@ -1297,7 +1338,7 @@ export default function Lesson2({ onBack, initialSlide = 0, onSlideChange, onCom
         {slide === 1 && <ExerciseSlide speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
         {slide === 2 && <SentenceBuilder speak={speak} onComplete={advance} />}
         {slide === 3 && <SectionQuiz speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
-        {slide === 4 && <FinalQuiz speak={speak} onComplete={advance} />}
+        {slide === 4 && <FinalQuiz speak={speak} onComplete={advance} onPracticeAgain={() => goTo(3)} />}
         {slide === 5 && <LessonComplete onNext={handleLessonComplete} />}
       </div>
 
