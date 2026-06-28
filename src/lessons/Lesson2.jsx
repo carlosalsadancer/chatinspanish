@@ -25,7 +25,142 @@ const CHEAT_SHEET_L1 = [
   { display: "salida",     phrase: { es: "¿Por dónde es la salida?",                    en: "Which way is the exit?" } },
   { display: "autobús",    phrase: { es: "¿Dónde compro el boleto de autobús ADO?",     en: "Where do I buy the ADO bus ticket?" } },
 ];
+// ═══════════════════════════════════════════════════════════════
+// DEVICE DETECTION
+// ═══════════════════════════════════════════════════════════════
+function getDeviceType() {
+  const ua = navigator.userAgent;
+  const isIOS = /iPad|iPhone|iPod/.test(ua);
+  const isAndroid = /Android/.test(ua);
+  const isSafari = /Safari/.test(ua) && !/Chrome/.test(ua) && !/CriOS/.test(ua);
+  const isChromeiOS = /CriOS/.test(ua);
+  if (isIOS && isSafari) return "ios-safari";
+  if (isIOS && isChromeiOS) return "ios-chrome";
+  if (isAndroid) return "android";
+  return "desktop";
+}
 
+// ═══════════════════════════════════════════════════════════════
+// INSTALL MODAL 1 — RECOMMENDATION (Lesson 2 message)
+// ═══════════════════════════════════════════════════════════════
+function InstallModal1({ onAddNow, onLater }) {
+  return (
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
+      <div style={{ background: "#fff", borderRadius: 20, padding: "28px 24px", maxWidth: 340, width: "100%", textAlign: "center" }}>
+        <div style={{ width: 64, height: 64, borderRadius: 16, background: C.magenta, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
+          <span style={{ fontSize: 32 }}>💬</span>
+        </div>
+        <div style={{ fontSize: 17, fontWeight: 800, color: C.textH, marginBottom: 10, lineHeight: 1.3 }}>
+          We recommend adding Chat in Spanish to your home screen as an app.
+        </div>
+        <div style={{ fontSize: 14, color: C.textS, marginBottom: 24, lineHeight: 1.6 }}>
+          You're registered — access Lesson 2 and all your progress anytime.
+        </div>
+        <button type="button" onClick={onAddNow} onPointerDown={(e) => { e.preventDefault(); onAddNow(); }}
+          style={{ ...btn(C.turquesa, { width: "100%", fontSize: 15, padding: "14px", borderRadius: 12, marginBottom: 10 }), touchAction: "manipulation" }}>
+          Add now
+        </button>
+        <button type="button" onClick={onLater} onPointerDown={(e) => { e.preventDefault(); onLater(); }}
+          style={{ width: "100%", padding: "12px", background: "transparent", border: "none", color: C.textM, fontSize: 14, fontWeight: 600, cursor: "pointer", touchAction: "manipulation" }}>
+          Later
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// INSTALL MODAL 2 — INSTRUCTIONS
+// ═══════════════════════════════════════════════════════════════
+function InstallModal2({ onDone }) {
+  const device = getDeviceType();
+  const steps = {
+    "ios-safari": [
+      { title: "Tap the Share button ⬆", desc: "At the bottom center of your Safari browser" },
+      { title: 'Tap "Add to Home Screen"', desc: "Scroll down in the share menu to find it" },
+      { title: 'Tap "Add"', desc: "Top right corner of your screen" },
+    ],
+    "ios-chrome": [
+      { title: "Tap the menu ⋮", desc: "At the bottom right of your Chrome browser" },
+      { title: 'Tap "Add to Home Screen"', desc: "Scroll down in the menu to find it" },
+      { title: 'Tap "Add"', desc: "To confirm and add to your home screen" },
+    ],
+    "android": [
+      { title: 'Tap "Install app"', desc: "If a banner appears at the bottom of Chrome, tap it" },
+      { title: "Or tap the menu ⋮", desc: "At the top right of Chrome if no banner appears" },
+      { title: 'Tap "Add to Home Screen"', desc: 'Then tap "Add" to confirm' },
+    ],
+  };
+  const labels = {
+    "ios-safari": "iPhone · Safari",
+    "ios-chrome": "iPhone · Chrome",
+    "android": "Android · Chrome",
+  };
+  const currentSteps = steps[device] || steps["android"];
+  const currentLabel = labels[device] || "Android · Chrome";
+  return (
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
+      <div style={{ background: "#fff", borderRadius: 20, padding: "28px 24px", maxWidth: 340, width: "100%" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+          <div style={{ width: 44, height: 44, borderRadius: 12, background: C.magenta, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+            <span style={{ fontSize: 22 }}>💬</span>
+          </div>
+          <div>
+            <div style={{ fontSize: 15, fontWeight: 800, color: C.textH, lineHeight: 1.3 }}>Add Chat in Spanish to your home screen</div>
+            <div style={{ fontSize: 11, color: C.textM, fontWeight: 600, marginTop: 2 }}>{currentLabel}</div>
+          </div>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
+          {currentSteps.map((step, i) => (
+            <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12, background: C.turquesaL, borderRadius: 10, padding: 12 }}>
+              <div style={{ width: 26, height: 26, borderRadius: 6, background: C.turquesa, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <span style={{ fontSize: 13, fontWeight: 800, color: "#fff" }}>{i + 1}</span>
+              </div>
+              <div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: C.textH, marginBottom: 2 }}>{step.title}</div>
+                <div style={{ fontSize: 12, color: C.textS, lineHeight: 1.4 }}>{step.desc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <button type="button" onClick={onDone} onPointerDown={(e) => { e.preventDefault(); onDone(); }}
+          style={{ ...btn(C.magenta, { width: "100%", fontSize: 14, padding: "14px", borderRadius: 12 }), touchAction: "manipulation" }}>
+          Done — continue my lesson 1 →
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// INSTALL MODAL CONTROLLER
+// ═══════════════════════════════════════════════════════════════
+function useInstallModal() {
+  const [showModal1, setShowModal1] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
+
+  function shouldShow() {
+    const device = getDeviceType();
+    if (device === "desktop") return false;
+    if (localStorage.getItem("cis_install_done") === "true") return false;
+    const shown = parseInt(localStorage.getItem("cis_install_shown") || "0");
+    if (shown >= 3) return false;
+    return true;
+  }
+
+  function triggerModal() {
+    if (!shouldShow()) return;
+    const shown = parseInt(localStorage.getItem("cis_install_shown") || "0");
+    localStorage.setItem("cis_install_shown", (shown + 1).toString());
+    setShowModal1(true);
+  }
+
+  function handleAddNow() { setShowModal1(false); setShowModal2(true); }
+  function handleLater() { setShowModal1(false); }
+  function handleDone() { localStorage.setItem("cis_install_done", "true"); setShowModal2(false); }
+
+  return { showModal1, showModal2, triggerModal, handleAddNow, handleLater, handleDone };
+}
 // ═══════════════════════════════════════════════════════════════
 // SECTION DATA
 // ═══════════════════════════════════════════════════════════════
@@ -1053,10 +1188,17 @@ export default function Lesson2({ onBack, initialSlide = 0, onSlideChange, onCom
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [navBlocked, setNavBlocked] = useState(false);
   const [showCheatSheet, setShowCheatSheet] = useState(false);
+  const installModal = useInstallModal();
 
   useEffect(() => {
     const t = setTimeout(() => setMenuEnabled(true), 800);
     return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    if (slide === 0) {
+      setTimeout(() => installModal.triggerModal(), 800);
+    }
   }, []);
 
   async function saveProgress(slideNum, completed = false) {
@@ -1095,6 +1237,18 @@ export default function Lesson2({ onBack, initialSlide = 0, onSlideChange, onCom
         @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes wave { from { transform: scaleY(1); } to { transform: scaleY(2); } }
       `}</style>
+
+      {installModal.showModal1 && (
+        <InstallModal1
+          onAddNow={installModal.handleAddNow}
+          onLater={installModal.handleLater}
+        />
+      )}
+      {installModal.showModal2 && (
+        <InstallModal2
+          onDone={installModal.handleDone}
+        />
+      )}
 
       {showCloseButton && (
         <div style={{ position: "fixed", top: 16, left: 16, zIndex: 55 }}>
