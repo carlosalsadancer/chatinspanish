@@ -11,9 +11,9 @@ const Check = ({size=24,color="#fff",strokeWidth=2}) => <svg width={size} height
 // EXPLORE VIDEOS
 // ═══════════════════════════════════════════════════════════════
 const EXPLORE_VIDEOS = [
-  { city: "Cancún",         videoId: "nYIL6eAlHxA" },
-  { city: "Isla Mujeres",   videoId: "r6DDu_7mc5E" },
-  { city: "Holbox",         videoId: "hxwcpunIgnk" },
+  { city: "Cancún",           videoId: "nYIL6eAlHxA" },
+  { city: "Isla Mujeres",     videoId: "r6DDu_7mc5E" },
+  { city: "Holbox",           videoId: "hxwcpunIgnk" },
   { city: "Playa del Carmen", videoId: "LdCCIyDGTcs" },
 ];
 
@@ -44,32 +44,46 @@ const SECTION = {
     "Order tacos and a cold beer",
   ],
   words: [
-    { es: "Hola",         display: "Hola",         pron: "OH-lah",              en: "Hello / Hi",      phrase: { es: "Hola, me llamo...",                    pron: "OH-lah meh YAH-moh",                              en: "Hello, my name is..." } },
-    { es: "Soy",          display: "Soy",           pron: "SOY",                 en: "I am",            phrase: { es: "Soy de...",                             pron: "SOY deh",                                         en: "I am from..." } },
-    { es: "¿Y tú?",       display: "¿Y tú?",        pron: "ee TOO",              en: "And you?",        phrase: { es: "¿Y tú, cómo te llamas?",               pron: "ee TOO KOH-moh teh YAH-mas",                      en: "And you, what is your name?" } },
-    { es: "Mucho gusto",  display: "Mucho gusto",   pron: "MOO-choh GOOS-toh",   en: "Nice to meet you",phrase: { es: "Mucho gusto conocerte.",                pron: "MOO-choh GOOS-toh koh-noh-SER-teh",               en: "Nice to meet you." } },
-    { es: "¿De dónde?",   display: "¿De dónde?",    pron: "deh DON-deh",         en: "From where?",     phrase: { es: "¿De dónde eres?",                      pron: "deh DON-deh EH-res",                              en: "Where are you from?" } },
-    { es: "Vamos",        display: "Vamos",          pron: "BAH-mos",             en: "Let's go",        phrase: { es: "¿Vamos por unos tacos?",               pron: "BAH-mos por OO-nos TAH-kos",                      en: "Shall we go get some tacos?" } },
-    { es: "Quiero",       display: "Quiero",         pron: "KYEH-roh",            en: "I want",          phrase: { es: "Quiero probar unos tacos de pastor.",  pron: "KYEH-roh proh-BAR OO-nos TAH-kos deh pas-TOR",   en: "I want to try some tacos al pastor." } },
-    { es: "cerveza",      display: "cerveza",        pron: "ser-BEH-sah",         en: "beer",            phrase: { es: "Una cerveza bien fría, por favor.",    pron: "OO-nah ser-BEH-sah byen FREE-ah por fah-VOR",     en: "One very cold beer, please." } },
+    { es: "Hola",         display: "Hola",         pron: "OH-lah",              en: "Hello / Hi",       phrase: { es: "Hola, me llamo...",                    pron: "OH-lah meh YAH-moh",                              en: "Hello, my name is..." } },
+    { es: "Soy",          display: "Soy",           pron: "SOY",                 en: "I am",             phrase: { es: "Soy de...",                             pron: "SOY deh",                                         en: "I am from..." } },
+    { es: "¿Y tú?",       display: "¿Y tú?",        pron: "ee TOO",              en: "And you?",         phrase: { es: "¿Y tú, cómo te llamas?",               pron: "ee TOO KOH-moh teh YAH-mas",                      en: "And you, what is your name?" } },
+    { es: "Mucho gusto",  display: "Mucho gusto",   pron: "MOO-choh GOOS-toh",   en: "Nice to meet you", phrase: { es: "Mucho gusto conocerte.",                pron: "MOO-choh GOOS-toh koh-noh-SER-teh",               en: "Nice to meet you." } },
+    { es: "¿De dónde?",   display: "¿De dónde?",    pron: "deh DON-deh",         en: "From where?",      phrase: { es: "¿De dónde eres?",                      pron: "deh DON-deh EH-res",                              en: "Where are you from?" } },
+    { es: "Vamos",        display: "Vamos",          pron: "BAH-mos",             en: "Let's go",         phrase: { es: "¿Vamos por unos tacos?",               pron: "BAH-mos por OO-nos TAH-kos",                      en: "Shall we go get some tacos?" } },
+    { es: "Quiero",       display: "Quiero",         pron: "KYEH-roh",            en: "I want",           phrase: { es: "Quiero probar unos tacos de pastor.",  pron: "KYEH-roh proh-BAR OO-nos TAH-kos deh pas-TOR",   en: "I want to try some tacos al pastor." } },
+    { es: "cerveza",      display: "cerveza",        pron: "ser-BEH-sah",         en: "beer",             phrase: { es: "Una cerveza bien fría, por favor.",    pron: "OO-nah ser-BEH-sah byen FREE-ah por fah-VOR",     en: "One very cold beer, please." } },
   ],
 };
+
+// ═══════════════════════════════════════════════════════════════
+// SENTENCE BUILDER DATA
+// ═══════════════════════════════════════════════════════════════
+const BUILDER_DATA = [
+  { en: "Hello, my name is...",                         words: ["Hola,","me","llamo..."],                                                    distractors: ["Soy","gusto"] },
+  { en: "I am from...",                                 words: ["Soy","de..."],                                                              distractors: ["Hola,","llamo"] },
+  { en: "And you, what is your name?",                  words: ["¿Y","tú,","cómo","te","llamas?"],                                           distractors: ["Soy","dónde"] },
+  { en: "Nice to meet you.",                            words: ["Mucho","gusto","conocerte."],                                               distractors: ["Hola,","Vamos"] },
+  { en: "Where are you from?",                          words: ["¿De","dónde","eres?"],                                                      distractors: ["tú,","gusto"] },
+  { en: "Shall we go get some tacos?",                  words: ["¿Vamos","por","unos","tacos?"],                                             distractors: ["Quiero","cerveza"] },
+  { en: "I want to try some tacos al pastor.",          words: ["Quiero","probar","unos","tacos","de","pastor."],                            distractors: ["Vamos","cerveza"] },
+  { en: "One very cold beer, please.",                  words: ["Una","cerveza","bien","fría,","por","favor."],                              distractors: ["Quiero","tacos"] },
+];
 
 // ═══════════════════════════════════════════════════════════════
 // QUIZ DATA
 // ═══════════════════════════════════════════════════════════════
 const QUIZ_DATA = [
-  { scene: "Meeting someone at the hostel",  q: "You want to say hello and introduce yourself. What do you say?",  correct: "Hola, me llamo...",                  options: ["Hola, me llamo...", "Mucho gusto conocerte.", "¿De dónde eres?", "Soy de..."] },
-  { scene: "Introducing yourself",           q: "You want to say where you're from. What do you say?",             correct: "Soy de...",                          options: ["Soy de...", "Hola, me llamo...", "¿Y tú, cómo te llamas?", "Mucho gusto conocerte."] },
-  { scene: "After introducing yourself",     q: "You want to ask their name. What do you say?",                    correct: "¿Y tú, cómo te llamas?",            options: ["¿Y tú, cómo te llamas?", "¿De dónde eres?", "Soy de...", "Mucho gusto conocerte."] },
-  { scene: "After shaking hands",            q: "You want to say nice to meet you. What do you say?",              correct: "Mucho gusto conocerte.",             options: ["Mucho gusto conocerte.", "Hola, me llamo...", "¿Y tú, cómo te llamas?", "¿Vamos por unos tacos?"] },
-  { scene: "Getting to know someone",        q: "You want to ask where they're from. What do you ask?",            correct: "¿De dónde eres?",                   options: ["¿De dónde eres?", "¿Y tú, cómo te llamas?", "Soy de...", "Mucho gusto conocerte."] },
-  { scene: "Hungry after a long day",        q: "You want to suggest going for tacos. What do you say?",           correct: "¿Vamos por unos tacos?",            options: ["¿Vamos por unos tacos?", "Quiero probar unos tacos de pastor.", "Una cerveza bien fría, por favor.", "¿De dónde eres?"] },
-  { scene: "At the taquería",                q: "You want to order tacos al pastor. What do you say?",             correct: "Quiero probar unos tacos de pastor.", options: ["Quiero probar unos tacos de pastor.", "¿Vamos por unos tacos?", "Una cerveza bien fría, por favor.", "Mucho gusto conocerte."] },
-  { scene: "At the taquería — ordering a drink", q: "You want a cold beer. What do you say?",                     correct: "Una cerveza bien fría, por favor.", options: ["Una cerveza bien fría, por favor.", "Quiero probar unos tacos de pastor.", "¿Vamos por unos tacos?", "Soy de..."] },
+  { scene: "Meeting someone at the hostel",      q: "You want to say hello and introduce yourself. What do you say?",  correct: "Hola, me llamo...",                   options: ["Hola, me llamo...", "Mucho gusto conocerte.", "¿De dónde eres?", "Soy de..."] },
+  { scene: "Introducing yourself",               q: "You want to say where you're from. What do you say?",             correct: "Soy de...",                           options: ["Soy de...", "Hola, me llamo...", "¿Y tú, cómo te llamas?", "Mucho gusto conocerte."] },
+  { scene: "After introducing yourself",         q: "You want to ask their name. What do you say?",                    correct: "¿Y tú, cómo te llamas?",             options: ["¿Y tú, cómo te llamas?", "¿De dónde eres?", "Soy de...", "Mucho gusto conocerte."] },
+  { scene: "After shaking hands",                q: "You want to say nice to meet you. What do you say?",              correct: "Mucho gusto conocerte.",              options: ["Mucho gusto conocerte.", "Hola, me llamo...", "¿Y tú, cómo te llamas?", "¿Vamos por unos tacos?"] },
+  { scene: "Getting to know someone",            q: "You want to ask where they're from. What do you ask?",            correct: "¿De dónde eres?",                    options: ["¿De dónde eres?", "¿Y tú, cómo te llamas?", "Soy de...", "Mucho gusto conocerte."] },
+  { scene: "Hungry after a long day",            q: "You want to suggest going for tacos. What do you say?",           correct: "¿Vamos por unos tacos?",             options: ["¿Vamos por unos tacos?", "Quiero probar unos tacos de pastor.", "Una cerveza bien fría, por favor.", "¿De dónde eres?"] },
+  { scene: "At the taquería",                    q: "You want to order tacos al pastor. What do you say?",             correct: "Quiero probar unos tacos de pastor.", options: ["Quiero probar unos tacos de pastor.", "¿Vamos por unos tacos?", "Una cerveza bien fría, por favor.", "Mucho gusto conocerte."] },
+  { scene: "At the taquería — ordering a drink", q: "You want a cold beer. What do you say?",                         correct: "Una cerveza bien fría, por favor.",   options: ["Una cerveza bien fría, por favor.", "Quiero probar unos tacos de pastor.", "¿Vamos por unos tacos?", "Soy de..."] },
 ];
 
-const TOTAL = 5;
+const TOTAL = 6;
 
 // ═══════════════════════════════════════════════════════════════
 // HELPERS
@@ -129,9 +143,7 @@ function useTTS() {
       };
       timerFallback = setTimeout(() => {
         if (!boundaryFired) {
-          const msPerChar = 68;
-          const minMs = 220;
-          let elapsed = 0;
+          const msPerChar = 68; const minMs = 220; let elapsed = 0;
           words.forEach((word, i) => {
             const delay = elapsed;
             setTimeout(() => {
@@ -186,13 +198,11 @@ function Confetti({ show, message }) {
         const delay = Math.random() * 0.5;
         const size = 6 + Math.random() * 8;
         const col = colors[Math.floor(Math.random() * colors.length)];
-        return (
-          <div key={i} style={{ position: "absolute", bottom: "-10px", left: `${x}%`, width: size, height: size, borderRadius: Math.random() > 0.5 ? "50%" : 2, background: col, opacity: 0.9, animation: `confettiRise ${0.8 + Math.random() * 0.8}s ease-out ${delay}s forwards` }} />
-        );
+        return <div key={i} style={{ position: "absolute", bottom: "-10px", left: `${x}%`, width: size, height: size, borderRadius: Math.random() > 0.5 ? "50%" : 2, background: col, opacity: 0.9, animation: `confettiRise ${0.8 + Math.random() * 0.8}s ease-out ${delay}s forwards` }} />;
       })}
       <div style={{ background: C.turquesa, borderRadius: 20, padding: "20px 36px", textAlign: "center", boxShadow: `0 8px 32px ${C.turquesa}60`, animation: "celebPop 0.3s cubic-bezier(0.34,1.56,0.64,1)" }}>
-        <Check size={32} color="#fff" strokeWidth={3} style={{ marginBottom: 8 }} />
-        <div style={{ fontSize: 22, fontWeight: 900, color: "#fff", letterSpacing: -0.5 }}>{message}</div>
+        <Check size={32} color="#fff" strokeWidth={3} />
+        <div style={{ fontSize: 22, fontWeight: 900, color: "#fff", letterSpacing: -0.5, marginTop: 8 }}>{message}</div>
       </div>
     </div>
   );
@@ -243,7 +253,6 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
     setResult(null); setTranscript(""); setWordFeedback(null); start();
   }
 
-  // FIX TRANSICIÓN 2
   function handlePass() {
     if (btnBlocked) return;
     setBtnBlocked(true);
@@ -287,23 +296,15 @@ function PronExercise({ answer, onListenPress, onPass, color = C.turquesa, passL
           <div style={{ fontSize: 13, color: C.textS, marginBottom: 6 }}>
             I heard: <strong style={{ color: C.textB }}>"{transcript}"</strong>
           </div>
-          {result === "perfect" && (
-            <div style={{ fontSize: 13, color: C.limonD, fontWeight: 600 }}>Native speakers will understand you!</div>
-          )}
-          {result === "good" && wordFeedback?.missing?.length > 0 && (
-            <div style={{ fontSize: 13, color: C.azulD, fontWeight: 600 }}>
-              Almost! Try to include: <strong>{wordFeedback.missing.join(", ")}</strong>
-            </div>
-          )}
+          {result === "perfect" && <div style={{ fontSize: 13, color: C.limonD, fontWeight: 600 }}>Native speakers will understand you!</div>}
+          {result === "good" && wordFeedback?.missing?.length > 0 && <div style={{ fontSize: 13, color: C.azulD, fontWeight: 600 }}>Almost! Try to include: <strong>{wordFeedback.missing.join(", ")}</strong></div>}
           {result === "retry" && wordFeedback && (
             <div style={{ fontSize: 13, color: C.rojo, fontWeight: 600 }}>
               {wordFeedback.missing.length > 0 && <div>Missing: <strong>{wordFeedback.missing.join(", ")}</strong></div>}
               {wordFeedback.extra.length > 0 && <div style={{ marginTop: 4 }}>Extra words: <strong>{wordFeedback.extra.join(", ")}</strong></div>}
             </div>
           )}
-          {attempts >= 2 && result === "retry" && (
-            <div style={{ marginTop: 6, fontSize: 13, color: C.textM, fontStyle: "italic" }}>You can continue — pronunciation improves with practice!</div>
-          )}
+          {attempts >= 2 && result === "retry" && <div style={{ marginTop: 6, fontSize: 13, color: C.textM, fontStyle: "italic" }}>You can continue — pronunciation improves with practice!</div>}
         </div>
       )}
       {!supported && <div style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 10, padding: "10px 14px", marginBottom: 10, fontSize: 14, color: C.textS }}>Voice recognition works best in Chrome.</div>}
@@ -358,8 +359,6 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
     setKaraokeIdx(0); setKaraokeLen(0);
     speak(sec.words[wordIdx].phrase.es, (ci, cl) => { setKaraokeIdx(ci); setKaraokeLen(cl); });
   }
-
-  // FIX TRANSICIÓN 3
   function handleComplete() {
     if (btnBlocked) return;
     setBtnBlocked(true);
@@ -424,6 +423,222 @@ function ExerciseSlide({ speak, onComplete, onBackRequest }) {
 }
 
 // ═══════════════════════════════════════════════════════════════
+// SENTENCE BUILDER SLIDE
+// ═══════════════════════════════════════════════════════════════
+function SentenceBuilder({ speak, onComplete }) {
+  const [phraseIdx, setPhraseIdx] = useState(0);
+  const [placed, setPlaced] = useState([]);
+  const [available, setAvailable] = useState(() => shuffle([...BUILDER_DATA[0].words, ...BUILDER_DATA[0].distractors]));
+  const [error, setError] = useState(null);
+  const [correct, setCorrect] = useState(false);
+  const [celebrate, setCelebrate] = useState(false);
+  const [done, setDone] = useState(false);
+  const [karaokeIdx, setKaraokeIdx] = useState(-1);
+  const [karaokeLen, setKaraokeLen] = useState(0);
+  const [micBlocked, setMicBlocked] = useState(false);
+  const [btnBlocked, setBtnBlocked] = useState(false);
+  const [tapBlocked, setTapBlocked] = useState(false);
+  const { transcript, listening, supported, start, stop, setTranscript } = useSpeechRec();
+  const [pronResult, setPronResult] = useState(null);
+  const [pronAttempts, setPronAttempts] = useState(0);
+
+  const current = BUILDER_DATA[phraseIdx];
+
+  useEffect(() => {
+    if (!transcript || listening) return;
+    const fullPhrase = current.words.join(" ");
+    const sc = scoreMatch(transcript, fullPhrase);
+    setPronResult(sc >= 90 ? "perfect" : sc >= 75 ? "good" : "retry");
+    setPronAttempts(a => a + 1);
+  }, [transcript, listening]);
+
+  function handleTapAvailable(word, idx) {
+    if (correct || tapBlocked) return;
+    setTapBlocked(true);
+    setTimeout(() => setTapBlocked(false), 300);
+    const expected = current.words[placed.length];
+    if (word === expected) {
+      const newPlaced = [...placed, word];
+      setPlaced(newPlaced);
+      setAvailable(prev => { const n = [...prev]; n.splice(idx, 1); return n; });
+      setError(null);
+      if (newPlaced.length === current.words.length) {
+        setCorrect(true);
+        setMicBlocked(true);
+        setTimeout(() => {
+          speak(current.words.join(" "), (ci, cl) => { setKaraokeIdx(ci); setKaraokeLen(cl); });
+          setTimeout(() => setMicBlocked(false), 1200);
+        }, 400);
+      }
+    } else {
+      setError(word);
+      setTimeout(() => setError(null), 800);
+    }
+  }
+
+  function handleTapPlaced(word, idx) {
+    if (correct) return;
+    const newPlaced = placed.slice(0, idx);
+    const removed = placed.slice(idx);
+    setPlaced(newPlaced);
+    setAvailable(prev => shuffle([...prev, ...removed]));
+    setError(null);
+  }
+
+  function handleMic() {
+    if (micBlocked) return;
+    if (listening) { stop(); return; }
+    setPronResult(null); setTranscript(""); start();
+  }
+
+  function handleNext() {
+    if (btnBlocked) return;
+    setBtnBlocked(true);
+    setTimeout(() => setBtnBlocked(false), 600);
+    if (phraseIdx + 1 >= BUILDER_DATA.length) {
+      setCelebrate(true);
+      setTimeout(() => { setCelebrate(false); setDone(true); }, 1600);
+      return;
+    }
+    const next = phraseIdx + 1;
+    setPhraseIdx(next);
+    setPlaced([]);
+    setAvailable(shuffle([...BUILDER_DATA[next].words, ...BUILDER_DATA[next].distractors]));
+    setCorrect(false);
+    setKaraokeIdx(-1);
+    setPronResult(null);
+    setPronAttempts(0);
+    setTranscript("");
+    setError(null);
+    setMicBlocked(true);
+    setTimeout(() => setMicBlocked(false), 600);
+  }
+
+  function handleComplete() {
+    if (btnBlocked) return;
+    setBtnBlocked(true);
+    setTimeout(() => setBtnBlocked(false), 600);
+    onComplete();
+  }
+
+  const canAdvancePron = pronResult === "perfect" || pronResult === "good" || pronAttempts >= 2;
+
+  if (done) return (
+    <div style={{ textAlign: "center", padding: "48px 0", animation: "fadeUp 0.4s ease" }}>
+      <div style={{ width: 64, height: 64, borderRadius: 20, background: C.limonL, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
+        <Check size={32} color={C.limonD} strokeWidth={3} />
+      </div>
+      <div style={{ fontSize: 24, fontWeight: 900, color: C.textH, letterSpacing: -0.5, marginBottom: 8 }}>Builder Complete!</div>
+      <div style={{ fontSize: 15, color: C.textS, fontWeight: 500, marginBottom: 32 }}>You built all 8 phrases!</div>
+      <button type="button" onClick={handleComplete} onPointerDown={(e) => { e.preventDefault(); handleComplete(); }}
+        style={{ ...btn(C.turquesa, { fontSize: 15, padding: "15px 40px", borderRadius: 50 }), touchAction: "manipulation", opacity: btnBlocked ? 0.7 : 1 }}>
+        Continue →
+      </button>
+    </div>
+  );
+
+  return (
+    <div>
+      <Confetti show={celebrate} message="Builder Complete!" />
+      <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16, padding: "14px 16px", background: C.turquesaL, borderRadius: 16, border: `1.5px solid ${C.turquesa}20` }}>
+        <div style={{ width: 44, height: 44, borderRadius: 12, background: C.turquesaL, border: `1.5px solid ${C.turquesa}40`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 22 }}>💬</div>
+        <div>
+          <div style={{ fontSize: 16, fontWeight: 900, color: C.textH }}>Sentence Builder</div>
+          <div style={{ fontSize: 11, color: C.turquesaD, fontWeight: 700 }}>Making Friends · Phrase {phraseIdx + 1} of {BUILDER_DATA.length}</div>
+        </div>
+      </div>
+      <div style={{ height: 4, background: C.grisB, borderRadius: 2, overflow: "hidden", marginBottom: 20 }}>
+        <div style={{ height: "100%", width: `${(phraseIdx / BUILDER_DATA.length) * 100}%`, background: C.turquesa, borderRadius: 2, transition: "width 0.4s" }} />
+      </div>
+      <div style={{ fontSize: 13, color: C.textS, fontWeight: 600, marginBottom: 10, textAlign: "center" }}>{current.en}</div>
+      <div style={{ minHeight: 56, background: correct ? C.limonL : error ? C.rojoL : C.grisS, border: `1.5px ${correct ? "solid" : "dashed"} ${correct ? C.limon : error ? C.rojo : C.turquesa}60`, borderRadius: 12, padding: "10px 12px", marginBottom: 6, display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center", transition: "all 0.2s" }}>
+        {placed.map((w, i) => (
+          <button type="button" key={i} onClick={() => handleTapPlaced(w, i)} onPointerDown={(e) => { e.preventDefault(); handleTapPlaced(w, i); }}
+            style={{ background: correct ? C.limon : C.turquesa, color: "#fff", border: "none", borderRadius: 8, padding: "8px 14px", fontSize: 15, fontWeight: 800, cursor: correct ? "default" : "pointer", touchAction: "manipulation" }}>
+            {w}
+          </button>
+        ))}
+        {!correct && placed.length < current.words.length && (
+          <div style={{ width: 48, height: 36, background: C.turquesaL, border: `1.5px dashed ${C.turquesa}60`, borderRadius: 8 }} />
+        )}
+      </div>
+      {error && (
+        <div style={{ fontSize: 12, color: C.rojo, fontWeight: 700, textAlign: "center", marginBottom: 8 }}>
+          That word doesn't belong here — try again
+        </div>
+      )}
+      {!correct && (
+        <>
+          <div style={{ fontSize: 11, color: C.textM, textAlign: "center", marginBottom: 12, fontWeight: 600 }}>
+            Tap to place · Tap placed word to remove
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16, justifyContent: "center" }}>
+            {available.map((w, i) => (
+              <button type="button" key={i} onClick={() => handleTapAvailable(w, i)} onPointerDown={(e) => { e.preventDefault(); handleTapAvailable(w, i); }}
+                style={{ background: tapBlocked ? C.grisB : C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 8, padding: "9px 16px", fontSize: 15, fontWeight: 800, color: C.textB, cursor: tapBlocked ? "default" : "pointer", touchAction: "manipulation", transition: "all 0.15s", opacity: tapBlocked ? 0.7 : 1 }}>
+                {w}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+      {correct && (
+        <div style={{ marginTop: 8 }}>
+          <div style={{ background: C.limonL, border: `1.5px solid ${C.limon}40`, borderRadius: 14, padding: "14px 16px", marginBottom: 14, textAlign: "center" }}>
+            <div style={{ fontSize: 13, fontWeight: 800, color: C.limonD, marginBottom: 6 }}>✓ Correct! Now listen and repeat</div>
+            <div style={{ fontSize: "clamp(18px,4vw,22px)", fontWeight: 900, color: C.textH, lineHeight: 1.3 }}>
+              {karaokeIdx < 0 ? current.words.join(" ") : (() => {
+                const full = current.words.join(" ");
+                return (<>{full.slice(0, karaokeIdx)}<span style={{ background: C.limon, color: "#fff", borderRadius: 4, padding: "0 2px" }}>{full.slice(karaokeIdx, karaokeIdx + karaokeLen)}</span>{full.slice(karaokeIdx + karaokeLen)}</>);
+              })()}
+            </div>
+          </div>
+          <div style={{ display: "flex", gap: 12, marginBottom: 12 }}>
+            <button type="button"
+              onClick={() => { setKaraokeIdx(0); speak(current.words.join(" "), (ci, cl) => { setKaraokeIdx(ci); setKaraokeLen(cl); }); }}
+              style={{ flex: 1, background: C.azulL, border: `1.5px solid ${C.azul}40`, borderRadius: 14, padding: "14px 12px", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, touchAction: "manipulation" }}>
+              <span style={{ fontSize: 24 }}>♪</span>
+              <span style={{ fontSize: 12, fontWeight: 800, color: C.azulD }}>Listen</span>
+            </button>
+            <button type="button" onClick={handleMic}
+              style={{ flex: 2, border: "none", borderRadius: 14, padding: "14px 12px", cursor: micBlocked ? "default" : "pointer", color: "#fff", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, background: micBlocked ? C.grisB : listening ? C.turquesa : pronResult === "perfect" || pronResult === "good" ? C.limon : C.turquesa, transition: "all 0.2s", touchAction: "manipulation", opacity: micBlocked ? 0.5 : 1 }}>
+              <span style={{ fontSize: 24 }}>{listening ? "⏹" : "◉"}</span>
+              <span style={{ fontSize: 12, fontWeight: 900 }}>{listening ? "Listening…" : pronResult ? "Try again" : "Speak now"}</span>
+            </button>
+          </div>
+          {listening && (
+            <div style={{ display: "flex", gap: 3, justifyContent: "center", alignItems: "center", height: 28, marginBottom: 10 }}>
+              {[2,4,6,8,6,4,2,4,6,8,6,4,2].map((h, i) => (
+                <div key={i} style={{ width: 3, borderRadius: 2, background: C.turquesa, height: h * 2.5, animation: `wave ${0.3 + (i % 3) * 0.15}s ease-in-out infinite alternate` }} />
+              ))}
+            </div>
+          )}
+          {pronResult && transcript && (
+            <div style={{ background: pronResult === "perfect" ? C.limonL : pronResult === "good" ? C.azulL : C.rojoL, border: `1.5px solid ${pronResult === "perfect" ? C.limon : pronResult === "good" ? C.azul : C.rojo}40`, borderRadius: 12, padding: "12px 16px", marginBottom: 12, textAlign: "center" }}>
+              <div style={{ fontSize: 14, fontWeight: 900, color: pronResult === "perfect" ? C.limonD : pronResult === "good" ? C.azulD : C.rojo, marginBottom: 4 }}>
+                {pronResult === "perfect" ? "Perfect!" : pronResult === "good" ? "Good job!" : "Try again!"}
+              </div>
+              <div style={{ fontSize: 13, color: C.textS }}>
+                {pronResult === "retry" ? <>I heard: <strong>"{transcript}"</strong></> : "Native speakers will understand you!"}
+              </div>
+            </div>
+          )}
+          {!supported && <div style={{ background: C.grisS, border: `1.5px solid ${C.grisB}`, borderRadius: 10, padding: "10px 14px", marginBottom: 10, fontSize: 14, color: C.textS }}>Voice recognition works best in Chrome.</div>}
+          {(canAdvancePron || !supported) && (
+            <div style={{ textAlign: "center", marginTop: 8 }}>
+              <button type="button" onClick={handleNext} onPointerDown={(e) => { e.preventDefault(); handleNext(); }}
+                style={{ ...btn(pronResult === "perfect" ? C.limon : C.turquesa, { fontSize: 15, padding: "13px 28px", borderRadius: 50 }), touchAction: "manipulation", opacity: btnBlocked ? 0.7 : 1 }}>
+                {phraseIdx + 1 >= BUILDER_DATA.length ? "Builder complete →" : "Next phrase →"}
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
 // SECTION QUIZ
 // ═══════════════════════════════════════════════════════════════
 function SectionQuiz({ speak, onComplete, onBackRequest }) {
@@ -466,7 +681,6 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
     return () => clearTimeout(t);
   }, [idx]);
 
-  // FIX TRANSICIÓN 4
   function select(opt) {
     if (sel !== null || selBlocked) return;
     setSel(opt);
@@ -480,7 +694,6 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
     setPronResult(null); setTranscript(""); start();
   }
 
-  // FIX TRANSICIÓN 5
   function nextQuestion() {
     if (nextBlocked) return;
     setNextBlocked(true);
@@ -489,19 +702,37 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
     setIdx(i => i + 1); setSel(null); setPronResult(null); setPronAttempts(0); setTranscript("");
   }
 
+  function handlePracticeAgain() {
+    setIdx(0); setScore(0); setSel(null); setPronResult(null);
+    setPronAttempts(0); setTranscript(""); setDone(false); setCelebrate(false);
+  }
+
   if (done) {
-    const pct = Math.round((score / questions.length) * 100);
+    const isPerfect = score === 8;
+    const isGood = score === 6 || score === 7;
     return (
       <div style={{ textAlign: "center", padding: "40px 0", animation: "fadeUp 0.4s ease" }}>
-        <div style={{ width: 64, height: 64, borderRadius: 20, background: C.limonL, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
-          <Check size={32} color={C.limonD} strokeWidth={3} />
+        <div style={{ width: 56, height: 56, borderRadius: 14, background: isPerfect ? C.limonL : isGood ? C.limonL : C.grisS, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
+          <Check size={28} color={isPerfect ? C.limonD : isGood ? C.limonD : C.textM} strokeWidth={3} />
         </div>
-        <div style={{ fontSize: "clamp(48px,12vw,64px)", fontWeight: 900, color: section.color, lineHeight: 1, marginBottom: 8, letterSpacing: -2 }}>{score}/{questions.length}</div>
-        <div style={{ fontSize: 20, color: C.textH, fontWeight: 800, marginBottom: 8 }}>{pct >= 75 ? "Excellent!" : pct >= 50 ? "Well done!" : "Keep going!"}</div>
-        <div style={{ fontSize: 14, color: C.textS, fontWeight: 500, lineHeight: 1.7, marginBottom: 32 }}>{pct >= 75 ? "You're making friends already!" : "Practice makes perfect — you've got this."}</div>
+        <div style={{ fontSize: "clamp(48px,12vw,64px)", fontWeight: 900, color: isPerfect ? C.limon : isGood ? C.limon : C.grisB, lineHeight: 1, marginBottom: 8, letterSpacing: -2 }}>{score}/{questions.length}</div>
+        <div style={{ fontSize: 18, fontWeight: 800, color: C.textH, marginBottom: 8 }}>
+          {isPerfect ? "Perfect score!" : isGood ? "Well done!" : "Keep going!"}
+        </div>
+        <div style={{ fontSize: 14, color: C.textS, fontWeight: 500, lineHeight: 1.7, marginBottom: 32 }}>
+          {isPerfect ? "You nailed every phrase. You're ready for the Final Challenge."
+            : isGood ? "You're almost there — a quick review will lock it in before the Final Challenge."
+            : "We recommend practicing again before moving on."}
+        </div>
+        {!isPerfect && (
+          <button type="button" onClick={handlePracticeAgain} onPointerDown={(e) => { e.preventDefault(); handlePracticeAgain(); }}
+            style={{ ...btn(C.magenta, { fontSize: 15, padding: "15px 36px", borderRadius: 50, width: "100%", marginBottom: 10 }), touchAction: "manipulation" }}>
+            Practice again
+          </button>
+        )}
         <button type="button" onClick={onComplete} onPointerDown={(e) => { e.preventDefault(); onComplete(); }}
-          style={{ ...btn(C.turquesa, { fontSize: 15, padding: "15px 36px", borderRadius: 50 }), touchAction: "manipulation" }}>
-          Continue →
+          style={{ width: "100%", padding: isPerfect ? "15px 36px" : "12px", background: isPerfect ? C.magenta : "transparent", color: isPerfect ? "#fff" : C.textM, border: "none", borderRadius: isPerfect ? 50 : 0, cursor: "pointer", fontSize: isPerfect ? 15 : 14, fontWeight: isPerfect ? 800 : 600, touchAction: "manipulation" }}>
+          {isPerfect ? "Continue →" : "Continue anyway →"}
         </button>
       </div>
     );
@@ -602,7 +833,7 @@ function SectionQuiz({ speak, onComplete, onBackRequest }) {
 // ═══════════════════════════════════════════════════════════════
 // FINAL QUIZ
 // ═══════════════════════════════════════════════════════════════
-function FinalQuiz({ speak, onComplete }) {
+function FinalQuiz({ speak, onComplete, onPracticeAgain }) {
   const situations = [
     { en: "You want to say hello and introduce yourself. What do you say, in Spanish?",  correct: "Hola, me llamo..." },
     { en: "You want to say where you're from. What do you say, in Spanish?",             correct: "Soy de..." },
@@ -634,27 +865,10 @@ function FinalQuiz({ speak, onComplete }) {
     setAttempts(a => a + 1);
   }, [transcript, listening]);
 
-  function handleListen() {
-    const synth = window.speechSynthesis;
-    synth.cancel();
-    const u = new SpeechSynthesisUtterance(situations[order[idx]].en);
-    u.lang = "en-US"; u.rate = 0.95; synth.speak(u);
-  }
+  function handleListen() { const synth = window.speechSynthesis; synth.cancel(); const u = new SpeechSynthesisUtterance(situations[order[idx]].en); u.lang = "en-US"; u.rate = 0.95; synth.speak(u); }
+  function handleMic() { if (micBlocked) return; if (listening) { stop(); return; } setResult(null); setTranscript(""); start(); }
+  function handleStart() { setPhase("quiz"); setMicBlocked(true); setTimeout(() => setMicBlocked(false), 600); }
 
-  function handleMic() {
-    if (micBlocked) return;
-    if (listening) { stop(); return; }
-    setResult(null); setTranscript(""); start();
-  }
-
-  // FIX TRANSICIÓN 6
-  function handleStart() {
-    setPhase("quiz");
-    setMicBlocked(true);
-    setTimeout(() => setMicBlocked(false), 600);
-  }
-
-  // FIX TRANSICIÓN 7
   function nextSituation() {
     if (nextBlocked) return;
     setNextBlocked(true);
@@ -682,7 +896,7 @@ function FinalQuiz({ speak, onComplete }) {
       </p>
       <div style={{ textAlign: "center" }}>
         <button type="button" onClick={handleStart} onPointerDown={(e) => { e.preventDefault(); handleStart(); }}
-          style={{ ...btn(C.turquesa, { fontSize: 15, padding: "16px 44px", borderRadius: 50 }), touchAction: "manipulation" }}>
+          style={{ ...btn(C.magenta, { fontSize: 15, padding: "16px 44px", borderRadius: 50 }), touchAction: "manipulation" }}>
           Start →
         </button>
       </div>
@@ -690,18 +904,31 @@ function FinalQuiz({ speak, onComplete }) {
   );
 
   if (done) {
-    const pct = Math.round((score / order.length) * 100);
+    const isPerfect = score === 8;
+    const isGood = score === 6 || score === 7;
     return (
       <div style={{ textAlign: "center", padding: "40px 0", animation: "fadeUp 0.4s ease" }}>
-        <div style={{ width: 64, height: 64, borderRadius: 20, background: C.limonL, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
-          <Check size={32} color={C.limonD} strokeWidth={3} />
+        <div style={{ width: 56, height: 56, borderRadius: 14, background: isPerfect ? C.limonL : isGood ? C.limonL : C.grisS, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
+          <Check size={28} color={isPerfect ? C.limonD : isGood ? C.limonD : C.textM} strokeWidth={3} />
         </div>
-        <div style={{ fontSize: "clamp(48px,12vw,64px)", fontWeight: 900, color: C.turquesa, lineHeight: 1, marginBottom: 8, letterSpacing: -2 }}>{score}/{order.length}</div>
-        <div style={{ fontSize: 20, color: C.textH, fontWeight: 800, marginBottom: 8 }}>{pct >= 75 ? "Excellent!" : pct >= 50 ? "Well done!" : "Keep going!"}</div>
-        <div style={{ fontSize: 14, color: C.textS, fontWeight: 500, lineHeight: 1.7, marginBottom: 32 }}>{pct >= 75 ? "You can really connect with people now!" : "Practice makes perfect — you've got this."}</div>
+        <div style={{ fontSize: "clamp(48px,12vw,64px)", fontWeight: 900, color: isPerfect ? C.limon : isGood ? C.limon : C.grisB, lineHeight: 1, marginBottom: 8, letterSpacing: -2 }}>{score}/{order.length}</div>
+        <div style={{ fontSize: 18, fontWeight: 800, color: C.textH, marginBottom: 8 }}>
+          {isPerfect ? "Perfect score!" : isGood ? "Well done!" : "Keep going!"}
+        </div>
+        <div style={{ fontSize: 14, color: C.textS, fontWeight: 500, lineHeight: 1.7, marginBottom: 32 }}>
+          {isPerfect ? "You can really speak this! Time to continue your journey."
+            : isGood ? "You're almost there — a quick review will lock it in."
+            : "We recommend practicing again before moving on."}
+        </div>
+        {!isPerfect && (
+          <button type="button" onClick={onPracticeAgain} onPointerDown={(e) => { e.preventDefault(); onPracticeAgain(); }}
+            style={{ ...btn(C.magenta, { fontSize: 15, padding: "15px 36px", borderRadius: 50, width: "100%", marginBottom: 10 }), touchAction: "manipulation" }}>
+            Practice again
+          </button>
+        )}
         <button type="button" onClick={onComplete} onPointerDown={(e) => { e.preventDefault(); onComplete(); }}
-          style={{ ...btn(C.turquesa, { fontSize: 15, padding: "15px 36px", borderRadius: 50 }), touchAction: "manipulation" }}>
-          Continue →
+          style={{ width: "100%", padding: isPerfect ? "15px 36px" : "12px", background: isPerfect ? C.magenta : "transparent", color: isPerfect ? "#fff" : C.textM, border: "none", borderRadius: isPerfect ? 50 : 0, cursor: "pointer", fontSize: isPerfect ? 15 : 14, fontWeight: isPerfect ? 800 : 600, touchAction: "manipulation" }}>
+          {isPerfect ? "Continue →" : "Continue anyway →"}
         </button>
       </div>
     );
@@ -795,7 +1022,7 @@ function LessonComplete({ onNext }) {
         ))}
       </div>
       <button type="button" onClick={onNext} onPointerDown={(e) => { e.preventDefault(); onNext(); }}
-        style={{ ...btn(C.turquesa, { fontSize: 15, padding: "16px 40px", borderRadius: 50, boxShadow: `0 6px 24px ${C.turquesa}40` }), touchAction: "manipulation" }}>
+        style={{ ...btn(C.magenta, { fontSize: 15, padding: "16px 40px", borderRadius: 50, boxShadow: `0 6px 24px ${C.magenta}40` }), touchAction: "manipulation" }}>
         Continue to Lesson 5 →
       </button>
     </div>
@@ -808,14 +1035,16 @@ function LessonComplete({ onNext }) {
 const LEAVE_CONTENT = {
   screen:   { q: "Leave this screen?",   d: "Your progress is saved. Come back anytime to pick up right here.",                          stay: "Keep Going",      leave: "Leave Screen" },
   exercise: { q: "Leave this exercise?", d: "You'll restart this exercise from the beginning next time. Keep going to lock it in!",       stay: "Keep Practicing", leave: "Leave Exercise" },
+  builder:  { q: "Leave this exercise?", d: "You'll restart the Sentence Builder from the beginning next time. Keep going to lock it in!", stay: "Keep Practicing", leave: "Leave Exercise" },
   practice: { q: "Leave this practice?", d: "You'll restart this practice from the beginning next time. You're doing great — keep going!", stay: "Keep Going",      leave: "Leave Practice" },
   quiz:     { q: "Leave this quiz?",     d: "You'll restart the quiz from the beginning next time. You're doing great — keep going!",     stay: "Keep Going",      leave: "Leave Quiz" },
 };
 
 function getLeaveGroup(slide) {
   if (slide === 1) return "exercise";
-  if (slide === 2) return "practice";
-  if (slide === 3) return "quiz";
+  if (slide === 2) return "builder";
+  if (slide === 3) return "practice";
+  if (slide === 4) return "quiz";
   return "screen";
 }
 
@@ -860,13 +1089,13 @@ export default function Lesson4({ onBack, initialSlide = 0, onSlideChange, onCom
   function advance() { goTo(slide + 1); }
 
   async function handleLessonComplete() {
-    await saveProgress(4, true);
+    await saveProgress(5, true);
     if (onComplete) onComplete();
   }
 
   const leaveGroup = getLeaveGroup(slide);
   const leaveContent = LEAVE_CONTENT[leaveGroup];
-  const showCloseButton = slide !== 4;
+  const showCloseButton = slide !== 5;
 
   return (
     <div style={{ background: "#fff", minHeight: "100vh", paddingBottom: 64 }}>
@@ -922,9 +1151,10 @@ export default function Lesson4({ onBack, initialSlide = 0, onSlideChange, onCom
         )}
 
         {slide === 1 && <ExerciseSlide speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
-        {slide === 2 && <SectionQuiz speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
-        {slide === 3 && <FinalQuiz speak={speak} onComplete={advance} />}
-        {slide === 4 && <LessonComplete onNext={handleLessonComplete} />}
+        {slide === 2 && <SentenceBuilder speak={speak} onComplete={advance} />}
+        {slide === 3 && <SectionQuiz speak={speak} onComplete={advance} onBackRequest={exerciseBackRef} />}
+        {slide === 4 && <FinalQuiz speak={speak} onComplete={advance} onPracticeAgain={() => goTo(3)} />}
+        {slide === 5 && <LessonComplete onNext={handleLessonComplete} />}
       </div>
 
       {/* FOOTER */}
