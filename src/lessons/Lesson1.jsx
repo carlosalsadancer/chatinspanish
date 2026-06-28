@@ -536,7 +536,7 @@ function ExerciseSlide({ speak, onComplete, onBackRequest, installModal }) {
         <div style={{ fontSize: 14, color: C.textS, fontWeight: 600 }}>{word.en}</div>
       </div>
       {phase === "word" && (
-        <PronExercise key={`word-${wordIdx}`} answer={word.es} onListenPress={() => speak(word.display)} onPass={handleWordPass} color={sec.color} passLabel="Now practice the phrase →" blockMicMs={blockMic} />
+        <PronExercise key={`word-${wordIdx}`} answer={word.display} onListenPress={() => speak(word.display)} onPass={handleWordPass} color={sec.color} passLabel="Now practice the phrase →" blockMicMs={blockMic} />
       )}
       {phase === "phrase" && (
         <>
